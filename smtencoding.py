@@ -71,6 +71,7 @@ class SMTEncoding:
 	
 		self.b = {i: Real('b_%d'%i) for i in range(self.formula_size)}
 
+		self.fr = {i: Real('fr_%d'%i) for i in range(self.formula_size)}
 
 		self.l = {(parentOperator, childOperator) : Bool('l_%d_%d'%(parentOperator,childOperator))\
 												 for parentOperator in range(1,self.formula_size)\
@@ -107,14 +108,49 @@ class SMTEncoding:
 		self.operatorsSemantics() #<---
 
 		#self.futureReachBound() #<---
-		for signal_id in range(len(self.sample.positive)):
-			self.solver.assert_and_track(self.itvs[(self.formula_size - 1, signal_id)][0][0]==0, \
-										"Positive signal %d should hold"%signal_id)
-					
-		for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
-			self.solver.assert_and_track(self.itvs[(self.formula_size - 1, signal_id)][0][0]>0, \
-										"Negative signal %d should not hold"%signal_id)
-		
+		root_G = True
+
+		#for formulas with G
+		if root_G:
+			for signal_id in range(len(self.sample.positive)):
+				self.solver.assert_and_track(And(self.itvs[(self.formula_size - 1, signal_id)][0][0]==0,\
+												self.itvs[(self.formula_size - 1, signal_id)][0][1]==self.end_time), \
+											"Positive signal %d should hold"%signal_id)
+						
+			for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
+				self.solver.assert_and_track(Or(self.itvs[(self.formula_size - 1, signal_id)][0][0]>0, \
+												self.itvs[(self.formula_size - 1, signal_id)][0][1]<self.end_time), \
+											"Negative signal %d should not hold"%signal_id)		
+		else:
+
+			
+			for signal_id in range(len(self.sample.positive)):
+				self.solver.assert_and_track(And(self.itvs[(self.formula_size - 1, signal_id)][0][0]==0), \
+											"Positive signal %d should hold"%signal_id)
+						
+			for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
+				self.solver.assert_and_track(self.itvs[(self.formula_size - 1, signal_id)][0][0]>0, \
+											"Negative signal %d should not hold"%signal_id)
+	
+	def future_reach_encoding():
+
+		for i in range(self.formula_size):
+
+			if 'F' in self.listOfOperators or 'G' in self.listOfOperators:
+
+				self.assert_and_track(Implies(Or(self.x[(i,'F')],x[(i,'G')]),\
+										self.fr[i]= self.fr[j]+self.b[i]),\
+										'Future reach computation for formula size %d'%i)
+
+			if '&' in self.listOfOperators or '|' in self.listOfOperators:
+			
+				pass
+
+			if '!' in self.listOfOperators:
+
+			if 
+
+
 
 	def ensureProperIntervals(self):
 
