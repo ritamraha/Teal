@@ -6,6 +6,7 @@ from smtencoding import SMTEncoding
 from signaltraces import Sample, Trace, Signal
 from formula import STLFormula
 from z3 import *
+from monitoring import *
 
 class learnMTL:
 
@@ -32,9 +33,10 @@ class learnMTL:
 		timepoints = [sp.time for sp in self.signal_sample.positive[0].sequence]
 		self.prop_itvs = {}
 		self.max_prop_intervals=0
-		for p in self.props:
-			for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-				
+		
+		for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+			self.prop_itvs[signal_id] = {}
+			for p in self.props:	
 				parity = 0
 				itvs = []
 				for sp in signal.sequence:
@@ -53,7 +55,7 @@ class learnMTL:
 				if len(itv) == 1:
 					itv += (self.end_time,)
 					itvs.append(itv)
-				self.prop_itvs[(p,signal_id)] = itvs
+				self.prop_itvs[signal_id][p] = itvs
 				self.max_prop_intervals = max(self.max_prop_intervals, len(itvs))
 
 
@@ -137,52 +139,29 @@ class learnMTL:
 					formula = encoding.reconstructWholeFormula(solverModel)
 					#formula_list.append(formula)
 					found_formula_size = formula.treeSize()
+					
 					print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 					#break
-
+					self.check_consistency(formula)
 		#for formula in formula_list:
 		#	print(formula.prettyPrint())
-		#	self.check_consistency(formula)
+			
 
 
 	def check_consistency(self, formula):
 
-		formula_str = formula.prettyPrint()
+		for signal_id in range(len(self.signal_sample.positive)):
+			if not sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+				print('Formula is wrong!!!')
+				return False
 
-		#convert F, G, ! to <>, [], -
-		formula_str = formula_str.replace('U', 'until')
-		formula_str = formula_str.replace('F', 'eventually')
-		formula_str = formula_str.replace('G', 'always')
-		formula_str = formula_str.replace('!', 'not')
+		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
+			if sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+				print('Formula is wrong!!!')
+				return False
 		
-		spec = rtamt.STLDenseTimeSpecification()
-		spec.name = 'offline monitor'
-		spec.spec = formula_str
-		for var in self.signal_sample.vars: 
-			spec.declare_var(var, 'float')
-		spec.parse()
-
-		for i,signal in enumerate(self.signal_sample.positive):
-			var_vals = {}
-			for v in range(len(self.signal_sample.vars)):
-				var_vals[v] = [[t.time, t.vector[v]] for t in signal.sequence]
-
-			tuple_arg = [[self.signal_sample.vars[v], var_vals[v]] for v in range(len(self.signal_sample.vars))]
-
-			rob = spec.evaluate(*tuple_arg)
-			print(rob)
-		
-		for i,signal in enumerate(self.signal_sample.negative):
-			var_vals = {}
-			for v in range(len(self.signal_sample.vars)):
-				var_vals[v] = [[t.time, t.vector[v]] for t in signal.sequence]
-
-			tuple_arg = [[self.signal_sample.vars[v], var_vals[v]] for v in range(len(self.signal_sample.vars))]
-
-			rob = spec.evaluate(*tuple_arg)
-			print(rob)
-			
-
+		print('Formula is correct')
+		return True
 
 
 def main():

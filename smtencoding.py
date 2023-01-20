@@ -193,10 +193,10 @@ class SMTEncoding:
 				for signal_id, signal in enumerate(self.sample.positive + self.sample.negative):
 					
 					self.solver.assert_and_track(Implies(self.x[(i, p)],\
-															And([And([self.itvs[(i, signal_id)][t][k] == self.prop_itvs[(p,signal_id)][t][k]  \
-															 for t in range(len(self.prop_itvs[(p,signal_id)])) for k in range(2)]), And([self.itvs[(i, signal_id)][t][k] == self.end_time\
-															 for t in range(len(self.prop_itvs[(p,signal_id)]),self.max_intervals[i]) for k in range(2)]),\
-															 self.num_itvs[(i,signal_id)] == len(self.prop_itvs[(p,signal_id)])])),\
+															And([And([self.itvs[(i, signal_id)][t][k] == self.prop_itvs[signal_id][p][t][k]  \
+															 for t in range(len(self.prop_itvs[signal_id][p])) for k in range(2)]), And([self.itvs[(i, signal_id)][t][k] == self.end_time\
+															 for t in range(len(self.prop_itvs[signal_id][p]),self.max_intervals[i]) for k in range(2)]),\
+															 self.num_itvs[(i,signal_id)] == len(self.prop_itvs[signal_id][p])])),\
 															 'Intervals for propositional variable node_'+ str(i)+ 'var _'+str(p)+'_signal_'+ str(signal_id))
 				
 		

@@ -306,15 +306,15 @@ class STLFormula(SimpleTree):
 
 		else:
 
-			'''
+			
 			lb_frac = self.label[1][0].as_fraction()
 			ub_frac = self.label[1][1].as_fraction()
 			lower_bound = float(lb_frac.numerator)/float(lb_frac.denominator)
 			upper_bound = float(ub_frac.numerator)/float(ub_frac.denominator)
-			'''
 			
-			lower_bound = self.label[1][0]
-			upper_bound = self.label[1][1]
+			
+			#lower_bound = self.label[1][0]
+			#upper_bound = self.label[1][1]
 
 			if operator in unary_operators:
 
