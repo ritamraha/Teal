@@ -21,7 +21,7 @@ def monitor(prop_itvs, formula, end_time):
 	label = formula.label
 	left = formula.left
 	right = formula.right
-	print(label)
+	#print(label)
 
 	if label=='|':
 		return compute_or_itvs(monitor(prop_itvs, left, end_time), \
@@ -57,7 +57,7 @@ def compute_F_itvs(itvs, a, b, end_time):
 	if itvs == []:
 		return []
 
-	print(type(itvs[0][0]),type(a))
+	#print(type(itvs[0][0]),type(a))
 	minus_itvs_og = [(max(itvs[i][0]-b,0),max(itvs[i][1]-a,0)) for i in range(len(itvs))]
 
 	#removing (0,0) itvs
@@ -126,5 +126,5 @@ def compute_not_itvs(itvs, end_time):
 	return not_itvs
 
 
-print(compute_and_itvs([(1,3),(4,5),(7,10)],[(2,4),(5,7)],10))
+#print(compute_and_itvs([(1,3),(4,5),(7,10)],[(2,4),(5,7)],10))
 #print(compute_F_itvs([],2,3,10))

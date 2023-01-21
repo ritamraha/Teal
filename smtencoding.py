@@ -43,7 +43,7 @@ class SMTEncoding:
 		for i in range(self.formula_size):
 			#self.max_intervals[i]= (i+1)* self.max_prop_intervals
 			self.max_intervals[i]=3 
-		print(self.max_intervals)
+		#print(self.max_intervals)
 		#self.max_intervals = self.formula_size*self.num_sampled_points
 		#self.max_intervals = 3
 		self.prop_itvs = prop_itvs
@@ -107,8 +107,10 @@ class SMTEncoding:
 		self.propositionsSemantics()
 		self.operatorsSemantics() #<---
 
+
 		#self.futureReachBound() #<---
 		root_G = True
+		self.future_reach_encoding()
 
 		#for formulas with G
 		if root_G:
@@ -132,9 +134,13 @@ class SMTEncoding:
 				self.solver.assert_and_track(self.itvs[(self.formula_size - 1, signal_id)][0][0]>0, \
 											"Negative signal %d should not hold"%signal_id)
 	
-	def future_reach_encoding():
+	def future_reach_encoding(self):
 
 		for i in range(self.formula_size):
+
+			for p in self.listOfPropositions:
+				self.solver.assert_and_track(Implies(self.x[(i, p)],self.fr[i]==0),\
+														'future reach of proposition for node %d for proposition %s'%(i,p))
 
 			if 'F' in self.listOfOperators:				  
 					#finally				
@@ -142,24 +148,24 @@ class SMTEncoding:
 													   And([\
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
-																	 self.fr[i] == self.fr[j] + self.b
+																	 self.fr[i] == self.fr[onlyArg] + self.b[i]
 																	 )\
 														   for onlyArg in range(i)\
 														   ])\
 													   ),\
-											   'future reach of finally operator for signal %d and node %d' % (signal_id, i))
+											   'future reach of finally operator node %d' %i)
 			if 'G' in self.listOfOperators:				  
 					#finally				
 				self.solver.assert_and_track(Implies(self.x[(i, 'G')],\
 													   And([\
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
-																	 self.fr[i] == self.fr[j] + self.b
+																	 self.fr[i] == self.fr[onlyArg] + self.b[i]
 																	 )\
 														   for onlyArg in range(i)\
 														   ])\
 													   ),\
-											   'future reach of globally operator for signal %d and node %d' % (signal_id, i))
+											   'future reach of globally operator node %d' %i)
 				
 			if '&' in self.listOfOperators:
 				#conjunction
@@ -172,7 +178,7 @@ class SMTEncoding:
 																   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
 																   )\
 																  for leftArg in range(i) for rightArg in range(i) ])),\
-													 'future reach of conjunction for signal %d and node %d'%(signal_id, i))
+													 'future reach of conjunction for node %d'%i)
 
 			if '!' in self.listOfOperators:
 				#negation
@@ -185,12 +191,12 @@ class SMTEncoding:
 														   for onlyArg in range(i)\
 														   ])\
 													   ),\
-											   'semantics of negation for signal %d and node %d' % (signal_id, i))
+											   'future reach of negation for node %d'%i)
 
 			
 			if '|' in self.listOfOperators:
 				#disjunction
-				print(signal_id, i)
+				#print(signal_id, i)
 				self.solver.assert_and_track(Implies(self.x[(i, '|')],\
 														And([ Implies(\
 																	   And(\
@@ -200,7 +206,10 @@ class SMTEncoding:
 																	   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
 																	   )\
 																	  for leftArg in range(i) for rightArg in range(i) ])),\
-														 'semantics of disjunction for signal %d and node %d'%(signal_id, i))
+														 'future reach of disjunction for node %d'%i)
+			
+		
+		self.solver.assert_and_track(self.fr[self.formula_size-1]<=2, 'futurereach bound')
 
 
 
@@ -419,7 +428,7 @@ class SMTEncoding:
 				
 				if '|' in self.listOfOperators:
 					#disjunction
-					print(signal_id, i)
+					#print(signal_id, i)
 					self.solver.assert_and_track(Implies(self.x[(i, '|')],\
 															And([ Implies(\
 																		   And(\
@@ -451,7 +460,7 @@ class SMTEncoding:
 				
 				if '&' in self.listOfOperators:
 					#conjunction
-					print(i,signal_id)
+					#print(i,signal_id)
 					self.solver.assert_and_track(Implies(self.x[(i, '&')],\
 															And([ Implies(\
 																		   And(\
