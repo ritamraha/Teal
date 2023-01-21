@@ -6,6 +6,14 @@ def sat_check(prop_itvs, formula, end_time):
 	else:
 		return False
 
+def sat_check_G(prop_itvs, formula, end_time):
+
+	pos_itvs = monitor(prop_itvs, formula, end_time)
+	if pos_itvs!=[] and pos_itvs[0][0]==0 and pos_itvs[0][1]== end_time:
+		return True
+	else:
+		return False
+
 
 def monitor(prop_itvs, formula, end_time):
 	

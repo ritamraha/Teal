@@ -142,7 +142,7 @@ class learnMTL:
 					
 					print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 					#break
-					self.check_consistency(formula)
+					self.check_consistency_G(formula)
 		#for formula in formula_list:
 		#	print(formula.prettyPrint())
 			
@@ -157,6 +157,21 @@ class learnMTL:
 
 		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
 			if sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+				print('Formula is wrong!!!')
+				return False
+		
+		print('Formula is correct')
+		return True
+
+	def check_consistency_G(self, formula):
+
+		for signal_id in range(len(self.signal_sample.positive)):
+			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
+				print('Formula is wrong!!!')
+				return False
+
+		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
+			if sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
 				print('Formula is wrong!!!')
 				return False
 		

@@ -142,7 +142,7 @@ class SMTEncoding:
 													   And([\
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
-																	 self.fr[i] = self.fr[j] + self.b
+																	 self.fr[i] == self.fr[j] + self.b
 																	 )\
 														   for onlyArg in range(i)\
 														   ])\
@@ -154,7 +154,7 @@ class SMTEncoding:
 													   And([\
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
-																	 self.fr[i] = self.fr[j] + self.b
+																	 self.fr[i] == self.fr[j] + self.b
 																	 )\
 														   for onlyArg in range(i)\
 														   ])\
@@ -168,7 +168,7 @@ class SMTEncoding:
 																   And(\
 																	   [self.l[i, leftArg], self.r[i, rightArg]]\
 																	   ),\
-																   		self.fr[i] = \
+																   		self.fr[i] == \
 																   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
 																   )\
 																  for leftArg in range(i) for rightArg in range(i) ])),\
@@ -196,7 +196,7 @@ class SMTEncoding:
 																	   And(\
 																		   [self.l[i, leftArg], self.r[i, rightArg]]\
 																		   ),\
-																	   	self.fr[i] = \
+																	   	self.fr[i] == \
 																	   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
 																	   )\
 																	  for leftArg in range(i) for rightArg in range(i) ])),\
