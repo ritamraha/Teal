@@ -136,19 +136,71 @@ class SMTEncoding:
 
 		for i in range(self.formula_size):
 
-			if 'F' in self.listOfOperators or 'G' in self.listOfOperators:
-
-				self.assert_and_track(Implies(Or(self.x[(i,'F')],x[(i,'G')]),\
-										self.fr[i]= self.fr[j]+self.b[i]),\
-										'Future reach computation for formula size %d'%i)
-
-			if '&' in self.listOfOperators or '|' in self.listOfOperators:
-			
-				pass
+			if 'F' in self.listOfOperators:				  
+					#finally				
+				self.solver.assert_and_track(Implies(self.x[(i, 'F')],\
+													   And([\
+														   Implies(\
+																	 self.l[(i,onlyArg)],\
+																	 self.fr[i] = self.fr[j] + self.b
+																	 )\
+														   for onlyArg in range(i)\
+														   ])\
+													   ),\
+											   'future reach of finally operator for signal %d and node %d' % (signal_id, i))
+			if 'G' in self.listOfOperators:				  
+					#finally				
+				self.solver.assert_and_track(Implies(self.x[(i, 'G')],\
+													   And([\
+														   Implies(\
+																	 self.l[(i,onlyArg)],\
+																	 self.fr[i] = self.fr[j] + self.b
+																	 )\
+														   for onlyArg in range(i)\
+														   ])\
+													   ),\
+											   'future reach of globally operator for signal %d and node %d' % (signal_id, i))
+				
+			if '&' in self.listOfOperators:
+				#conjunction
+				self.solver.assert_and_track(Implies(self.x[(i, '&')],\
+													And([ Implies(\
+																   And(\
+																	   [self.l[i, leftArg], self.r[i, rightArg]]\
+																	   ),\
+																   		self.fr[i] = \
+																   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
+																   )\
+																  for leftArg in range(i) for rightArg in range(i) ])),\
+													 'future reach of conjunction for signal %d and node %d'%(signal_id, i))
 
 			if '!' in self.listOfOperators:
+				#negation
+				self.solver.assert_and_track(Implies(self.x[(i, '!')],\
+													   And([\
+														   Implies(\
+																	 self.l[(i,onlyArg)],\
+																	 self.fr[i]==self.fr[onlyArg]
+																	  )\
+														   for onlyArg in range(i)\
+														   ])\
+													   ),\
+											   'semantics of negation for signal %d and node %d' % (signal_id, i))
 
-			if 
+			
+			if '|' in self.listOfOperators:
+				#disjunction
+				print(signal_id, i)
+				self.solver.assert_and_track(Implies(self.x[(i, '|')],\
+														And([ Implies(\
+																	   And(\
+																		   [self.l[i, leftArg], self.r[i, rightArg]]\
+																		   ),\
+																	   	self.fr[i] = \
+																	   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
+																	   )\
+																	  for leftArg in range(i) for rightArg in range(i) ])),\
+														 'semantics of disjunction for signal %d and node %d'%(signal_id, i))
 
 
 
