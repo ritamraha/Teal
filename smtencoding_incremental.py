@@ -18,7 +18,8 @@ class SMTEncoding_incr:
 
 		#self.noneOperator = 'none' # a none operator is not needed in this encoding
 		
-		self.solver = Solver()
+		self.solver = Optimize()
+		#self.solver = Solver()
 		self.sample = sample
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
@@ -26,6 +27,7 @@ class SMTEncoding_incr:
 		self.max_intervals = 6
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
+		
 
 
 		self.operatorsAndPropositions = self.listOfOperators + self.listOfPropositions
@@ -114,9 +116,10 @@ class SMTEncoding_incr:
 
 		
 		self.noDanglingPropositions(formula_size)
-		self.solver.assert_and_track(self.fr[formula_size-1]<=fr_bound, \
+		self.solver.assert_and_track(self.fr[formula_size-1]<fr_bound, \
 								'future reach bound for formula size %d'%formula_size)
-		#self.solver.minimize(self.fr[formula_size-1])
+		
+		self.solver.minimize(self.fr[formula_size-1])
 
 
 	def future_reach_encoding(self, formula_size):

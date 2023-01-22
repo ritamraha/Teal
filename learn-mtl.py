@@ -1,3 +1,4 @@
+
 import time
 import logging
 import os,csv, shutil
@@ -68,42 +69,6 @@ class learnMTL:
 		pass
 		#current assumption predicates are given
 
-	#return #the predicates
-
-
-	def truncate_sample(self, fr_score):
-		'''
-		Truncates the signals based on the future reach score
-		'''
-		#Possible optimization: Always no need to compute from scratch
-		new_sample = Sample(positive=[], negative=[])
-		new_sample.vars = self.signal_sample.vars
-		new_sample.operators = self.signal_sample.operators
-		new_sample.predicates = self.signal_sample.predicates
-
-		for pos in self.signal_sample.positive:
-			new_signal = Signal(sequence=[])
-			for sp in pos.sequence:
-				#print(sp.time)
-				if sp.time <= fr_score:
-					new_signal.addPoint(sp)
-				else:
-					break
-			new_sample.positive.append(new_signal)
-
-
-		for neg in self.signal_sample.negative:
-			new_signal = Signal(sequence=[])
-			for sp in neg.sequence:
-				if sp.time <= fr_score:
-					new_signal.addPoint(sp)
-				else:
-					break
-			new_sample.negative.append(new_signal)
-
-		return new_sample
-
-
 	def search_only_size(self):
 		
 		t0 = time.time()
@@ -128,25 +93,15 @@ class learnMTL:
 
 			if solverRes == sat:
 				solverModel = encoding.solver.model()	
-				#for i in range(formula_size):
-					#print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
-					#for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-						#print('Signal', signal_id)
-						#for t in range(encoding.max_intervals):
-							#print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
-						#print(solverModel[encoding.num_itvs[(i,signal_id)]])
-				#for i in range(encoding.max_intervals):
-				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
 				formula = encoding.reconstructWholeFormula(solverModel)
-				#formula_list.append(formula)
+				
 				found_formula_size = formula.treeSize()
 				
 				print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 				#break
 				self.check_consistency_G(formula)
-		#for formula in formula_list:
-		#	print(formula.prettyPrint())
+	   
 		t1 = time.time()-t0
 		print('Total time', t1)
 
@@ -157,8 +112,6 @@ class learnMTL:
 		fr_bound = self.end_time
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time)
-			
-
 		for formula_size in range(1,4):
 			
 			print('---------------Searching for formula size %d---------------'%formula_size)
@@ -248,4 +201,43 @@ def main():
 
 
 main()
+
+
+'''
+#return #the predicates
+
+def truncate_sample(self, fr_score):
+
+Truncates the signals based on the future reach score
+
+	#Possible optimization: Always no need to compute from scratch
+	new_sample = Sample(positive=[], negative=[])
+	new_sample.vars = self.signal_sample.vars
+	new_sample.operators = self.signal_sample.operators
+	new_sample.predicates = self.signal_sample.predicates
+
+	for pos in self.signal_sample.positive:
+		new_signal = Signal(sequence=[])
+		for sp in pos.sequence:
+			#print(sp.time)
+			if sp.time <= fr_score:
+				new_signal.addPoint(sp)
+			else:
+				break
+		new_sample.positive.append(new_signal)
+
+
+	for neg in self.signal_sample.negative:
+		new_signal = Signal(sequence=[])
+		for sp in neg.sequence:
+			if sp.time <= fr_score:
+				new_signal.addPoint(sp)
+			else:
+				break
+		new_sample.negative.append(new_signal)
+
+	return new_sample
+
+'''
+
 
