@@ -9,7 +9,8 @@ def sat_check(prop_itvs, formula, end_time):
 def sat_check_G(prop_itvs, formula, end_time):
 
 	pos_itvs = monitor(prop_itvs, formula, end_time)
-	if pos_itvs!=[] and pos_itvs[0][0]==0 and pos_itvs[0][1]== end_time:
+	#print(pos_itvs)
+	if pos_itvs!=[] and pos_itvs[0][0]==0 and pos_itvs[0][1]==end_time:
 		return True
 	else:
 		return False
@@ -79,6 +80,8 @@ def compute_F_itvs(itvs, a, b, end_time):
 
 		if minus_itvs[head][0] <= current_itv[1] and current_itv[1] <= minus_itvs[head][1]:
 			current_itv = (current_itv[0],minus_itvs[head][1])
+		elif minus_itvs[head][1] < current_itv[1]:
+			continue
 		else:
 			union_itvs.append(current_itv)
 			current_itv = minus_itvs[head]
@@ -116,6 +119,10 @@ def compute_and_itvs(itvs1, itvs2, end_time):
 
 def compute_not_itvs(itvs, end_time):
 	
+	if itvs == []:
+		return [(0,end_time)]
+	
+
 	not_itvs = [(itvs[i][1], itvs[i+1][0]) for i in range(len(itvs)-1)]
 
 	if itvs[0][0] != 0:

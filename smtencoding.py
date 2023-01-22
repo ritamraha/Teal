@@ -4,10 +4,6 @@ from semantics import *
 
 
 
-
-
-
-
 class SMTEncoding:
 
 	def __init__(self, sample, formula_size, prop, max_prop_intervals, prop_itvs, end_time): 
@@ -42,7 +38,7 @@ class SMTEncoding:
 		self.max_intervals={}
 		for i in range(self.formula_size):
 			#self.max_intervals[i]= (i+1)* self.max_prop_intervals
-			self.max_intervals[i]=3 
+			self.max_intervals[i]=6
 		#print(self.max_intervals)
 		#self.max_intervals = self.formula_size*self.num_sampled_points
 		#self.max_intervals = 3

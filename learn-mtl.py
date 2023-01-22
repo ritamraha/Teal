@@ -7,6 +7,8 @@ from signaltraces import Sample, Trace, Signal
 from formula import STLFormula
 from z3 import *
 from monitoring import *
+from smtencoding_incremental import *
+
 
 class learnMTL:
 
@@ -69,12 +71,10 @@ class learnMTL:
 	#return #the predicates
 
 
-
 	def truncate_sample(self, fr_score):
 		'''
 		Truncates the signals based on the future reach score
 		'''
-
 		#Possible optimization: Always no need to compute from scratch
 		new_sample = Sample(positive=[], negative=[])
 		new_sample.vars = self.signal_sample.vars
@@ -106,51 +106,102 @@ class learnMTL:
 
 	def search_only_size(self):
 		
+		t0 = time.time()
 		for formula_size in range(1,4):
 			#for formula_size in range(1,self.size_bound+1): 
-				print('---------------Searching for formula size %d---------------'%formula_size)
-				encoding = SMTEncoding(self.signal_sample, formula_size, self.props, self.max_prop_intervals, self.prop_itvs, self.end_time)
-				encoding.encodeFormula()
+			print('---------------Searching for formula size %d---------------'%formula_size)
+			encoding = SMTEncoding(self.signal_sample, formula_size, self.props, self.max_prop_intervals,\
+												 self.prop_itvs, self.end_time)
+			encoding.encodeFormula()
+			
+			print('Constraint creation done, now solving')
+			solverRes = encoding.solver.check()
+			#t_solve=time.time()-t_solve
+
+			checking= encoding.solver.unsat_core()
+			#print(checking)
+
+			#Print this to see constraint creation time and constraint solving time separately
+			#print(depth, regexDepth)
+			#print((i,j), "Creating time:", t_create, "Solving time:", t_solve)
+			print('The solver found', solverRes)
+
+			if solverRes == sat:
+				solverModel = encoding.solver.model()	
+				#for i in range(formula_size):
+					#print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
+					#for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+						#print('Signal', signal_id)
+						#for t in range(encoding.max_intervals):
+							#print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
+						#print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				#for i in range(encoding.max_intervals):
+				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
+
+				formula = encoding.reconstructWholeFormula(solverModel)
+				#formula_list.append(formula)
+				found_formula_size = formula.treeSize()
 				
-				print('Constraint creation done, now solving')
-				solverRes = encoding.solver.check()
-				#t_solve=time.time()-t_solve
-
-				checking= encoding.solver.unsat_core()
-				#print(checking)
-
-				#Print this to see constraint creation time and constraint solving time separately
-				#print(depth, regexDepth)
-				#print((i,j), "Creating time:", t_create, "Solving time:", t_solve)
-				print('The solver found', solverRes)
-
-				if solverRes == sat:
-					solverModel = encoding.solver.model()	
-					#for i in range(formula_size):
-						#print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
-						#for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-							#print('Signal', signal_id)
-							#for t in range(encoding.max_intervals):
-								#print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
-							#print(solverModel[encoding.num_itvs[(i,signal_id)]])
-					#for i in range(encoding.max_intervals):
-					#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
-
-					formula = encoding.reconstructWholeFormula(solverModel)
-					#formula_list.append(formula)
-					found_formula_size = formula.treeSize()
-					
-					print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
-					#break
-					self.check_consistency_G(formula)
+				print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
+				#break
+				self.check_consistency_G(formula)
 		#for formula in formula_list:
 		#	print(formula.prettyPrint())
+		t1 = time.time()-t0
+		print('Total time', t1)
+
+	def search_incremental(self):
+		
+		t0 = time.time()
+		
+		fr_bound = self.end_time
+		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
+													 self.prop_itvs, self.end_time)
 			
+
+		for formula_size in range(1,4):
+			
+			print('---------------Searching for formula size %d---------------'%formula_size)
+			encoding.encodeFormula(formula_size, fr_bound)
+			
+			print('Constraint creation done, now solving')
+			solverRes = encoding.solver.check()
+
+			#checking = encoding.solver.unsat_core()
+
+			print('The solver found', solverRes)
+
+			if solverRes == sat:
+				solverModel = encoding.solver.model()	
+				#print(solverModel)
+				#for i in range(formula_size):
+					#print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
+					#for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+						#print('Signal', signal_id)
+						#for t in range(encoding.max_intervals):
+							#print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
+						#print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				#for i in range(encoding.max_intervals):
+				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
+
+				formula = encoding.reconstructWholeFormula(solverModel, formula_size)
+				fr_bound = solverModel[encoding.fr[formula_size-1]]
+				
+				found_formula_size = formula.treeSize()
+
+				print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
+				#break
+				self.check_consistency_G(formula)
+	
+			encoding.solver.pop()
+		t1 = time.time()-t0
+		print('Total time', t1)
 
 
 	def check_consistency(self, formula):
 
 		for signal_id in range(len(self.signal_sample.positive)):
+			
 			if not sat_check(self.prop_itvs[signal_id], formula, self.end_time):
 				print('Formula is wrong!!!')
 				return False
@@ -193,7 +244,7 @@ def main():
 	timeout = float(args.timeout)
 
 	learner = learnMTL(signalfile=input_file)
-	learner.search_only_size()
+	learner.search_incremental()
 
 
 main()
