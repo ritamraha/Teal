@@ -249,6 +249,22 @@ class SMTEncoding_incr:
 			self.solver.assert_and_track(
 				And([
 					Or(
+						Or([self.l[(rowId, i)] for rowId in range(i+1, formula_size)]),
+						Or([self.r[(rowId, i)] for rowId in range(i+1, formula_size)])
+					)
+					for i in range(formula_size - 1)]
+				),
+				"no dangling variables"
+			)
+
+
+
+
+		'''
+		if formula_size > 0:
+			self.solver.assert_and_track(
+				And([
+					Or(
 						AtLeast([self.l[(rowId, i)] for rowId in range(i+1, formula_size)] + [1]),
 						AtLeast([self.r[(rowId, i)] for rowId in range(i+1, formula_size)] + [1])
 					)
@@ -256,6 +272,7 @@ class SMTEncoding_incr:
 				),
 				"no dangling variables"
 			)
+		'''
 
 	def propositionsSemantics(self, formula_size):
 
@@ -275,34 +292,66 @@ class SMTEncoding_incr:
 		
 		i = formula_size-1
 		
-		self.solver.assert_and_track(AtMost([self.x[k] for k in self.x if k[0] == i] +[1]),\
-										  "at most one operator per subformula for formula size %d"%i)
+		#self.solver.assert_and_track(AtMost([self.x[k] for k in self.x if k[0] == i] +[1]),\
+		#								  "at most one operator per subformula for formula size %d"%i)
 		
-		self.solver.assert_and_track(AtLeast( [self.x[k] for k in self.x if k[0] == i] +[1]),\
+		#self.solver.assert_and_track(AtLeast( [self.x[k] for k in self.x if k[0] == i] +[1]),\
+		#								  "at least one operator per subformula for formula size %d"%i)
+
+		self.solver.assert_and_track(And([Not(And(self.x[k],self.x[m]))\
+												for k in self.x for m in self.x if k!=m and k[0] == i and m[0]==i])\
+												,"at most one operator per subformula for formula size %d"%i)
+		
+		self.solver.assert_and_track(Or( [self.x[k] for k in self.x if k[0] == i]),\
 										  "at least one operator per subformula for formula size %d"%i)
-		
 		if i > 0:
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
-												AtMost( [self.l[k] for k in self.l if k[0] == i] +[1])),\
-										  "at most one left operator for binary and unary operators for formula size %d"%i)
+			#self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
+			#									AtMost( [self.l[k] for k in self.l if k[0] == i] +[1])),\
+			#							  "at most one left operator for binary and unary operators for formula size %d"%i)
 		
+		
+			#self.solver.assert_and_track(Implies(
+			#									Or(
+			#										[self.x[(i, op)] for op in
+			#										 self.binaryOperators + self.unaryOperators]
+			#									),
+			#									AtLeast( [self.l[k] for k in self.l if k[0] == i]+[1])),\
+			#							  "at least one left operator for binary and unary operators for formula size %d"%i)
+
+
+			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
+												And([Not(And(self.l[k], self.l[m]))\
+													for m in self.l for k in self.l if k!=m and k[0] == i and m[0]==i])),\
+										  "at most one left operator for binary and unary operators for formula size %d"%i)
 		
 			self.solver.assert_and_track(Implies(
 												Or(
 													[self.x[(i, op)] for op in
 													 self.binaryOperators + self.unaryOperators]
 												),
-												AtLeast( [self.l[k] for k in self.l if k[0] == i]+[1])),\
+												Or( [self.l[k] for k in self.l if k[0] == i])),\
 										  "at least one left operator for binary and unary operators for formula size %d"%i)
 
 		
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
-												AtMost([self.r[k] for k in self.r if k[0] == i] + [1])),\
-											"at most one right operator for binary for formula size %d"%i)
+			#self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
+			#									AtMost([self.r[k] for k in self.r if k[0] == i] + [1])),\
+			#								"at most one right operator for binary for formula size %d"%i)
 
 		
+			#self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
+			#									AtLeast([self.r[k] for k in self.r if k[0] == i] + [1])),\
+			#								"at least one right operator for binary for formula size %d"%i)
+
+
 			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
-												AtLeast([self.r[k] for k in self.r if k[0] == i] + [1])),\
+												And([Not(And(self.r[k],self.r[m])) for m in self.r for k in self.r\
+												if k[0] == i and m[0]==i and k!=m])),\
+											"at most one right operator for binary for formula size %d"%i)
+
+
+
+			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
+												Or([self.r[k] for k in self.r if k[0] == i])),\
 											"at least one right operator for binary for formula size %d"%i)
 
 		
