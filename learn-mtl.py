@@ -107,13 +107,14 @@ class learnMTL:
 
 	def search_incremental(self):
 		
-		t0 = time.time()
+		
 		
 		fr_bound = self.end_time
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time)
 		for formula_size in range(1,4):
 			
+			t0 = time.time()
 			print('---------------Searching for formula size %d---------------'%formula_size)
 			encoding.encodeFormula(formula_size, fr_bound)
 			
@@ -123,9 +124,11 @@ class learnMTL:
 			#checking = encoding.solver.unsat_core()
 
 			print('The solver found', solverRes)
+			with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
+				f.write(encoding.solver.sexpr())
 
 			if solverRes == sat:
-				solverModel = encoding.solver.model()	
+				solverModel = encoding.solver.model()
 				#print(solverModel)
 				#for i in range(formula_size):
 					#print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
@@ -142,13 +145,14 @@ class learnMTL:
 				
 				found_formula_size = formula.treeSize()
 
+
 				print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 				#break
 				self.check_consistency_G(formula)
 	
 			encoding.solver.pop()
-		t1 = time.time()-t0
-		print('Total time', t1)
+			t1 = time.time()-t0
+			print('Total time', t1)
 
 
 	def check_consistency(self, formula):
