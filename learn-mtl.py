@@ -13,7 +13,7 @@ from smtencoding_incremental import *
 
 class learnMTL:
 
-	def __init__(self, signalfile):
+	def __init__(self, signalfile, monitoring):
 
 
 		self.signalfile = signalfile
@@ -23,6 +23,7 @@ class learnMTL:
 		self.props = self.signal_sample.vars
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
 		self.end_time = self.signal_sample.end_time
+		self.monitoring=monitoring
 		#print(self.signal_sample.positive[0])
 		self.compute_prop_intervals()
 		
@@ -111,7 +112,7 @@ class learnMTL:
 		
 		fr_bound = self.end_time
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
-													 self.prop_itvs, self.end_time)
+													 self.prop_itvs, self.end_time, self.monitoring)
 		for formula_size in range(1,5):
 			
 			t0 = time.time()
@@ -130,13 +131,13 @@ class learnMTL:
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
 				#print(solverModel)
-				for i in range(formula_size):
-					print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
-					for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-						print('Signal', signal_id)
-						for t in range(encoding.max_intervals):
-							print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
-						print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				#for i in range(formula_size):
+				#	print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
+				#	for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+				#		print('Signal', signal_id)
+				#		for t in range(encoding.max_intervals):
+				#			print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
+				#		print(solverModel[encoding.num_itvs[(i,signal_id)]])
 				#for i in range(encoding.max_intervals):
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
@@ -148,7 +149,10 @@ class learnMTL:
 
 				print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 				#break
-				self.check_consistency_G(formula)
+				if self.monitoring==1:
+					self.check_consistency_G(formula)
+				else:
+					self.check_consistency(formula)
 	
 			encoding.solver.pop()
 			t1 = time.time()-t0
@@ -192,6 +196,7 @@ def main():
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument('--input_file', '-i', dest='input_file', default = './check_signals.signal')
+	parser.add_argument('--monitoring' '-m', dest= 'monitoring', default= 1, type=int)
 	parser.add_argument('--timeout', '-t', dest='timeout', default=900, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= './result.csv')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
@@ -199,8 +204,10 @@ def main():
 	
 	input_file = args.input_file
 	timeout = float(args.timeout)
+	monitoring = int(args.monitoring)
+	print(monitoring)
 
-	learner = learnMTL(signalfile=input_file)
+	learner = learnMTL(signalfile=input_file, monitoring = monitoring)
 	learner.search_incremental()
 
 

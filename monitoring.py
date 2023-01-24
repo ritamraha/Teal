@@ -1,7 +1,7 @@
 def sat_check(prop_itvs, formula, end_time):
 
 	pos_itvs = monitor(prop_itvs, formula, end_time)
-	print(pos_itvs)
+	#print(pos_itvs)
 	if pos_itvs!=[] and pos_itvs[0][0]==0:
 		return True
 	else:

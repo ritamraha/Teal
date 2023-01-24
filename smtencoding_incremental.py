@@ -6,7 +6,7 @@ from semantics import *
 
 class SMTEncoding_incr:
 
-	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time): 
+	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time,monitoring): 
 		
 		unary = ['F', '!']
 		binary = ['&', '|']
@@ -24,9 +24,10 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = 5
+		self.max_intervals = 4
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
+		self.monitoring= monitoring
 		
 
 
@@ -92,8 +93,8 @@ class SMTEncoding_incr:
 
 		self.solver.push()
 		#for formulas with G
-		root_G = True
-		if root_G:
+		#root_G = True
+		if self.monitoring==1:
 
 			for signal_id in range(len(self.sample.positive)):
 				self.solver.assert_and_track(And(self.itvs[(formula_size - 1, signal_id)][0][0]==0,\
