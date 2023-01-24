@@ -23,7 +23,7 @@ class learnMTL:
 		self.props = self.signal_sample.vars
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
 		self.end_time = self.signal_sample.end_time
-		self.monitoring=monitoring
+		self.monitoring = monitoring
 		#print(self.signal_sample.positive[0])
 		self.compute_prop_intervals()
 		
@@ -145,9 +145,13 @@ class learnMTL:
 				fr_bound = solverModel[encoding.fr[formula_size-1]]
 				
 				found_formula_size = formula.treeSize()
+				if self.monitoring:
+					formula_str = 'G'+formula.prettyPrint()
+				else:
+					formula_str = formula.prettyPrint()
 
-
-				print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
+				#print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
+				print('Found formula %s'%(formula_str))
 				#break
 				if self.monitoring==1:
 					self.check_consistency_G(formula)
@@ -196,7 +200,7 @@ def main():
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument('--input_file', '-i', dest='input_file', default = './check_signals.signal')
-	parser.add_argument('--monitoring' '-m', dest= 'monitoring', default= 1, type=int)
+	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=False, action='store_true')
 	parser.add_argument('--timeout', '-t', dest='timeout', default=900, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= './result.csv')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
@@ -205,7 +209,6 @@ def main():
 	input_file = args.input_file
 	timeout = float(args.timeout)
 	monitoring = int(args.monitoring)
-	print(monitoring)
 
 	learner = learnMTL(signalfile=input_file, monitoring = monitoring)
 	learner.search_incremental()

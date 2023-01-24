@@ -6,7 +6,7 @@ from semantics import *
 
 class SMTEncoding_incr:
 
-	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time,monitoring): 
+	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time, monitoring): 
 		
 		unary = ['F', '!']
 		binary = ['&', '|']
@@ -108,7 +108,7 @@ class SMTEncoding_incr:
 		else:
 			
 			for signal_id in range(len(self.sample.positive)):
-				self.solver.assert_and_track(And(self.itvs[(formula_size - 1, signal_id)][0][0]==0), \
+				self.solver.assert_and_track(self.itvs[(formula_size - 1, signal_id)][0][0]==0, \
 											"Positive signal %d should hold for formula size %d"%(signal_id,formula_size))
 			
 			for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
