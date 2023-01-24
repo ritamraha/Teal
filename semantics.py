@@ -144,9 +144,14 @@ def union_itv(itvs, F_itvs, num_itv, new_num_itv, end_time):
 						Or([And(F_itvs[j][0] <= itvs[i][0], itvs[i][1]<= F_itvs[j][1]) for j in range(len(F_itvs))])) for i in range(len(itvs))])
 
 	#ensuring no extra variables are included
-	cons7 = And([Implies(itvs[i][1] < itvs[j][0], Implies(And([Or((itvs[i][1]+itvs[j][0])/2<itvs[k][0],(itvs[i][1]+itvs[j][0])/2>itvs[k][1]) for k in range(len(itvs))]),\
-							And([Or((itvs[i][1]+itvs[j][0])/2<F_itvs[l][0], (itvs[i][1]+itvs[j][0])/2>F_itvs[l][1]) for l in range(len(F_itvs))])))\
-							for i in range(len(itvs)) for j in range(len(itvs))])
+	#cons7 = And([Implies(itvs[i][1] < itvs[j][0], Implies(And([Or((itvs[i][1]+itvs[j][0])/2<itvs[k][0],(itvs[i][1]+itvs[j][0])/2>itvs[k][1]) for k in range(len(itvs))]),\
+	#						And([Or((itvs[i][1]+itvs[j][0])/2<F_itvs[l][0], (itvs[i][1]+itvs[j][0])/2>F_itvs[l][1]) for l in range(len(F_itvs))])))\
+	#						for i in range(len(itvs)) for j in range(len(itvs))])
+
+	cons7 = And([Implies(And(itvs[i][1]!=0, itvs[i][1] < itvs[i+1][0]), And([Or(((itvs[i][1] + itvs[i+1][0])/2)<F_itvs[j][0],\
+															((itvs[i][1] + itvs[i+1][0])/2)>F_itvs[j][1]) \
+						for j in range(len(F_itvs))])) for i in range(len(itvs)-1)])
+
 
 	cons = And([cons1, cons2, cons3, cons4, cons5, cons6, cons7])
 
@@ -167,7 +172,7 @@ def F_itv(itvs, F_itvs, a, b, i, signal_id, num_itv, new_num_itv, end_time):
 	return cons
 
 
-'''
+
 #checking if the semantics is correct
 def checking():
 
@@ -176,13 +181,14 @@ def checking():
 	#actual_itv1 = [(0, 1),(3, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5)]
 	#actual_itv1 = [(2, 7),(8, 19),(20, 20),(20, 20)]
 	
-	actual_itv1 = [(1,2),(3,5),(5,5)]
+	actual_itv1 = [(0,1),(2,3),(5,5),(5,5),(5,5)]
 	#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
-	actual_itv2 = [(0,5),(5,5),(5,5)]
+	actual_itv2 = [(0,5),(5,5),(5,5),(5,5),(5,5)]
 
 
 	#[(13,14), (15.1,15.6), (7,15), (16,20)]
 	#[(0,17), (20,20)]
+
 
 	itv1 = {i:(Real('itv1_%d_0'%i), Real('itv1_%d_1'%i)) for i in range(len(actual_itv1))}
 	itv2 = {i:(Real('itv2_%d_0'%i), Real('itv2_%d_1'%i)) for i in range(len(actual_itv2))}
@@ -196,14 +202,15 @@ def checking():
 	new_num_itv = Int('new_num_itv')
 
 	s = Solver()
-	s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==2, a==0, b==1]))
+	#s.add(itv_new[0][1] == 5)
+	s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==2, a==0.36328125, b==1.36328125]))
 	s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==1]))
 
 	s.add(ensureProperIntervals(itv_new, new_num_itv, 5))
 	#s.add(self.or_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
-	s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
+	#s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
 	#s.add(and_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 5))
-
+	s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
 	#s.add(not_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
 	#print(self.and_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
 	
@@ -218,7 +225,7 @@ def checking():
 		#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 		print(solverModel[new_num_itv], solverModel[num_itv1])
 
-checking()
+#checking()
 
 '''
 
@@ -242,7 +249,7 @@ checking()
 
 
 
-'''
+
 
 class SMTEncoding:
 

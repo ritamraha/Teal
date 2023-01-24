@@ -24,7 +24,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = 6
+		self.max_intervals = 5
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
 		
@@ -317,7 +317,7 @@ class SMTEncoding_incr:
 			#									),
 			#									AtLeast( [self.l[k] for k in self.l if k[0] == i]+[1])),\
 			#							  "at least one left operator for binary and unary operators for formula size %d"%i)
-
+			
 
 			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
 												And([Not(And(self.l[k], self.l[m]))\

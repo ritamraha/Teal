@@ -72,7 +72,7 @@ class learnMTL:
 	def search_only_size(self):
 		
 		t0 = time.time()
-		for formula_size in range(1,4):
+		for formula_size in range(1,5):
 			#for formula_size in range(1,self.size_bound+1): 
 			print('---------------Searching for formula size %d---------------'%formula_size)
 			encoding = SMTEncoding(self.signal_sample, formula_size, self.props, self.max_prop_intervals,\
@@ -112,7 +112,7 @@ class learnMTL:
 		fr_bound = self.end_time
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time)
-		for formula_size in range(1,4):
+		for formula_size in range(1,5):
 			
 			t0 = time.time()
 			print('---------------Searching for formula size %d---------------'%formula_size)
@@ -124,19 +124,19 @@ class learnMTL:
 			#checking = encoding.solver.unsat_core()
 
 			print('The solver found', solverRes)
-			with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
-				f.write(encoding.solver.sexpr())
+			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
+			#	f.write(encoding.solver.sexpr())
 
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
 				#print(solverModel)
-				#for i in range(formula_size):
-					#print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
-					#for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-						#print('Signal', signal_id)
-						#for t in range(encoding.max_intervals):
-							#print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
-						#print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				for i in range(formula_size):
+					print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
+					for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+						print('Signal', signal_id)
+						for t in range(encoding.max_intervals):
+							print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
+						print(solverModel[encoding.num_itvs[(i,signal_id)]])
 				#for i in range(encoding.max_intervals):
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
@@ -191,7 +191,7 @@ def main():
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--input_file', '-i', dest='input_file', default = './robot_signal_mtl.signal')
+	parser.add_argument('--input_file', '-i', dest='input_file', default = './check_signals.signal')
 	parser.add_argument('--timeout', '-t', dest='timeout', default=900, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= './result.csv')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
