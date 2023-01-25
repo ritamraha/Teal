@@ -9,7 +9,9 @@ from formula import STLFormula
 from z3 import *
 from monitoring import *
 from smtencoding_incremental import *
-
+from pysmt.shortcuts import is_sat, get_model
+from six.moves import cStringIO
+from pysmt.smtlib.parser import SmtLibParser
 
 class learnMTL:
 
@@ -110,7 +112,8 @@ class learnMTL:
 		
 		
 		
-		fr_bound = self.end_time
+		#fr_bound = self.end_time
+		fr_bound = 3
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time, self.monitoring)
 		for formula_size in range(1,5):
@@ -119,14 +122,24 @@ class learnMTL:
 			print('---------------Searching for formula size %d---------------'%formula_size)
 			encoding.encodeFormula(formula_size, fr_bound)
 			
-			print('Constraint creation done, now solving')
-			solverRes = encoding.solver.check()
+			
 
 			#checking = encoding.solver.unsat_core()
 
-			print('The solver found', solverRes)
+			
 			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
-			#	f.write(encoding.solver.sexpr())
+				
+			#	f.write(smt_file)
+
+			smt_file = encoding.solver.to_smt2().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
+			print('Constraint creation done, now solving')
+			solverRes = encoding.solver.check()
+			print('The solver found', solverRes)
+
+			parser = SmtLibParser()
+			script = parser.get_script(cStringIO(smt_file))
+			f= script.get_last_formula()
+			print('PySMT',is_sat(f))
 
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
@@ -142,7 +155,7 @@ class learnMTL:
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
 				formula = encoding.reconstructWholeFormula(solverModel, formula_size)
-				fr_bound = solverModel[encoding.fr[formula_size-1]]
+				#fr_bound = solverModel[encoding.fr[formula_size-1]]
 				
 				found_formula_size = formula.treeSize()
 				if self.monitoring:
