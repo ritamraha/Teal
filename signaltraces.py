@@ -1,3 +1,5 @@
+import random
+
 def convertTextToSignal(text):
 
 	sequence = []
@@ -51,6 +53,7 @@ class Signal:
 
 		text = ';'.join([str(value) for value in self.sequence])
 		return text
+
 
 
 class binarySignal:
@@ -197,7 +200,13 @@ class Sample:
 			
 			file.write(';'.join(pred_list))
 
+	def random_signal(self, 
+		propositions = ['p','q','r'], 
+		length = 5,
+		is_words = True):
 
+		signal_sequence = [ samplePoint(t,[random.randint(0,1) for _ in range(len(propositions))]) for t in range(length)]
+		return Signal(signal_sequence)
 
 class WordSample:
 	'''
@@ -301,3 +310,7 @@ class WordSample:
 			if self.alphabet != []:
 				file.write('---\n')
 				file.write(','.join(self.alphabet))
+
+
+s = Sample()
+s.random_signal(propositions=['p','q'],length=5)

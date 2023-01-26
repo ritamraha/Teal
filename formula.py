@@ -190,55 +190,57 @@ class LTLFormula(SimpleTree):
 
 	@classmethod
 	def convertTextToFormula(cls, formulaText):
-	    
-	    f = Formula()
-	    try:
-	        formula_parser = Lark(r"""
-	            ?formula: _binary_expression
-	                    |_unary_expression
-	                    | constant
-	                    | variable
-	            !constant: "true"
-	                    | "false"
-	            _binary_expression: binary_operator "(" formula "," formula ")"
-	            _unary_expression: unary_operator "(" formula ")"
-	            variable: /[a-z]/
-	            !binary_operator: "&" | "|" | "->" | "U"
-	            !unary_operator: "F" | "G" | "!" | "X"
-	            
-	            %import common.SIGNED_NUMBER
-	            %import common.WS
-	            %ignore WS 
-	         """, start = 'formula')
-	    
-	        
-	        tree = formula_parser.parse(formulaText)
-	        
-	    except Exception as e:
-	        print("can't parse formula %s" %formulaText)
-	        print("error: %s" %e)
-	        
-	    
-	    f = TreeToFormula().transform(tree)
-	    return f
+		
+		f = Formula()
+		try:
+			formula_parser = Lark(r"""
+				?formula: _binary_expression
+						|_temporal_unary_expression
+						|_temporal_binary_expression
+						|_unary_expression
+						| constant
+						| variable
+				!constant: "true"
+						| "false"
+				_unary_expression: unary_operator "(" formula ")"
+				_binary_expression: binary_operator "(" formula "," formula ")"
+				variable: /[a-z]/
+				!binary_operator: "&" | "|" | "->" | "U"
+				!unary_operator: "F" | "G" | "!" | "X"
+				
+				%import common.SIGNED_NUMBER
+				%import common.WS
+				%ignore WS 
+			 """, start = 'formula')
+		
 			
-class TreeToFormula(Transformer):
-        def formula(self, formulaArgs):
-            
-            return Formula(formulaArgs)
-        def variable(self, varName):
-            return Formula([str(varName[0]), None, None])
-        def constant(self, arg):
-            if str(arg[0]) == "true":
-                connector = "|"
-            elif str(arg[0]) == "false":
-                connector = "&"
-            return Formula([connector, Formula(["p", None, None]), Formula(["!", Formula(["p", None, None] ), None])])
-                
-        def binary_operator(self, args):
-            return str(args[0])
-        def unary_operator(self, args):
-            return str(args[0])
+			tree = formula_parser.parse(formulaText)
+			
+		except Exception as e:
+			print("can't parse formula %s" %formulaText)
+			print("error: %s" %e)
+			
+		
+		f = LTLTreeToFormula().transform(tree)
+		return f
+			
+class LTLTreeToFormula(Transformer):
+	def formula(self, formulaArgs):
+		
+		return LTLFormula(formulaArgs)
+	def variable(self, varName):
+		return LTLFormula([str(varName[0]), None, None])
+	def constant(self, arg):
+		if str(arg[0]) == "true":
+			connector = "|"
+		elif str(arg[0]) == "false":
+			connector = "&"
+		return LTLFormula([connector, LTLFormula(["p", None, None]), LTLFormula(["!", Formula(["p", None, None] ), None])])
+			
+	def binary_operator(self, args):
+		return str(args[0])
+	def unary_operator(self, args):
+		return str(args[0])
 
 
 untimed_operators = ['!','&', '|', '->']
@@ -323,4 +325,84 @@ class STLFormula(SimpleTree):
 			else:
 				
 				return lb + self.left.prettyPrint() +" "+  operator + '[' + str(lower_bound) + "," + str(upper_bound) + "]"+ " " + self.right.prettyPrint() + rb
+	
+	def __str__(self):
+		if self.left == None and self.right == None:
+			return self.label
 		
+		# the (not enforced assumption) is that if a node has only one child, that is the left one
+		elif self.left != None and self.right == None:
+			if instance(self.label,list):
+				return self.label[0] + self.label[1] + '(' + self.left.__repr__() + ')'
+			else:
+				return self.label + '(' + self.left.__repr__() + ')'
+
+		elif self.left != None and self.right != None:
+			return self.label + '(' + self.left.__repr__() + ',' + self.right.__repr__() + ')'
+
+
+	@classmethod
+	def convertTextToFormula(cls, formulaText):
+		
+		f = STLFormula()
+		try:
+			formula_parser = Lark(r"""
+				?formula: _binary_expression
+						|_temporal_unary_expression
+						|_temporal_binary_expression
+						|_unary_expression
+						| constant
+						| variable
+				!constant: "true"
+						| "false"
+				_unary_expression: unary_operator "(" formula ")"
+				_binary_expression: binary_operator "(" formula "," formula ")"
+				_temporal_unary_expression: unary_operator "[" INTEGER "," INTEGER "]" "(" formula ")"
+				_temporal_binary_expression: binary_operator "[" INTEGER "," INTEGER "]" "(" formula "," formula ")"
+				variable: /[a-z]/
+				INTEGER : /[0-9]+/
+				!binary_operator: "&" | "|" | "->" | "U"
+				!unary_operator: "F" | "G" | "!" | "X"
+				
+				%import common.SIGNED_NUMBER
+				%import common.WS
+				%ignore WS 
+			 """, start = 'formula')
+		
+			
+			tree = formula_parser.parse(formulaText)
+			
+		except Exception as e:
+			print("can't parse formula %s" %formulaText)
+			print("error: %s" %e)
+			
+		print('Transforming')
+		f = STLTreeToFormula().transform(tree)
+		return f
+			
+class STLTreeToFormula(Transformer):
+	def formula(self, formulaArgs):
+		print(formulaArgs)
+		return STLFormula(formulaArgs)
+	
+	def variable(self, varName):
+		#print(varName)
+		return STLFormula(label=str(varName[0]), left=None, right=None)
+	def constant(self, arg):
+		print(arg)
+		if str(arg[0]) == "true":
+			connector = "|"
+		elif str(arg[0]) == "false":
+			connector = "&"
+		return STLFormula([connector, STLFormula(["p", None, None]), STLFormula(["!", STLFormula(["p", None, None] ), None])])
+			
+	def binary_operator(self, args):
+		#print(args)
+		return str(args[0])
+	def unary_operator(self, args):
+		#print(args)
+		return str(args[0])
+
+
+s = STLFormula.convertTextToFormula('F[10,20](p)')
+#print(s)
