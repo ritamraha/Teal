@@ -148,7 +148,7 @@ def union_itv(itvs, F_itvs, num_itv, new_num_itv, end_time):
 	#						And([Or((itvs[i][1]+itvs[j][0])/2<F_itvs[l][0], (itvs[i][1]+itvs[j][0])/2>F_itvs[l][1]) for l in range(len(F_itvs))])))\
 	#						for i in range(len(itvs)) for j in range(len(itvs))])
 
-	cons7 = And([Implies(And(itvs[i][1]!=0, itvs[i][1] < itvs[i+1][0]), And([Or(((itvs[i][1] + itvs[i+1][0])/2)<F_itvs[j][0],\
+	cons7 = And([Implies(And(itvs[i][1] < itvs[i+1][0]), And([Or(((itvs[i][1] + itvs[i+1][0])/2)<F_itvs[j][0],\
 															((itvs[i][1] + itvs[i+1][0])/2)>F_itvs[j][1]) \
 						for j in range(len(F_itvs))])) for i in range(len(itvs)-1)])
 
@@ -181,7 +181,7 @@ def checking():
 	#actual_itv1 = [(0, 1),(3, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5)]
 	#actual_itv1 = [(2, 7),(8, 19),(20, 20),(20, 20)]
 	
-	actual_itv1 = [(0,1),(2,3),(5,5),(5,5),(5,5)]
+	actual_itv1 = [(0.5,1),(1.5,5),(5,5),(5,5),(5,5)]
 	#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
 	actual_itv2 = [(0,5),(5,5),(5,5),(5,5),(5,5)]
 
@@ -203,7 +203,7 @@ def checking():
 
 	s = Solver()
 	#s.add(itv_new[0][1] == 5)
-	s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==2, a==0.36328125, b==1.36328125]))
+	s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==2, a==2.125, b==2.125]))
 	s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==1]))
 
 	s.add(ensureProperIntervals(itv_new, new_num_itv, 5))
@@ -225,7 +225,7 @@ def checking():
 		#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 		print(solverModel[new_num_itv], solverModel[num_itv1])
 
-#checking()
+checking()
 
 '''
 

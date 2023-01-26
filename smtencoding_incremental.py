@@ -9,7 +9,7 @@ class SMTEncoding_incr:
 	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time, monitoring): 
 		
 		unary = ['F', '!']
-		binary = ['&', '#']
+		binary = ['&', '|']
 		defaultOperators = unary + binary
 		
 		self.unaryOperators = unary
@@ -24,7 +24,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = 6
+		self.max_intervals = 7
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
 		self.monitoring= monitoring
@@ -181,9 +181,9 @@ class SMTEncoding_incr:
 										   'future reach of negation for node %d'%i)
 
 		
-		if '#' in self.listOfOperators:
+		if '|' in self.listOfOperators:
 			#disjunction
-			self.solver.assert_and_track(Implies(self.x[(i, '#')],\
+			self.solver.assert_and_track(Implies(self.x[(i, '|')],\
 													And([ Implies(\
 																   And(\
 																	   [self.l[i, leftArg], self.r[i, rightArg]]\
@@ -386,10 +386,10 @@ class SMTEncoding_incr:
 											   'semantics of negation for signal %d and node %d' % (signal_id, i))
 
 			
-			if '#' in self.listOfOperators:
+			if '|' in self.listOfOperators:
 				#disjunction
 				#print(signal_id, i)
-				self.solver.assert_and_track(Implies(self.x[(i, '#')],\
+				self.solver.assert_and_track(Implies(self.x[(i, '|')],\
 														And([ Implies(\
 																	   And(\
 																		   [self.l[i, leftArg], self.r[i, rightArg]]\
