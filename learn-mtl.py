@@ -8,8 +8,8 @@ from signaltraces import Sample, Trace, Signal
 from formula import STLFormula
 from z3 import *
 from monitoring import *
-from smtencoding_incremental import *
-from pysmt.shortcuts import is_sat, get_model
+from smtencoding_incremental_c import *
+from pysmt.shortcuts import is_sat, get_model, Solver
 from six.moves import cStringIO
 from pysmt.smtlib.parser import SmtLibParser
 
@@ -81,6 +81,8 @@ class learnMTL:
 			encoding = SMTEncoding(self.signal_sample, formula_size, self.props, self.max_prop_intervals,\
 												 self.prop_itvs, self.end_time)
 			encoding.encodeFormula()
+
+			
 			
 			print('Constraint creation done, now solving')
 			solverRes = encoding.solver.check()
@@ -121,25 +123,37 @@ class learnMTL:
 			t0 = time.time()
 			print('---------------Searching for formula size %d---------------'%formula_size)
 			encoding.encodeFormula(formula_size, fr_bound)
-			
+			checking = encoding.solver.unsat_core()
 			
 
-			#checking = encoding.solver.unsat_core()
+
+			with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
+
+				smt_file = encoding.solver.sexpr().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
+				#smt_file= encoding.solver.smtlib2_log
+			
+				f.write(smt_file)
 
 			
-			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
-				
-			#	f.write(smt_file)
 
-			smt_file = encoding.solver.to_smt2().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
+			
+			
 			print('Constraint creation done, now solving')
+			#print(encoding.solver)
 			solverRes = encoding.solver.check()
 			print('The solver found', solverRes)
 
-			parser = SmtLibParser()
-			script = parser.get_script(cStringIO(smt_file))
-			f= script.get_last_formula()
-			print('PySMT',is_sat(f))
+			#p0=time.time()
+			#parser = SmtLibParser()
+			#script = parser.get_script(cStringIO(smt_file))
+			#f= script.get_last_formula()
+			
+
+			#name = "msat"
+			#with Solver(name=name) as s:
+  			#	print(s.is_sat(f)) # True
+			#p1=time.time()
+			#print('pysmt time'+ str(p1-p0))
 
 			if solverRes == sat:
 				solverModel = encoding.solver.model()

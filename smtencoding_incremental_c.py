@@ -9,7 +9,7 @@ class SMTEncoding_incr:
 	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time, monitoring): 
 		
 		unary = ['F', '!']
-		binary = ['&', '#']
+		binary = ['&', '|']
 		defaultOperators = unary + binary
 		
 		self.unaryOperators = unary
@@ -24,7 +24,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = 6
+		self.max_intervals = 5
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
 		self.monitoring= monitoring
@@ -89,34 +89,29 @@ class SMTEncoding_incr:
 		self.future_reach_encoding(formula_size)
 		
 
-		#self.solver.push()
+		self.solver.push()
 		#for formulas with G
 		#root_G = True
 		if self.monitoring==1:
 
 			for signal_id in range(len(self.sample.positive)):
-				self.solver.assert_and_track(And(self.itvs[(formula_size - 1, signal_id)][0][0]==0,\
-												self.itvs[(formula_size - 1, signal_id)][0][1]==self.end_time), \
-											"Positive signal %d should hold for formula size %d"%(signal_id,formula_size))
+				self.solver.add(And(self.itvs[(formula_size - 1, signal_id)][0][0]==0,\
+												self.itvs[(formula_size - 1, signal_id)][0][1]==self.end_time))
 						
 			for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
-				self.solver.assert_and_track(Or(self.itvs[(formula_size - 1, signal_id)][0][0]>0, \
-												self.itvs[(formula_size - 1, signal_id)][0][1]<self.end_time), \
-											"Negative signal %d should not hold for formula size %d"%(signal_id,formula_size))		
+				self.solver.add(Or(self.itvs[(formula_size - 1, signal_id)][0][0]>0, \
+												self.itvs[(formula_size - 1, signal_id)][0][1]<self.end_time))		
 		else:
 			
 			for signal_id in range(len(self.sample.positive)):
-				self.solver.assert_and_track(self.itvs[(formula_size - 1, signal_id)][0][0]==0, \
-											"Positive signal %d should hold for formula size %d"%(signal_id,formula_size))
+				self.solver.add(self.itvs[(formula_size - 1, signal_id)][0][0]==0)
 			
 			for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
-				self.solver.assert_and_track(self.itvs[(formula_size - 1, signal_id)][0][0]>0, \
-											"Negative signal %d should not hold for formula size %d"%(signal_id,formula_size))
+				self.solver.add(self.itvs[(formula_size - 1, signal_id)][0][0]>0)
 
 		
 		self.noDanglingPropositions(formula_size)
-		self.solver.assert_and_track(self.fr[formula_size-1]<fr_bound, \
-								'future reach bound for formula size %d'%formula_size)
+		self.solver.add(self.fr[formula_size-1]<fr_bound)
 		
 		#self.solver.minimize(self.fr[formula_size-1])
 
@@ -126,12 +121,11 @@ class SMTEncoding_incr:
 		i = formula_size-1
 
 		for p in self.listOfPropositions:
-			self.solver.assert_and_track(Implies(self.x[(i, p)],self.fr[i]==0),\
-													'future reach of proposition %s for node %d'%(p,i))
+			self.solver.add(Implies(self.x[(i, p)],self.fr[i]==0))
 
 		if 'F' in self.listOfOperators:				  
 			#finally				
-			self.solver.assert_and_track(Implies(self.x[(i, 'F')],\
+			self.solver.add(Implies(self.x[(i, 'F')],\
 												   And([\
 													   Implies(\
 																 self.l[(i,onlyArg)],\
@@ -139,11 +133,10 @@ class SMTEncoding_incr:
 																 )\
 													   for onlyArg in range(i)\
 													   ])\
-												   ),\
-										   'future reach of finally operator node %d'%i)
+												   ))
 		if 'G' in self.listOfOperators:				  
 				#finally				
-			self.solver.assert_and_track(Implies(self.x[(i, 'G')],\
+			self.solver.add(Implies(self.x[(i, 'G')],\
 												   And([\
 													   Implies(\
 																 self.l[(i,onlyArg)],\
@@ -151,12 +144,11 @@ class SMTEncoding_incr:
 																 )\
 													   for onlyArg in range(i)\
 													   ])\
-												   ),\
-										   'future reach of globally operator node %d'%i)
+												   ))
 			
 		if '&' in self.listOfOperators:
 			#conjunction
-			self.solver.assert_and_track(Implies(self.x[(i, '&')],\
+			self.solver.add(Implies(self.x[(i, '&')],\
 												And([ Implies(\
 															   And(\
 																   [self.l[i, leftArg], self.r[i, rightArg]]\
@@ -164,12 +156,11 @@ class SMTEncoding_incr:
 															   		self.fr[i] == \
 															   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
 															   )\
-															  for leftArg in range(i) for rightArg in range(i) ])),\
-												 'future reach of conjunction for node %d'%i)
+															  for leftArg in range(i) for rightArg in range(i) ])))
 
 		if '!' in self.listOfOperators:
 			#negation
-			self.solver.assert_and_track(Implies(self.x[(i, '!')],\
+			self.solver.add(Implies(self.x[(i, '!')],\
 												   And([\
 													   Implies(\
 																 self.l[(i,onlyArg)],\
@@ -177,13 +168,12 @@ class SMTEncoding_incr:
 																  )\
 													   for onlyArg in range(i)\
 													   ])\
-												   ),\
-										   'future reach of negation for node %d'%i)
+												   ))
 
 		
-		if '#' in self.listOfOperators:
+		if '|' in self.listOfOperators:
 			#disjunction
-			self.solver.assert_and_track(Implies(self.x[(i, '#')],\
+			self.solver.add(Implies(self.x[(i, '|')],\
 													And([ Implies(\
 																   And(\
 																	   [self.l[i, leftArg], self.r[i, rightArg]]\
@@ -191,9 +181,7 @@ class SMTEncoding_incr:
 																   	self.fr[i] == \
 																   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg], self.fr[rightArg])\
 																   )\
-																  for leftArg in range(i) for rightArg in range(i) ])),\
-													 'future reach of disjunction for node %d'%i)
-		
+																  for leftArg in range(i) for rightArg in range(i) ])))
 	
 		
 
@@ -204,21 +192,20 @@ class SMTEncoding_incr:
 		i = formula_size - 1
 		for signal_id, signal in enumerate(self.sample.positive+self.sample.negative):
 			
-			self.solver.assert_and_track(And(0<=self.num_itvs[(i,signal_id)], self.num_itvs[(i,signal_id)]<=self.max_intervals),\
-								"Number of intervals well defined for formula size %d on signal %d"%(i,signal_id))
+			self.solver.add(And(0<=self.num_itvs[(i,signal_id)], self.num_itvs[(i,signal_id)]<=self.max_intervals))
 			for t in range(self.max_intervals):
 				
-				self.solver.assert_and_track(self.itvs[(i, signal_id)][t][0]<=self.itvs[(i, signal_id)][t][1],
-								"Proper intervals for formula size %d on signal %d at time %d"%(i,signal_id,t))
+				self.solver.add(self.itvs[(i, signal_id)][t][0]<=self.itvs[(i, signal_id)][t][1])
 
-				self.solver.assert_and_track(Implies(t>=self.num_itvs[(i,signal_id)], 
+				self.solver.add(Implies(t>=self.num_itvs[(i,signal_id)], 
 											And(self.itvs[(i, signal_id)][t][0]==self.end_time,\
-												self.itvs[(i, signal_id)][t][1]==self.end_time)),
-									'End time intervals for formula size %d on signal %d at time %d'%(i,signal_id,t))
+												self.itvs[(i, signal_id)][t][1]==self.end_time)))
 			
 				if t<self.max_intervals-1:					
-					self.solver.assert_and_track(self.itvs[(i, signal_id)][t][1]<=self.itvs[(i, signal_id)][t+1][0],
-									'Proper next intervals for formula size %d on signal %d at time %d'%(i,signal_id,t))
+					self.solver.add(self.itvs[(i, signal_id)][t][1]<=self.itvs[(i, signal_id)][t+1][0])
+
+			#self.solver.add(self.itvs[(i, signal_id)][self.max_intervals-1][0]==5)
+			#self.solver.add(self.itvs[(i, signal_id)][self.max_intervals-1][1]==5)
 					   
 					  
 	def temporalBoundsRelation(self, formula_size):
@@ -227,33 +214,29 @@ class SMTEncoding_incr:
 
 		if 'G' in self.listOfOperators:
 			#globally				
-			self.solver.assert_and_track(Implies(self.x[(i, 'G')], And(self.a[i]>=0,self.a[i] <= self.b[i])),\
-										'temporal bounds of globally operator for node %d'%i)
+			self.solver.add(Implies(self.x[(i, 'G')], And(self.a[i]>=0,self.a[i] <= self.b[i])))
 	
 		if 'F' in self.listOfOperators:				  
 			#finally				
-			self.solver.assert_and_track(Implies(self.x[(i, 'F')], And(And(self.a[i]>=0,self.a[i] <= self.b[i]))),\
-										   'temporal bounds of finally operator for node %d'%i)
+			self.solver.add(Implies(self.x[(i, 'F')], And(And(self.a[i]>=0,self.a[i] <= self.b[i]))))
 			
 
 	def firstOperatorProposition(self, formula_size):
 		
 		if formula_size==1:
-			self.solver.assert_and_track(Or([self.x[k] for k in self.x if k[0] == 0 and k[1] in self.listOfPropositions]),\
-										 'first operator a variable')
+			self.solver.add(Or([self.x[k] for k in self.x if k[0] == 0 and k[1] in self.listOfPropositions]))
 
 	def noDanglingPropositions(self, formula_size):
 		
 		if formula_size > 0:
-			self.solver.assert_and_track(
+			self.solver.add(
 				And([
 					Or(
 						Or([self.l[(rowId, i)] for rowId in range(i+1, formula_size)]),
 						Or([self.r[(rowId, i)] for rowId in range(i+1, formula_size)])
 					)
 					for i in range(formula_size - 1)]
-				),
-				"no dangling variables"
+				)
 			)
 
 
@@ -279,12 +262,12 @@ class SMTEncoding_incr:
 
 		for p in self.listOfPropositions:
 			for signal_id in range(len(self.sample.positive + self.sample.negative)):
-				self.solver.assert_and_track(Implies(self.x[(i, p)],\
+				self.solver.add(Implies(self.x[(i, p)],\
 														And([And([self.itvs[(i, signal_id)][t][k] == self.prop_itvs[signal_id][p][t][k]  \
 														 for t in range(len(self.prop_itvs[signal_id][p])) for k in range(2)]), And([self.itvs[(i, signal_id)][t][k] == self.end_time\
 														 for t in range(len(self.prop_itvs[signal_id][p]),self.max_intervals) for k in range(2)]),\
 														 self.num_itvs[(i,signal_id)] == len(self.prop_itvs[signal_id][p])])),\
-														 'Intervals for propositional variable node_'+ str(i)+ 'var _'+str(p)+'_signal_'+ str(signal_id))
+														 )
 			
 		
 	def exactlyOneOperator(self, formula_size):
@@ -297,12 +280,10 @@ class SMTEncoding_incr:
 		#self.solver.assert_and_track(AtLeast( [self.x[k] for k in self.x if k[0] == i] +[1]),\
 		#								  "at least one operator per subformula for formula size %d"%i)
 
-		self.solver.assert_and_track(And([Not(And(self.x[k],self.x[m]))\
-												for k in self.x for m in self.x if k!=m and k[0] == i and m[0]==i])\
-												,"at most one operator per subformula for formula size %d"%i)
+		self.solver.add(And([Not(And(self.x[k],self.x[m]))\
+												for k in self.x for m in self.x if k!=m and k[0] == i and m[0]==i]))
 		
-		self.solver.assert_and_track(Or( [self.x[k] for k in self.x if k[0] == i]),\
-										  "at least one operator per subformula for formula size %d"%i)
+		self.solver.add(Or( [self.x[k] for k in self.x if k[0] == i]))
 		if i > 0:
 			#self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
 			#									AtMost( [self.l[k] for k in self.l if k[0] == i] +[1])),\
@@ -318,18 +299,17 @@ class SMTEncoding_incr:
 			#							  "at least one left operator for binary and unary operators for formula size %d"%i)
 			
 
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
+			self.solver.add(Implies(Or([self.x[(i, op)] for op in self.binaryOperators+self.unaryOperators]),\
 												And([Not(And(self.l[k], self.l[m]))\
-													for m in self.l for k in self.l if k!=m and k[0] == i and m[0]==i])),\
-										  "at most one left operator for binary and unary operators for formula size %d"%i)
+													for m in self.l for k in self.l if k!=m and k[0] == i and m[0]==i]))										  )
 		
-			self.solver.assert_and_track(Implies(
+			self.solver.add(Implies(
 												Or(
 													[self.x[(i, op)] for op in
 													 self.binaryOperators + self.unaryOperators]
 												),
-												Or( [self.l[k] for k in self.l if k[0] == i])),\
-										  "at least one left operator for binary and unary operators for formula size %d"%i)
+												Or( [self.l[k] for k in self.l if k[0] == i]))\
+										 )
 
 		
 			#self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
@@ -342,26 +322,22 @@ class SMTEncoding_incr:
 			#								"at least one right operator for binary for formula size %d"%i)
 
 
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
+			self.solver.add(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
 												And([Not(And(self.r[k],self.r[m])) for m in self.r for k in self.r\
-												if k[0] == i and m[0]==i and k!=m])),\
-											"at most one right operator for binary for formula size %d"%i)
+												if k[0] == i and m[0]==i and k!=m])))
 
 
 
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
-												Or([self.r[k] for k in self.r if k[0] == i])),\
-											"at least one right operator for binary for formula size %d"%i)
+			self.solver.add(Implies(Or([self.x[(i, op)] for op in self.binaryOperators]),\
+												Or([self.r[k] for k in self.r if k[0] == i])))
 
 		
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.unaryOperators]),\
-										Not(Or([self.r[k] for k in self.r if k[0] == i]))),\
-										"no right operators for unary for formula size %d"%i)
+			self.solver.add(Implies(Or([self.x[(i, op)] for op in self.unaryOperators]),\
+										Not(Or([self.r[k] for k in self.r if k[0] == i]))))
 
 		
-			self.solver.assert_and_track(Implies(Or([self.x[(i, op)] for op in self.listOfPropositions]),\
-					Not(Or(Or([self.r[k] for k in self.r if k[0] == i]), Or([self.l[k] for k in self.l if k[0] == i])))),\
-										"no left or right children for variables for formula size %d"%i)
+			self.solver.add(Implies(Or([self.x[(i, op)] for op in self.listOfPropositions]),\
+					Not(Or(Or([self.r[k] for k in self.r if k[0] == i]), Or([self.l[k] for k in self.l if k[0] == i])))))
 	
 
 	def operatorsSemantics(self, formula_size):
@@ -372,7 +348,7 @@ class SMTEncoding_incr:
 
 			if '!' in self.listOfOperators:
 				#negation
-				self.solver.assert_and_track(Implies(self.x[(i, '!')],\
+				self.solver.add(Implies(self.x[(i, '!')],\
 													   And([\
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
@@ -382,14 +358,13 @@ class SMTEncoding_incr:
 																	  )\
 														   for onlyArg in range(i)\
 														   ])\
-													   ),\
-											   'semantics of negation for signal %d and node %d' % (signal_id, i))
+													   ))
 
 			
-			if '#' in self.listOfOperators:
+			if '|' in self.listOfOperators:
 				#disjunction
 				#print(signal_id, i)
-				self.solver.assert_and_track(Implies(self.x[(i, '#')],\
+				self.solver.add(Implies(self.x[(i, '|')],\
 														And([ Implies(\
 																	   And(\
 																		   [self.l[i, leftArg], self.r[i, rightArg]]\
@@ -398,12 +373,11 @@ class SMTEncoding_incr:
 																	   			 self.itvs[(i,signal_id)], i, signal_id,self.num_itvs[(leftArg,signal_id)],\
 																	   			 self.num_itvs[(rightArg,signal_id)], self.num_itvs[(i,signal_id)],self.end_time)
 																	   )\
-																	  for leftArg in range(i) for rightArg in range(i) ])),\
-														 'semantics of disjunction for signal %d and node %d'%(signal_id, i))
+																	  for leftArg in range(i) for rightArg in range(i) ])))
 
 			if 'F' in self.listOfOperators:				  
 				#finally				
-				self.solver.assert_and_track(Implies(self.x[(i, 'F')],\
+				self.solver.add(Implies(self.x[(i, 'F')],\
 													   And([\
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
@@ -413,15 +387,13 @@ class SMTEncoding_incr:
 																	 )\
 														   for onlyArg in range(i)\
 														   ])\
-													   ),\
-											   'semantics of finally operator for signal %d and node %d' % (signal_id, i)\
-			  									)
+													   ))
 
 			
 			if '&' in self.listOfOperators:
 				#conjunction
 				#print(i,signal_id)
-				self.solver.assert_and_track(Implies(self.x[(i, '&')],\
+				self.solver.add(Implies(self.x[(i, '&')],\
 														And([ Implies(\
 																	   And(\
 																		   [self.l[i, leftArg], self.r[i, rightArg]]\
@@ -431,8 +403,7 @@ class SMTEncoding_incr:
 																	   			 self.num_itvs[(leftArg,signal_id)],self.num_itvs[(rightArg,signal_id)],\
 																	   			  self.num_itvs[(i,signal_id)],self.end_time)\
 																	   )\
-																	  for leftArg in range(i) for rightArg in range(i) ])),\
-														 'semantics of conjunction for signal %d and node %d'%(signal_id, i))
+																	  for leftArg in range(i) for rightArg in range(i) ])))
 				'''	 
 				if '->' in self.listOfOperators:
 					   
