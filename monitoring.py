@@ -23,6 +23,7 @@ def monitor(prop_itvs, formula, end_time):
 	label = formula.label
 	left = formula.left
 	right = formula.right
+	time_interval= formula.time_interval
 	#print(label)
 
 	if label=='|':
@@ -36,16 +37,16 @@ def monitor(prop_itvs, formula, end_time):
 	if label=='!':
 		return compute_not_itvs(monitor(prop_itvs, left, end_time), end_time)
 	
-	if isinstance(label, list) and label[0]=='F':
-		lb_frac = label[1][0].as_fraction()
-		ub_frac = label[1][1].as_fraction()
+	if label=='F':
+		lb_frac = time_interval[0].as_fraction()
+		ub_frac = time_interval[1].as_fraction()
 		a = float(lb_frac.numerator)/float(lb_frac.denominator)
 		b = float(ub_frac.numerator)/float(ub_frac.denominator)
 		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
 	
 	if isinstance(label, list) and label[0]=='G':
-		lb_frac = label[1][0].as_fraction()
-		ub_frac = label[1][1].as_fraction()
+		lb_frac = time_interval[0].as_fraction()
+		ub_frac = time_interval[1].as_fraction()
 		a = float(lb_frac.numerator)/float(lb_frac.denominator)
 		b = float(ub_frac.numerator)/float(ub_frac.denominator)
 		return compute_G_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	

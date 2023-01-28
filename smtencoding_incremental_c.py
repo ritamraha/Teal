@@ -493,10 +493,9 @@ class SMTEncoding_incr:
 			leftChild = getValue(rowId, self.l)
 			if operator in ['F', 'G']:
 				
-				lower_bound = model[self.a[rowId]]
-				upper_bound = model[self.b[rowId]]
-				#print([operator,(lower_bound, upper_bound)])
-				return STLFormula(label=[operator,(lower_bound, upper_bound)], left=self.reconstructFormula(leftChild, model)) 
+				time_interval = [model[self.a[rowId]],model[self.b[rowId]]]
+				
+				return STLFormula(label=operator, time_interval=time_interval, left=self.reconstructFormula(leftChild, model)) 
 		
 			else:
 				#print(operator)
@@ -506,8 +505,14 @@ class SMTEncoding_incr:
 			#print(operator)
 			leftChild = getValue(rowId, self.l)
 			rightChild = getValue(rowId, self.r)
+			if operator in ['U']:
+				
+				time_interval = [model[self.a[rowId]],model[self.b[rowId]]]
+				
+				return STLFormula(label=operator, time_interval=time_interval, left=self.reconstructFormula(leftChild, model), right=self.reconstructFormula(rightChild, model))
+			else:
 
-			return STLFormula(label=operator, left=self.reconstructFormula(leftChild, model), right=self.reconstructFormula(rightChild, model))
+				return STLFormula(label=operator, left=self.reconstructFormula(leftChild, model), right=self.reconstructFormula(rightChild, model))
 
 	'''
 	def futureReachBound(self):	
