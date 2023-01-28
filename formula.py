@@ -244,17 +244,38 @@ class LTLTreeToFormula(Transformer):
 
 
 untimed_operators = ['!','&', '|', '->']
-timed_operators = ['F','G']
-binary_operators = ['&','|', '->']
+timed_operators = ['F','G', 'U']
+binary_operators = ['&','|', '->', 'U']
 unary_operators = ['F','G','!']
 
 class STLFormula(SimpleTree):
 
-	def __init__(self, label=None, right=None, left=None):
+	def __init__(self, label=None, right=None, left=None, time_interval=None):
 		self.size = None
 		self.label = label
 		self.left = left
 		self.right = right
+		self.time_interval = time_interval
+
+	'''
+	def __init__(self, formulaArg):
+
+
+		self.root = formulaArg[0]
+		if self.root in timed_operators:	
+			self.label = [self.root, [self.formulaArg[1],self.formulaArg]]
+
+			self.left = formulaArg[1]
+			try:
+				self.right = formulaArg[2]
+			except:
+				self.right = None
+
+		else:
+			super().__init__(formulaArg)
+
+
+	'''
 
 	def treeSize(self):
 		if self.size == None:
@@ -290,11 +311,7 @@ class STLFormula(SimpleTree):
 		if self._isLeaf():
 			return self.label
 
-		if isinstance(self.label, list):
-			operator = self.label[0]
-		else:
-			operator = self.label
-
+		operator = self.label
 
 		if operator in untimed_operators:
 		
@@ -307,25 +324,28 @@ class STLFormula(SimpleTree):
 				return lb + self.left.prettyPrint() +" "+ operator +" "+ self.right.prettyPrint() + rb
 
 		else:
+			print(operator, self.time_interval)
+			try:
+				lb_frac = self.time_interval[0].as_fraction()
+				ub_frac = self.time_interval[1].as_fraction()
+				
+				lower_bound = float(lb_frac.numerator)/float(lb_frac.denominator)
+				upper_bound = float(ub_frac.numerator)/float(ub_frac.denominator)
 
-			
-			lb_frac = self.label[1][0].as_fraction()
-			ub_frac = self.label[1][1].as_fraction()
-			lower_bound = float(lb_frac.numerator)/float(lb_frac.denominator)
-			upper_bound = float(ub_frac.numerator)/float(ub_frac.denominator)
-			
+			except:
+				
+				lower_bound = self.time_interval[0]
+				upper_bound = self.time_interval[1]
 			
 			#lower_bound = self.label[1][0]
 			#upper_bound = self.label[1][1]
 
 			if operator in unary_operators:
-
 				return lb + operator + '[' + str(lower_bound) + "," + str(upper_bound) + "]"+ self.left.prettyPrint() + rb
-			
 			else:
-				
 				return lb + self.left.prettyPrint() +" "+  operator + '[' + str(lower_bound) + "," + str(upper_bound) + "]"+ " " + self.right.prettyPrint() + rb
 	
+
 	def __str__(self):
 		if self.left == None and self.right == None:
 			return self.label
@@ -357,10 +377,11 @@ class STLFormula(SimpleTree):
 						| "false"
 				_unary_expression: unary_operator "(" formula ")"
 				_binary_expression: binary_operator "(" formula "," formula ")"
-				_temporal_unary_expression: unary_operator "[" INTEGER "," INTEGER "]" "(" formula ")"
-				_temporal_binary_expression: binary_operator "[" INTEGER "," INTEGER "]" "(" formula "," formula ")"
+				_temporal_unary_expression: unary_operator interval "(" formula ")"
+				_temporal_binary_expression: binary_operator interval "(" formula "," formula ")"
 				variable: /[a-z]/
-				INTEGER : /[0-9]+/
+				bound : /([0-9]*[.])?[0-9]+/
+				interval: "[" bound "," bound "]"
 				!binary_operator: "&" | "|" | "->" | "U"
 				!unary_operator: "F" | "G" | "!" | "X"
 				
@@ -382,9 +403,20 @@ class STLFormula(SimpleTree):
 			
 class STLTreeToFormula(Transformer):
 	def formula(self, formulaArgs):
+
 		print(formulaArgs)
-		return STLFormula(formulaArgs)
-	
+
+		if formulaArgs[0] in timed_operators:
+			try:
+				return STLFormula(label=formulaArgs[0], left=formulaArgs[2], right=formulaArgs[3], time_interval=formulaArgs[1],)
+			except:
+				return STLFormula(label=formulaArgs[0], left=formulaArgs[2], right=None, time_interval=formulaArgs[1])
+		else:
+			try:
+				return STLFormula(label=formulaArgs[0], left=formulaArgs[1], right=formulaArgs[2])
+			except:
+				return STLFormula(label=formulaArgs[0], left=formulaArgs[1], right=None)
+
 	def variable(self, varName):
 		#print(varName)
 		return STLFormula(label=str(varName[0]), left=None, right=None)
@@ -395,7 +427,12 @@ class STLTreeToFormula(Transformer):
 		elif str(arg[0]) == "false":
 			connector = "&"
 		return STLFormula([connector, STLFormula(["p", None, None]), STLFormula(["!", STLFormula(["p", None, None] ), None])])
-			
+	def interval(self, args):
+		return [args[0], args[1]]
+
+	def bound(self, args):
+		return float(args[0])
+
 	def binary_operator(self, args):
 		#print(args)
 		return str(args[0])
@@ -404,5 +441,5 @@ class STLTreeToFormula(Transformer):
 		return str(args[0])
 
 
-s = STLFormula.convertTextToFormula('F[10,20](p)')
-#print(s)
+s = STLFormula.convertTextToFormula('F[0.1,10.3](G[2.5,8.2](!(q)))')
+print(s.prettyPrint())

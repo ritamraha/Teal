@@ -209,8 +209,8 @@ def checking():
 	s.add(ensureProperIntervals(itv_new, new_num_itv, 5))
 	#s.add(self.or_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
 	#s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
-	#s.add(and_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 5))
-	s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
+	s.add(or_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 5))
+	#s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
 	#s.add(not_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
 	#print(self.and_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
 	
