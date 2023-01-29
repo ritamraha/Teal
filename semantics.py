@@ -11,7 +11,7 @@ def ensureProperIntervals(itvs, num_itvs, end_time):
 					
 		cons1 = itvs[t][0]<=itvs[t][1]
 
-		cons2 =  Implies(t>=num_itvs, 
+		cons2 =  Implies(t>=num_itvs,
 									And(itvs[t][0]==end_time,\
 										itvs[t][1]==end_time))
 				

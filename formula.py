@@ -420,7 +420,6 @@ class STLTreeToFormula(Transformer):
 		#print(varName)
 		return STLFormula(label=str(varName[0]), left=None, right=None)
 	def constant(self, arg):
-		print(arg)
 		if str(arg[0]) == "true":
 			connector = "|"
 		elif str(arg[0]) == "false":
@@ -441,4 +440,3 @@ class STLTreeToFormula(Transformer):
 
 
 s = STLFormula.convertTextToFormula('F[0.1,10.3](G[2.5,8.2](!(q)))')
-print(s.prettyPrint())

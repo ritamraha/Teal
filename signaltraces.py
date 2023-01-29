@@ -1,4 +1,7 @@
 import random
+from monitoring import *
+from for
+
 
 def convertTextToSignal(text):
 
@@ -188,15 +191,15 @@ class Sample:
 
 			file.write('---\n')
 
-			file.write(','.join(self.vars)+'\n')
+			file.write(','.join(self.propositions)+'\n')
 
-			file.write('---\n')
+			#file.write('---\n')
 
 			#pred_list = []
 			
-			file.write(';'.join(pred_list))
+			#file.write(';'.join(pred_list))
 
-	def random_signal(self, 
+	def random_signal(self,
 		propositions = ['p','q','r'], 
 		length = 5,
 		is_words = True):
@@ -206,7 +209,8 @@ class Sample:
 
 	def generator(self, 
 		formula = None, 
-		filename = 'generated.words', 
+		filename = 'generated.signal',
+		end_time=10, 
 		num_signals = (5,5), 
 		length_signals = None,
 		propositions = ['p','q','r'], 
@@ -218,16 +222,19 @@ class Sample:
 		num_negatives = 0
 		total_num_negatives = num_signals[1]
 		ver = True
-		letter2pos = {propositions[i]:i for i in range(len(propositions))}
+		prop2num = {propositions[i]:i for i in range(len(propositions))}
+		print(total_num_positives, total_num_negatives)
 
-		while num_positives < total_num_positives or num_negatives < total_num_negatives:
+		while num_positives < total_num_positives and num_negatives < total_num_negatives:
 
 			length = random.randint(length_range[0], length_range[1])
 			final_signal = self.random_signal(propositions, length)
 
 			#check
+			print('Currently found:', num_positives, num_negatives)
 			if formula != None:
-				ver = final_signal.evaluateFormula(formula, letter2pos)
+				prop_itvs = compute_prop_intervals(signal=final_signal, props=propositions, prop2num=prop2num, end_time=end_time)
+				ver = sat_check_G(prop_itvs=prop_itvs, formula=formula, end_time=end_time)
 
 			if num_positives < total_num_positives:
 				if ver == True or formula == None:
@@ -244,7 +251,9 @@ class Sample:
 			# sys.stdout.flush()
 
 		self.operators = operators
-		self.writeToFile(filename)
+		self.propositions = propositions
+		self.end_time = end_time
+		self.writeSample(filename)
 
 class WordSample:
 	'''
@@ -349,6 +358,7 @@ class WordSample:
 				file.write('---\n')
 				file.write(','.join(self.alphabet))
 
-
-s = Sample()
-s.random_signal(propositions=['p','q'],length=5)
+s = convertTextToSignal('0:0;1:0;2:1;3:1')
+prop_itvs = compute_prop_intervals(s, ['p'], {'p':0}, 5.0)
+f = STLFormula.convertTextToFormula('F[1,2](p)')
+print(sat_check_G(prop_itvs, f, 5.0))

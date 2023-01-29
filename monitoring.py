@@ -1,9 +1,11 @@
-def compute_prop_intervals(signal, props, prop2num):
+	
+
+def compute_prop_intervals(signal, props, prop2num, end_time):
 
 	timepoints = [sp.time for sp in signal.sequence]
 	prop_itvs = {}
 	max_prop_intervals=0
-		
+	itv = ()
 	for p in props:	
 		parity = 0
 		itvs = []
@@ -23,8 +25,31 @@ def compute_prop_intervals(signal, props, prop2num):
 		if len(itv) == 1:
 			itv += (end_time,)
 			itvs.append(itv)
-		prop_itvs[signal_id][p] = itvs
+		prop_itvs[p] = itvs
 		max_prop_intervals = max(max_prop_intervals, len(itvs))
+
+	return prop_itvs
+
+
+def check_consistency_G(formula, signal_sample):
+
+		props = signal_sample.propositions
+		prop2num = {props[i]:i for i in range(len(props))}
+		end_time = signal_sample.end_time
+		for signal in signal_sample.positive:
+			prop_itvs = compute_prop_intervals(signal, props, prop2num, end_time)
+			if not sat_check_G(prop_itvs, formula, end_time):
+				print('Formula is wrong!!!')
+				return False
+
+		for signal in signal_sample.negative:
+			prop_itvs = compute_prop_intervals(signal, props, prop2num, end_time)
+			if sat_check_G(prop_itvs, formula, end_time):
+				print('Formula is wrong!!!')
+				return False
+		
+		print('Formula is correct')
+		return True
 
 
 def sat_check(prop_itvs, formula, end_time):
@@ -67,10 +92,14 @@ def monitor(prop_itvs, formula, end_time):
 		return compute_not_itvs(monitor(prop_itvs, left, end_time), end_time)
 	
 	if label=='F':
-		lb_frac = time_interval[0].as_fraction()
-		ub_frac = time_interval[1].as_fraction()
-		a = float(lb_frac.numerator)/float(lb_frac.denominator)
-		b = float(ub_frac.numerator)/float(ub_frac.denominator)
+		try:
+			lb_frac = time_interval[0].as_fraction()
+			ub_frac = time_interval[1].as_fraction()
+			a = float(lb_frac.numerator)/float(lb_frac.denominator)
+			b = float(ub_frac.numerator)/float(ub_frac.denominator)
+		except:
+			a = time_interval[0]
+			b = time_interval[1]
 		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
 	
 	if isinstance(label, list) and label[0]=='G':
