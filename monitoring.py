@@ -55,7 +55,7 @@ def check_consistency_G(formula, signal_sample):
 def sat_check(prop_itvs, formula, end_time):
 
 	pos_itvs = monitor(prop_itvs, formula, end_time)
-	#print(pos_itvs)
+	print(pos_itvs)
 	if pos_itvs!=[] and pos_itvs[0][0]==0:
 		return True
 	else:
@@ -102,11 +102,15 @@ def monitor(prop_itvs, formula, end_time):
 			b = time_interval[1]
 		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
 	
-	if isinstance(label, list) and label[0]=='G':
-		lb_frac = time_interval[0].as_fraction()
-		ub_frac = time_interval[1].as_fraction()
-		a = float(lb_frac.numerator)/float(lb_frac.denominator)
-		b = float(ub_frac.numerator)/float(ub_frac.denominator)
+	if label=='G':
+		try:
+			lb_frac = time_interval[0].as_fraction()
+			ub_frac = time_interval[1].as_fraction()
+			a = float(lb_frac.numerator)/float(lb_frac.denominator)
+			b = float(ub_frac.numerator)/float(ub_frac.denominator)
+		except: 
+			a = time_interval[0]
+			b = time_interval[1]
 		return compute_G_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
 	
 	if label in props:
@@ -120,6 +124,7 @@ def compute_F_itvs(itvs, a, b, end_time):
 
 	#print(type(itvs[0][0]),type(a))
 	minus_itvs_og = [(max(itvs[i][0]-b,0),max(itvs[i][1]-a,0)) for i in range(len(itvs))]
+	minus_itvs_og.append([end_time-a, end_time])
 
 	#removing (0,0) itvs
 	minus_itvs = [(i,j) for (i,j) in minus_itvs_og if j!=0]
@@ -150,8 +155,12 @@ def compute_F_itvs(itvs, a, b, end_time):
 
 def compute_G_itvs(itvs, a, b, end_time):
 
+	print(itvs)
+
 	not_itvs = compute_not_itvs(itvs, end_time)
+	print(not_itvs)
 	F_itvs = compute_F_itvs(not_itvs, a, b, end_time)
+	print(F_itvs)
 	return compute_not_itvs(F_itvs, end_time)
 
 def compute_or_itvs(itvs1, itvs2, end_time):

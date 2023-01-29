@@ -1,6 +1,7 @@
 import random
 from monitoring import *
-from for
+from formula import *
+
 
 
 def convertTextToSignal(text):
@@ -358,7 +359,7 @@ class WordSample:
 				file.write('---\n')
 				file.write(','.join(self.alphabet))
 
-s = convertTextToSignal('0:0;1:0;2:1;3:1')
-prop_itvs = compute_prop_intervals(s, ['p'], {'p':0}, 5.0)
-f = STLFormula.convertTextToFormula('F[1,2](p)')
-print(sat_check_G(prop_itvs, f, 5.0))
+#s = convertTextToSignal('0:0;1:0;2:1;3:1')
+#prop_itvs = compute_prop_intervals(s, ['p'], {'p':0}, 5.0)
+#f = STLFormula.convertTextToFormula('F[0,1](!(p))')
+#print(sat_check(prop_itvs, f, 5.0))
