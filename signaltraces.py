@@ -119,13 +119,11 @@ class Sample:
 
 		self.positive = positive
 		self.negative = negative
-		self.vars = []
+		self.propositions = []
 		if operators==[]:
 			self.operators = default_operators
 		else:
 			self.operators = operators
-
-		self.predicates = {}
 		self.end_time = None
 
 	def readSample(self, signalfile):
@@ -169,8 +167,8 @@ class Sample:
 					
 				#if mode==4:
 
-			if self.vars == []:
-				self.vars = ['p'+str(i) for i in range(self.numVars)]
+			if self.propositions == []:
+				self.propositions = ['p'+str(i) for i in range(self.numVars)]
 	
 	
 	def writeSample(self, signalfile):
@@ -194,9 +192,7 @@ class Sample:
 
 			file.write('---\n')
 
-			pred_list = []
-			for var in self.vars:
-				pred_list.append(','.join([str(i) for i in self.predicates[var]]))
+			#pred_list = []
 			
 			file.write(';'.join(pred_list))
 
@@ -207,6 +203,48 @@ class Sample:
 
 		signal_sequence = [ samplePoint(t,[random.randint(0,1) for _ in range(len(propositions))]) for t in range(length)]
 		return Signal(signal_sequence)
+
+	def generator(self, 
+		formula = None, 
+		filename = 'generated.words', 
+		num_signals = (5,5), 
+		length_signals = None,
+		propositions = ['p','q','r'], 
+		length_range = (5,15), 
+		operators=['G', 'F', '!', 'U', '&','|', 'X']):
+
+		num_positives = 0
+		total_num_positives = num_signals[0]
+		num_negatives = 0
+		total_num_negatives = num_signals[1]
+		ver = True
+		letter2pos = {propositions[i]:i for i in range(len(propositions))}
+
+		while num_positives < total_num_positives or num_negatives < total_num_negatives:
+
+			length = random.randint(length_range[0], length_range[1])
+			final_signal = self.random_signal(propositions, length)
+
+			#check
+			if formula != None:
+				ver = final_signal.evaluateFormula(formula, letter2pos)
+
+			if num_positives < total_num_positives:
+				if ver == True or formula == None:
+					self.positive.append(final_signal)
+					num_positives += 1
+					continue
+
+			if num_negatives < total_num_negatives:
+				if ver == False or formula == None:
+					self.negative.append(final_signal) 
+					num_negatives += 1
+
+			# sys.stdout.write("\rGenerating sample: created %d positives, %d negatives "%(num_positives, num_negatives))
+			# sys.stdout.flush()
+
+		self.operators = operators
+		self.writeToFile(filename)
 
 class WordSample:
 	'''
@@ -224,7 +262,7 @@ class WordSample:
 	
 	def extract_alphabet(self):
 		'''
-		extracts alphabet from the words/traces provided in the data
+		extracts alphabet from the words/signals provided in the data
 		'''
 		alphabet = set()
 		

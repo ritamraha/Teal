@@ -83,7 +83,6 @@ class SimpleTree:
 '''
 A class for encoding syntax Trees and syntax DAGs of LTL formulas
 '''
-
 class LTLFormula(SimpleTree):
 	
 	def __init__(self, formulaArg = "dummyF"):

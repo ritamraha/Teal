@@ -1,3 +1,32 @@
+def compute_prop_intervals(signal, props, prop2num):
+
+	timepoints = [sp.time for sp in signal.sequence]
+	prop_itvs = {}
+	max_prop_intervals=0
+		
+	for p in props:	
+		parity = 0
+		itvs = []
+		for sp in signal.sequence:
+			if parity == 0 and sp.vector[prop2num[p]] == 1:
+				parity = 1
+				itv = (sp.time,)
+				continue
+
+			if parity == 1 and sp.vector[prop2num[p]] == 0:
+				parity = 0
+				itv += (sp.time,)
+				itvs.append(itv)
+				itv = ()
+				continue
+
+		if len(itv) == 1:
+			itv += (end_time,)
+			itvs.append(itv)
+		prop_itvs[signal_id][p] = itvs
+		max_prop_intervals = max(max_prop_intervals, len(itvs))
+
+
 def sat_check(prop_itvs, formula, end_time):
 
 	pos_itvs = monitor(prop_itvs, formula, end_time)
