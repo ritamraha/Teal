@@ -108,27 +108,52 @@ def and_itv(itvs1, itvs2, and_itvs, i, signal_id, num_itv1, num_itv2, new_num_it
 
 ########################## Operator F ##########################	
 #Given an interval list, a and b it returns an interval list with (lb-b, ub-a)
+# def minus_itv(itvs, minus_itvs, a, b, i, signal_id, num_itv, new_num_itv, end_time):
+
+# 	max_int = len(itvs)
+# 	int_itvs = {t:(Real('minus_itvs_%d_%d_%d_0'%(i, signal_id, t)), \
+# 					 Real('minus_itvs_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs))}
+
+# 	cons1 = And([If(i<num_itv, And(int_itvs[i][0]==If(itvs[i][0]>b, itvs[i][0]-b, 0),\
+# 						int_itvs[i][1]==If(itvs[i][1]>a, itvs[i][1]-a, 0)),\
+# 						And(int_itvs[i][0]==end_time, int_itvs[i][1]==end_time)) for i in range(max_int)])
+	
+
+# 	cons2 = And([And(minus_itvs[i][0]==int_itvs[i][0], minus_itvs[i][1]==int_itvs[i][1]) for i in range(max_int)])
+
+# 	cons3 = new_num_itv==num_itv
+
+# 	cons = And([cons1, cons2, cons3])
+
+# 	return cons
+
 def minus_itv(itvs, minus_itvs, a, b, i, signal_id, num_itv, new_num_itv, end_time):
 
 	max_int = len(itvs)
 	int_itvs = {t:(Real('minus_itvs_%d_%d_%d_0'%(i, signal_id, t)), \
 					 Real('minus_itvs_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs))}
 
-	cons1 = And([If(i<num_itv, And(int_itvs[i][0]==If(itvs[i][0]>b, itvs[i][0]-b, 0),\
-						int_itvs[i][1]==If(itvs[i][1]>a, itvs[i][1]-a, 0)),\
-						And(int_itvs[i][0]==end_time, int_itvs[i][1]==end_time)) for i in range(max_int)])
-	
+	cons = (new_num_itv==num_itv +1)
 
-	cons2 = And([And(minus_itvs[i][0]==int_itvs[i][0], minus_itvs[i][1]==int_itvs[i][1]) for i in range(max_int)])
+	for i in range(max_int):
 
-	cons3 = new_num_itv==num_itv
+		cons1 = Implies(i<num_itv, And(int_itvs[i][0]==If(itvs[i][0]>b, itvs[i][0]-b, 0),\
+							int_itvs[i][1]==If(itvs[i][1]>a, itvs[i][1]-a, 0)))
+		
+		cons2 = Implies(i==num_itv, And((int_itvs[i][0]== end_time-a), (int_itvs[i][1]==end_time)))	
+		
+		cons3 = Implies(i>num_itv, And(int_itvs[i][0]== end_time, int_itvs[i][1]==end_time))	
 
-	cons = And([cons1, cons2, cons3])
+		cons4 = And(minus_itvs[i][0]==int_itvs[i][0], minus_itvs[i][1]==int_itvs[i][1])
+
+		cons=And([cons1,cons2,cons3,cons4,cons])
 
 	return cons
 
 
 #Given a list of intervals, output a list with their union
+
+
 def union_itv(itvs, F_itvs, num_itv, new_num_itv, end_time):
 
 	#ensuring interval bounds are from itvs
@@ -137,6 +162,7 @@ def union_itv(itvs, F_itvs, num_itv, new_num_itv, end_time):
 	cons3 = And([Implies(i<= new_num_itv-1, Or([F_itvs[i][1]==itvs[j][1] for j in range(len(itvs))])) for i in range(len(itvs))])
 	cons4 = And([Implies(i <= new_num_itv-1, F_itvs[i][0] < F_itvs[i][1]) for i in range(len(itvs))])
 	cons5 = And([Implies(i > new_num_itv-1, And(F_itvs[i][0]==end_time, F_itvs[i][1]==end_time)) for i in range(len(itvs))])
+
 
 
 	#ensuring all intervals are included
@@ -151,9 +177,10 @@ def union_itv(itvs, F_itvs, num_itv, new_num_itv, end_time):
 	cons7 = And([Implies(And(itvs[i][1] < itvs[i+1][0]), And([Or(((itvs[i][1] + itvs[i+1][0])/2)<F_itvs[j][0],\
 															((itvs[i][1] + itvs[i+1][0])/2)>F_itvs[j][1]) \
 						for j in range(len(F_itvs))])) for i in range(len(itvs)-1)])
+	cons8 = And([Implies(i < new_num_itv-1, F_itvs[i][1] < F_itvs[i+1][0]) for i in range(len(itvs)-1)])
 
 
-	cons = And([cons1, cons2, cons3, cons4, cons5, cons6, cons7])
+	cons = And([cons1, cons2, cons3, cons4, cons5, cons6, cons7, cons8])
 
 	return cons
 
@@ -181,7 +208,7 @@ def checking():
 	#actual_itv1 = [(0, 1),(3, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5)]
 	#actual_itv1 = [(2, 7),(8, 19),(20, 20),(20, 20)]
 	
-	actual_itv1 = [(0.5,1),(1.5,5),(5,5),(5,5),(5,5)]
+	actual_itv1 = [(2,5),(5,5),(5,5),(5,5),(5,5)]
 	#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
 	actual_itv2 = [(0,5),(5,5),(5,5),(5,5),(5,5)]
 
@@ -203,14 +230,17 @@ def checking():
 
 	s = Solver()
 	#s.add(itv_new[0][1] == 5)
-	s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==2, a==2.125, b==2.125]))
+	s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==1, a==1, b==2]))
 	s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==1]))
 
 	s.add(ensureProperIntervals(itv_new, new_num_itv, 5))
+	#minus_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5)
 	#s.add(self.or_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
 	#s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
-	s.add(or_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 5))
-	#s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
+	#s.add(union_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
+	#s.add(minus_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
+	#s.add(or_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 5))
+	s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
 	#s.add(not_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
 	#print(self.and_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
 	
