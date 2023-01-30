@@ -255,7 +255,7 @@ def checking():
 		#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 		print(solverModel[new_num_itv], solverModel[num_itv1])
 
-checking()
+#checking()
 
 '''
 

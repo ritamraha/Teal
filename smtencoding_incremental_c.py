@@ -24,7 +24,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = 5
+		self.max_intervals = 6
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
 		self.monitoring= monitoring
@@ -211,11 +211,13 @@ class SMTEncoding_incr:
 	def temporalBoundsRelation(self, formula_size):
 
 		i = formula_size-1
+		#self.solver.add(And(self.a[i]==1, self.b[i]==2))
 
 		if 'G' in self.listOfOperators:
 			#globally				
 			self.solver.add(Implies(self.x[(i, 'G')], And(self.a[i]>=0,self.a[i] <= self.b[i])))
-	
+			
+
 		if 'F' in self.listOfOperators:				  
 			#finally				
 			self.solver.add(Implies(self.x[(i, 'F')], And(And(self.a[i]>=0,self.a[i] <= self.b[i]))))
@@ -486,6 +488,7 @@ class SMTEncoding_incr:
 		if operator in self.listOfPropositions:
 		
 			#print(str(self.alphabet[operator]))
+			#print('reconstruct prop from ', self.listOfPropositions, operator)
 			return STLFormula(label=operator)
 		
 		elif operator in self.unaryOperators:
@@ -495,11 +498,11 @@ class SMTEncoding_incr:
 				
 				time_interval = [model[self.a[rowId]],model[self.b[rowId]]]
 				
-				return STLFormula(label=operator, time_interval=time_interval, left=self.reconstructFormula(leftChild, model)) 
+				return STLFormula(label=operator, time_interval=time_interval, left=self.reconstructFormula(leftChild, model), right=None) 
 		
 			else:
 				#print(operator)
-				return STLFormula(label=operator, left=self.reconstructFormula(leftChild, model))
+				return STLFormula(label=operator, time_interval=None, left=self.reconstructFormula(leftChild, model), right=None)
 		
 		elif operator in self.binaryOperators:
 			#print(operator)
@@ -512,7 +515,7 @@ class SMTEncoding_incr:
 				return STLFormula(label=operator, time_interval=time_interval, left=self.reconstructFormula(leftChild, model), right=self.reconstructFormula(rightChild, model))
 			else:
 
-				return STLFormula(label=operator, left=self.reconstructFormula(leftChild, model), right=self.reconstructFormula(rightChild, model))
+				return STLFormula(label=operator, time_interval=None, left=self.reconstructFormula(leftChild, model), right=self.reconstructFormula(rightChild, model))
 
 	'''
 	def futureReachBound(self):	

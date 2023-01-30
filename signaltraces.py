@@ -58,6 +58,11 @@ class Signal:
 		text = ';'.join([str(value) for value in self.sequence])
 		return text
 
+	def __eq__(self, other):
+
+		return str(self)==str(other)
+
+
 
 
 class binarySignal:
@@ -119,11 +124,11 @@ class Trace:
 
 class Sample:
 
-	def __init__(self, positive=[], negative=[], vars=[], operators=[]):
+	def __init__(self, positive=[], negative=[], propositions=[], operators=[]):
 
 		self.positive = positive
 		self.negative = negative
-		self.propositions = []
+		self.propositions = propositions
 		if operators==[]:
 			self.operators = default_operators
 		else:
@@ -148,7 +153,7 @@ class Sample:
 				if mode==0:	
 		
 					signal = convertTextToSignal(line)	 	
-					self.numVars = signal.sequence[0].size
+					self.numProps = signal.sequence[0].size
 					self.positive.append(signal)
 
 
@@ -158,6 +163,7 @@ class Sample:
 					self.negative.append(signal)
 				
 				if mode==2:
+
 					self.end_time = float(line.strip())
 
 				if mode==3:
@@ -166,8 +172,7 @@ class Sample:
 				
 				if mode==4:
 
-					self.vars = list(line.strip().split(','))
-					print(self.vars)
+					self.propositions = list(line.strip().split(','))
 					
 				#if mode==4:
 
@@ -188,11 +193,15 @@ class Sample:
 
 			file.write('---\n')
 
+			file.write(str(self.end_time)+'\n')
+
+			file.write('---\n')
+
 			file.write(','.join(self.operators)+'\n')
 
 			file.write('---\n')
 
-			file.write(','.join(self.propositions)+'\n')
+			file.write(','.join(self.propositions))
 
 			#file.write('---\n')
 
@@ -224,30 +233,39 @@ class Sample:
 		total_num_negatives = num_signals[1]
 		ver = True
 		prop2num = {propositions[i]:i for i in range(len(propositions))}
-		print(total_num_positives, total_num_negatives)
 
-		while num_positives < total_num_positives and num_negatives < total_num_negatives:
+		num_iterations = 0
+		iteration_bound = 10**6
 
+
+		while (num_positives < total_num_positives or num_negatives < total_num_negatives) and num_iterations < iteration_bound:
+
+			num_iterations += 1
 			length = random.randint(length_range[0], length_range[1])
 			final_signal = self.random_signal(propositions, length)
 
 			#check
-			print('Currently found:', num_positives, num_negatives)
+			if num_iterations % 1000 == 0:
+				print('Number of iterations', num_iterations)
+				print('Currently found:', num_positives, num_negatives)
+
 			if formula != None:
 				prop_itvs = compute_prop_intervals(signal=final_signal, props=propositions, prop2num=prop2num, end_time=end_time)
 				ver = sat_check_G(prop_itvs=prop_itvs, formula=formula, end_time=end_time)
 
 			if num_positives < total_num_positives:
 				if ver == True or formula == None:
-					self.positive.append(final_signal)
-					num_positives += 1
+					if final_signal not in self.positive:
+						self.positive.append(final_signal)
+						num_positives += 1
 					continue
 
 			if num_negatives < total_num_negatives:
 				if ver == False or formula == None:
-					self.negative.append(final_signal) 
-					num_negatives += 1
-
+					if final_signal not in self.negative:
+						self.negative.append(final_signal) 
+						num_negatives += 1
+					continue
 			# sys.stdout.write("\rGenerating sample: created %d positives, %d negatives "%(num_positives, num_negatives))
 			# sys.stdout.flush()
 
@@ -359,7 +377,11 @@ class WordSample:
 				file.write('---\n')
 				file.write(','.join(self.alphabet))
 
-#s = convertTextToSignal('0:0;1:0;2:1;3:1')
+
+
+f = STLFormula.convertTextToFormula('|(!(p),(F[0.0625,1.9375](p)))')
+s = Sample()
+s.readSample('./dummy.signal')
 #prop_itvs = compute_prop_intervals(s, ['p'], {'p':0}, 5.0)
-#f = STLFormula.convertTextToFormula('F[0,1](!(p))')
-#print(sat_check(prop_itvs, f, 5.0))
+print(check_consistency_G(f, s))
+

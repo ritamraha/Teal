@@ -22,7 +22,8 @@ class learnMTL:
 		self.signal_sample = Sample()
 		self.signal_sample.readSample(self.signalfile)
 		self.size_bound = 5
-		self.props = self.signal_sample.vars
+		self.props = self.signal_sample.propositions
+		print('props', self.props)
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
 		self.end_time = self.signal_sample.end_time
 		self.monitoring = monitoring
@@ -115,7 +116,7 @@ class learnMTL:
 		
 		
 		#fr_bound = self.end_time
-		fr_bound = 3
+		fr_bound = 2
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time, self.monitoring)
 		for formula_size in range(1,5):
@@ -123,16 +124,16 @@ class learnMTL:
 			t0 = time.time()
 			print('---------------Searching for formula size %d---------------'%formula_size)
 			encoding.encodeFormula(formula_size, fr_bound)
-			checking = encoding.solver.unsat_core()
+			#checking = encoding.solver.unsat_core()
 			
 
 
-			with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
+			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
 
-				smt_file = encoding.solver.sexpr().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
+			#	smt_file = encoding.solver.sexpr().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
 				#smt_file= encoding.solver.smtlib2_log
 			
-				f.write(smt_file)
+			#	f.write(smt_file)
 			
 			
 			print('Constraint creation done, now solving')
@@ -156,6 +157,7 @@ class learnMTL:
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
 				#print(solverModel)
+				'''
 				for i in range(formula_size):
 					print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
 					for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
@@ -163,6 +165,7 @@ class learnMTL:
 						for t in range(encoding.max_intervals):
 							print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
 						print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				'''
 				#for i in range(encoding.max_intervals):
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
@@ -182,10 +185,16 @@ class learnMTL:
 					self.check_consistency_G(formula)
 				else:
 					self.check_consistency(formula)
-	
-			encoding.solver.pop()
-			t1 = time.time()-t0
-			print('Total time', t1, ';Solving Time', solving_time)
+
+				t1 = time.time()-t0
+				print('Total time', t1, ';Solving Time', solving_time)
+
+				break
+			
+			else:
+				encoding.solver.pop()
+				t1 = time.time()-t0
+				print('Total time', t1, ';Solving Time', solving_time)
 
 
 	def check_consistency(self, formula):
@@ -224,8 +233,8 @@ def main():
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--input_file', '-i', dest='input_file', default = './check_signals.signal')
-	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=False, action='store_true')
+	parser.add_argument('--input_file', '-i', dest='input_file', default = './dummy.signal')
+	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=True, action='store_true')
 	parser.add_argument('--timeout', '-t', dest='timeout', default=900, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= './result.csv')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')

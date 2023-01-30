@@ -323,7 +323,6 @@ class STLFormula(SimpleTree):
 				return lb + self.left.prettyPrint() +" "+ operator +" "+ self.right.prettyPrint() + rb
 
 		else:
-			print(operator, self.time_interval)
 			try:
 				lb_frac = self.time_interval[0].as_fraction()
 				ub_frac = self.time_interval[1].as_fraction()
@@ -396,15 +395,11 @@ class STLFormula(SimpleTree):
 			print("can't parse formula %s" %formulaText)
 			print("error: %s" %e)
 			
-		print('Transforming')
 		f = STLTreeToFormula().transform(tree)
 		return f
 			
 class STLTreeToFormula(Transformer):
 	def formula(self, formulaArgs):
-
-		print(formulaArgs)
-
 		if formulaArgs[0] in timed_operators:
 			try:
 				return STLFormula(label=formulaArgs[0], left=formulaArgs[2], right=formulaArgs[3], time_interval=formulaArgs[1],)
