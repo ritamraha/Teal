@@ -192,7 +192,8 @@ class SMTEncoding_incr:
 		i = formula_size - 1
 		for signal_id, signal in enumerate(self.sample.positive+self.sample.negative):
 			
-			self.solver.add(And(0<=self.num_itvs[(i,signal_id)], self.num_itvs[(i,signal_id)]<=self.max_intervals))
+			self.solver.add(And([0<=self.num_itvs[(i,signal_id)], self.num_itvs[(i,signal_id)]<=self.max_intervals,\
+										self.itvs[i][0]>=0]))
 			for t in range(self.max_intervals):
 				
 				self.solver.add(Implies(t<self.num_itvs[(i,signal_id)],self.itvs[(i, signal_id)][t][0]<=self.itvs[(i, signal_id)][t][1]))

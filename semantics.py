@@ -266,9 +266,9 @@ def checking():
 	s.readSample('./dummy.signal')
 	for signal in s.positive:
 		prop_itvs = compute_prop_intervals(signal, ['p','q'], {'p':0,'q':1}, 10.0)
-		print(prop_itvs)
+		#print(prop_itvs)
 		#actual_itv1 = prop_itvs['q'] + [(10.0,10.0)]*(6-len(prop_itvs['q']))
-		actual_itv1 = [(0,10)] + [(10.0,10.0)]*(6-len(prop_itvs['q']))
+		actual_itv1 = [(10.0,10.0)] + [(10.0,10.0)]*5
 		#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
 		nitv = compute_not_itvs(prop_itvs['p'], 10.0)
 		actual_itv2 = nitv + [(10.0,10.0)]*(6-len(nitv))
@@ -290,16 +290,16 @@ def checking():
 
 		s = Solver()
 		#s.add(itv_new[0][1] == 5)
-		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==len(prop_itvs['q']), a==0, b==0]))#0.0625,1.9375
+		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==0, a==1, b==2]))#0.0625,1.9375
 		s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==len(nitv)]))
 
 		s.add(ensureProperIntervals(itv_new, new_num_itv, 10.0))
 		#s.add(minus_G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		#s.add(self.or_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
-		#s.add(G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
+		s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		#s.add(union_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
 		#s.add(minus_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
-		s.add(or_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 10.0))
+		#s.add(or_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 10.0))
 		#s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		#s.add(not_itv(itv1, itv_new, num_itv1, new_num_itv, 10.0))
 		#print(self.and_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
@@ -315,7 +315,7 @@ def checking():
 			#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 			print(solverModel[new_num_itv], solverModel[num_itv1])
 
-#checking()
+checking()
 
 '''
 
