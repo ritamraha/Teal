@@ -350,8 +350,8 @@ class STLFormula(SimpleTree):
 		
 		# the (not enforced assumption) is that if a node has only one child, that is the left one
 		elif self.left != None and self.right == None:
-			if instance(self.label,list):
-				return self.label[0] + self.label[1] + '(' + self.left.__repr__() + ')'
+			if self.label in timed_operators:
+				return self.label + str(self.time_interval) + '(' + self.left.__repr__() + ')'
 			else:
 				return self.label + '(' + self.left.__repr__() + ')'
 
@@ -434,4 +434,4 @@ class STLTreeToFormula(Transformer):
 		return str(args[0])
 
 
-s = STLFormula.convertTextToFormula('F[0.1,10.3](G[2.5,8.2](!(q)))')
+#s = STLFormula.convertTextToFormula('F[0.1,10.3](G[2.5,8.2](!(q)))')

@@ -235,8 +235,10 @@ class Sample:
 		prop2num = {propositions[i]:i for i in range(len(propositions))}
 
 		num_iterations = 0
-		iteration_bound = 10**6
-
+		iteration_bound = 10**5
+		#false_count = 0
+		total_false_count = 0
+		signal_list = []
 
 		while (num_positives < total_num_positives or num_negatives < total_num_negatives) and num_iterations < iteration_bound:
 
@@ -245,11 +247,11 @@ class Sample:
 			final_signal = self.random_signal(propositions, length)
 
 			#check
-			if num_iterations % 1000 == 0:
+			if num_iterations % 10000 == 0:
 				print('Number of iterations', num_iterations)
 				print('Currently found:', num_positives, num_negatives)
-
 			if formula != None:
+
 				prop_itvs = compute_prop_intervals(signal=final_signal, props=propositions, prop2num=prop2num, end_time=end_time)
 				ver = sat_check_G(prop_itvs=prop_itvs, formula=formula, end_time=end_time)
 
@@ -268,7 +270,6 @@ class Sample:
 					continue
 			# sys.stdout.write("\rGenerating sample: created %d positives, %d negatives "%(num_positives, num_negatives))
 			# sys.stdout.flush()
-
 		self.operators = operators
 		self.propositions = propositions
 		self.end_time = end_time
@@ -378,10 +379,13 @@ class WordSample:
 				file.write(','.join(self.alphabet))
 
 
-
-f = STLFormula.convertTextToFormula('|(!(p),(F[0.0625,1.9375](p)))')
+'''
+f = STLFormula.convertTextToFormula('|(!(p),F[0.0625,1.9375](p))')
+print('HEre',f.prettyPrint())
 s = Sample()
 s.readSample('./dummy.signal')
 #prop_itvs = compute_prop_intervals(s, ['p'], {'p':0}, 5.0)
 print(check_consistency_G(f, s))
-
+'''
+#[(0,4),(7,8),(9,10)]
+#[(2,6.9),(6,8.9),(9.9,10)]

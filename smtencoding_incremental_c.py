@@ -8,7 +8,7 @@ class SMTEncoding_incr:
 
 	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time, monitoring): 
 		
-		unary = ['F', '!']
+		unary = ['!', 'G', 'F']
 		binary = ['&', '|']
 		defaultOperators = unary + binary
 		
@@ -111,11 +111,11 @@ class SMTEncoding_incr:
 
 		
 		self.noDanglingPropositions(formula_size)
-		self.solver.add(self.fr[formula_size-1]<fr_bound)
+		self.solver.add(self.fr[formula_size-1]<=fr_bound)
 		
 		#self.solver.minimize(self.fr[formula_size-1])
 
-
+	
 	def future_reach_encoding(self, formula_size):
 
 		i = formula_size-1
@@ -135,7 +135,7 @@ class SMTEncoding_incr:
 													   ])\
 												   ))
 		if 'G' in self.listOfOperators:				  
-				#finally				
+			#globally				
 			self.solver.add(Implies(self.x[(i, 'G')],\
 												   And([\
 													   Implies(\
@@ -195,7 +195,7 @@ class SMTEncoding_incr:
 			self.solver.add(And(0<=self.num_itvs[(i,signal_id)], self.num_itvs[(i,signal_id)]<=self.max_intervals))
 			for t in range(self.max_intervals):
 				
-				self.solver.add(self.itvs[(i, signal_id)][t][0]<=self.itvs[(i, signal_id)][t][1])
+				self.solver.add(Implies(t<self.num_itvs[(i,signal_id)],self.itvs[(i, signal_id)][t][0]<=self.itvs[(i, signal_id)][t][1]))
 
 				self.solver.add(Implies(t>=self.num_itvs[(i,signal_id)], 
 											And(self.itvs[(i, signal_id)][t][0]==self.end_time,\
@@ -384,6 +384,20 @@ class SMTEncoding_incr:
 														   Implies(\
 																	 self.l[(i,onlyArg)],\
 																	 F_itv(self.itvs[(onlyArg, signal_id)], self.itvs[(i, signal_id)],\
+																	 		 self.a[i], self.b[i], i, signal_id, self.num_itvs[(onlyArg, signal_id)],\
+																	 		 self.num_itvs[(i,signal_id)], self.end_time)
+																	 )\
+														   for onlyArg in range(i)\
+														   ])\
+													   ))
+
+			if 'G' in self.listOfOperators:				  
+				#globally				
+				self.solver.add(Implies(self.x[(i, 'G')],\
+													   And([\
+														   Implies(\
+																	 self.l[(i,onlyArg)],\
+																	 G_itv(self.itvs[(onlyArg, signal_id)], self.itvs[(i, signal_id)],\
 																	 		 self.a[i], self.b[i], i, signal_id, self.num_itvs[(onlyArg, signal_id)],\
 																	 		 self.num_itvs[(i,signal_id)], self.end_time)
 																	 )\

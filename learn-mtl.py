@@ -23,13 +23,13 @@ class learnMTL:
 		self.signal_sample.readSample(self.signalfile)
 		self.size_bound = 5
 		self.props = self.signal_sample.propositions
-		print('props', self.props)
+		#print('props', self.props)
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
 		self.end_time = self.signal_sample.end_time
 		self.monitoring = monitoring
 		#print(self.signal_sample.positive[0])
 		self.compute_prop_intervals()
-		
+		#print(self.prop_itvs)
 		
 		#self.fr_bound = 4
 		#self.search_order = [(i,j) for i in range(1, self.fr_bound+1,5) for j in range(1, self.size_bound+1)] #can try out other search orders
@@ -113,21 +113,16 @@ class learnMTL:
 
 	def search_incremental(self):
 		
-		
-		
 		#fr_bound = self.end_time
 		fr_bound = 2
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time, self.monitoring)
-		for formula_size in range(1,5):
+		for formula_size in range(1,6):
 			
 			t0 = time.time()
 			print('---------------Searching for formula size %d---------------'%formula_size)
 			encoding.encodeFormula(formula_size, fr_bound)
 			#checking = encoding.solver.unsat_core()
-			
-
-
 			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
 
 			#	smt_file = encoding.solver.sexpr().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
@@ -157,7 +152,7 @@ class learnMTL:
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
 				#print(solverModel)
-				'''
+				
 				for i in range(formula_size):
 					print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
 					for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
@@ -165,7 +160,6 @@ class learnMTL:
 						for t in range(encoding.max_intervals):
 							print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
 						print(solverModel[encoding.num_itvs[(i,signal_id)]])
-				'''
 				#for i in range(encoding.max_intervals):
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 

@@ -1,5 +1,3 @@
-	
-
 def compute_prop_intervals(signal, props, prop2num, end_time):
 
 	timepoints = [sp.time for sp in signal.sequence]
@@ -55,7 +53,7 @@ def check_consistency_G(formula, signal_sample):
 def sat_check(prop_itvs, formula, end_time):
 
 	pos_itvs = monitor(prop_itvs, formula, end_time)
-	print(pos_itvs)
+	#print(pos_itvs)
 	if pos_itvs!=[] and pos_itvs[0][0]==0:
 		return True
 	else:
@@ -72,7 +70,7 @@ def sat_check_G(prop_itvs, formula, end_time):
 
 
 def monitor(prop_itvs, formula, end_time):
-	
+
 	props = list(prop_itvs.keys())
 	label = formula.label
 	left = formula.left
@@ -81,15 +79,17 @@ def monitor(prop_itvs, formula, end_time):
 	#print(label)
 
 	if label=='|':
+		
 		return compute_or_itvs(monitor(prop_itvs, left, end_time), \
 								monitor(prop_itvs,right, end_time), end_time)
-
+		
 	if label=='&':
 		return compute_and_itvs(monitor(prop_itvs, left, end_time), \
 								monitor(prop_itvs,right, end_time), end_time)
 
 	if label=='!':
 		return compute_not_itvs(monitor(prop_itvs, left, end_time), end_time)
+		
 	
 	if label=='F':
 		try:
@@ -100,7 +100,9 @@ def monitor(prop_itvs, formula, end_time):
 		except:
 			a = time_interval[0]
 			b = time_interval[1]
-		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
+
+		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)
+		
 	
 	if label=='G':
 		try:
@@ -124,13 +126,12 @@ def compute_F_itvs(itvs, a, b, end_time):
 
 	#print(type(itvs[0][0]),type(a))
 	minus_itvs_og = [(max(itvs[i][0]-b,0),max(itvs[i][1]-a,0)) for i in range(len(itvs))]
-	minus_itvs_og.append([end_time-a, end_time])
+	minus_itvs_og.append([max(end_time-a,0), end_time])
 
 	#removing (0,0) itvs
 	minus_itvs = [(i,j) for (i,j) in minus_itvs_og if j!=0]
 	if minus_itvs == []:
 		return []
-
 
 	union_itvs = []
 	current_itv = minus_itvs[0]
@@ -155,13 +156,19 @@ def compute_F_itvs(itvs, a, b, end_time):
 
 def compute_G_itvs(itvs, a, b, end_time):
 
-	print(itvs)
-
 	not_itvs = compute_not_itvs(itvs, end_time)
-	print(not_itvs)
 	F_itvs = compute_F_itvs(not_itvs, a, b, end_time)
-	print(F_itvs)
-	return compute_not_itvs(F_itvs, end_time)
+	G_itvs = compute_not_itvs(F_itvs, end_time)
+
+	if G_itvs == []:
+		return [(end_time-a, end_time)]
+
+	if G_itvs[-1][1] >= end_time-a:
+		G_itvs[-1] = (G_itvs[-1][0],end_time)
+	else:
+		G_itvs.append((end_time-a, end_time))
+
+	return G_itvs
 
 def compute_or_itvs(itvs1, itvs2, end_time):
 	
@@ -197,10 +204,10 @@ def compute_not_itvs(itvs, end_time):
 	if itvs[0][0] != 0:
 		not_itvs.insert(0, (0,itvs[0][0]))
 	if itvs[-1][1] != end_time:
-		not_itvs.append((itvs[-1][0], end_time))
+		not_itvs.append((itvs[-1][1], end_time))
 
 	return not_itvs
 
 
-#print(compute_and_itvs([(1,3),(4,5),(7,10)],[(2,4),(5,7)],10))
+#print(compute_G_itvs([(1,5)],1, 2, 10))
 #print(compute_F_itvs([],2,3,10))
