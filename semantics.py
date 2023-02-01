@@ -269,7 +269,7 @@ def checking():
 		prop_itvs = compute_prop_intervals(signal, ['p','q'], {'p':0,'q':1}, 10.0)
 		#print(prop_itvs)
 		#actual_itv1 = prop_itvs['q'] + [(10.0,10.0)]*(6-len(prop_itvs['q']))
-		actual_itv1 = [(10.0,10.0)] + [(10.0,10.0)]*5
+		actual_itv1 = [(0,10.0)] + [(10.0,10.0)]*5
 		#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
 		nitv = compute_not_itvs(prop_itvs['p'], 10.0)
 		actual_itv2 = nitv + [(10.0,10.0)]*(6-len(nitv))

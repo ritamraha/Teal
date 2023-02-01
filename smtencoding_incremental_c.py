@@ -196,7 +196,7 @@ class SMTEncoding_incr:
 										self.itvs[(i,signal_id)][0][0]>=0]))
 			for t in range(self.max_intervals):
 				
-				self.solver.add(Implies(t<self.num_itvs[(i,signal_id)],self.itvs[(i, signal_id)][t][0]<=self.itvs[(i, signal_id)][t][1]))
+				self.solver.add(Implies(t<self.num_itvs[(i,signal_id)],self.itvs[(i, signal_id)][t][0]<self.itvs[(i, signal_id)][t][1]))
 
 				self.solver.add(Implies(t>=self.num_itvs[(i,signal_id)], 
 											And(self.itvs[(i, signal_id)][t][0]==self.end_time,\
