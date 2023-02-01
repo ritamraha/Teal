@@ -199,7 +199,8 @@ def minus_G_itv(itvs, minus_itvs, a, b, i, signal_id, num_itv, new_num_itv, end_
 
 	max_int = len(itvs)
 	
-	cons = True
+	cons = Implies(num_itv==0, And([new_num_itv==1, minus_itvs[0][0]==end_time-a, minus_itvs[0][1]==end_time]))
+
 
 	for i in range(max_int):
 
@@ -296,7 +297,7 @@ def checking():
 		s.add(ensureProperIntervals(itv_new, new_num_itv, 10.0))
 		#s.add(minus_G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		#s.add(self.or_itv(itv1, itv2, itv_new, num_itv1, num_itv2, new_num_itv, 20))
-		s.add(F_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
+		s.add(G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		#s.add(union_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
 		#s.add(minus_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
 		#s.add(or_itv(itv1, itv2, itv_new, 0, 0, num_itv1, num_itv2, new_num_itv, 10.0))
@@ -315,7 +316,7 @@ def checking():
 			#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 			print(solverModel[new_num_itv], solverModel[num_itv1])
 
-checking()
+#checking()
 
 '''
 
