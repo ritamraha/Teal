@@ -60,9 +60,8 @@ class SampleGenerator:
 			formula_num=0
 			for line in file:
 				
-				formula_text, propositions, end_time = line.split(';')
-				propositions = propositions.split(',')
-				end_time = float(end_time.rstrip('\n'))
+				formula_text, propositions = line.split(';')
+				propositions = propositions.strip().split(',')
 
 				
 				#signal_lengths = lengths.split(',')
@@ -75,6 +74,7 @@ class SampleGenerator:
 				
 				for size in sample_sizes:
 					for length_range in self.signal_lengths:
+						end_time = length_range[1]
 						for num in range(self.total_num):
 							length_mean = (length_range[0]+length_range[1])//2
 							sample=Sample(positive=[], negative=[])
@@ -111,15 +111,15 @@ class SampleGenerator:
 		for filename in generated_files:
 			
 			s = Sample(positive=[],negative=[])
-			s.readFromFile(filename)
+			s.readSample(filename)
 			
 			for (i,j) in sizes:
 				
 				new_filename = filename.replace("nw:"+str((self.max_size[0]+self.max_size[1])//2).zfill(3), "nw:"+str(i).zfill(3))
 				new_positive = s.positive[:i]
 				new_negative = s.negative[:j]
-				new_s = Sample(positive=new_positive, negative=new_negative, alphabet=s.alphabet)
-				new_s.writeToFile(new_filename)
+				new_s = Sample(positive=new_positive, negative=new_negative, propositions=s.propositions)
+				new_s.writeSample(new_filename)
 
 
 #Data type for parser
@@ -136,9 +136,9 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--formula_file', dest='formula_file', default = './formulas.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
-	parser.add_argument('--size', dest='sample_sizes', default=[(10,10)], nargs='+', type=tupleList)
+	parser.add_argument('--size', dest='sample_sizes', default=[(5,5),(10,10),(15,15),(20,20)], nargs='+', type=tupleList)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
-	parser.add_argument('--lengths', dest='signal_lengths', default=[(5,5)], nargs='+', type=tupleList)
+	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(6,6),(8,8),(10,10)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
 	parser.add_argument('--output_folder', dest='output_folder', default = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
@@ -158,7 +158,7 @@ def main():
 				output_folder=output_folder,
 				total_num=total_num)
 
-	generator.generate()
+	generator.generateFromLargeSample()
 
 if __name__=='__main__':
 	main() 
