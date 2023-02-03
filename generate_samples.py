@@ -75,9 +75,11 @@ class SampleGenerator:
 				for size in sample_sizes:
 					for length_range in self.signal_lengths:
 						end_time = length_range[1]
+						print(end_time)
 						for num in range(self.total_num):
 							length_mean = (length_range[0]+length_range[1])//2
 							sample=Sample(positive=[], negative=[])
+
 
 							signal_file = signals_folder+'f:'+str(formula_num).zfill(2)+'-'+'nw:'+str((size[0]+size[1])//2).zfill(3)+'-'+'ml:'+str(length_mean).zfill(2)+'-'+str(num)+'.signal'
 							generated_files.append(signal_file)
@@ -118,7 +120,7 @@ class SampleGenerator:
 				new_filename = filename.replace("nw:"+str((self.max_size[0]+self.max_size[1])//2).zfill(3), "nw:"+str(i).zfill(3))
 				new_positive = s.positive[:i]
 				new_negative = s.negative[:j]
-				new_s = Sample(positive=new_positive, negative=new_negative, propositions=s.propositions)
+				new_s = Sample(positive=new_positive, negative=new_negative, propositions=s.propositions, end_time=s.end_time)
 				new_s.writeSample(new_filename)
 
 
@@ -136,9 +138,9 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--formula_file', dest='formula_file', default = './formulas.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
-	parser.add_argument('--size', dest='sample_sizes', default=[(5,5),(10,10),(15,15),(20,20)], nargs='+', type=tupleList)
+	parser.add_argument('--size', dest='sample_sizes', default=[(5,5),(10,10)], nargs='+', type=tupleList)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
-	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(6,6),(8,8),(10,10)], nargs='+', type=tupleList)
+	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(6,6)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
 	parser.add_argument('--output_folder', dest='output_folder', default = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 

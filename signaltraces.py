@@ -11,7 +11,7 @@ def convertTextToSignal(text):
 	for value in split1:
 		time, vector = value.split(':')
 		vector = [bool(int(i)) for i in vector.split(',')]
-		sp = samplePoint(float(time), vector)
+		sp = samplePoint(int(time), vector)
 		sequence.append(sp)
 
 	return Signal(sequence)
@@ -31,7 +31,7 @@ class samplePoint:
 	def __str__(self):
 
 		text = str(self.time) + ':' 
-		text += ','.join([str(i) for i in self.vector])
+		text += ','.join([str(int(i)) for i in self.vector])
 		return text
 
 class Signal:
@@ -124,7 +124,7 @@ class Trace:
 
 class Sample:
 
-	def __init__(self, positive=[], negative=[], propositions=[], operators=[]):
+	def __init__(self, positive=[], negative=[], propositions=[], operators=[], end_time=10):
 
 		self.positive = positive
 		self.negative = negative
@@ -133,7 +133,7 @@ class Sample:
 			self.operators = default_operators
 		else:
 			self.operators = operators
-		self.end_time = None
+		self.end_time = end_time
 
 	def readSample(self, signalfile):
 		
@@ -164,7 +164,7 @@ class Sample:
 				
 				if mode==2:
 
-					self.end_time = float(line.strip())
+					self.end_time = int(line.strip())
 
 				if mode==3:
 				

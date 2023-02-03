@@ -102,7 +102,6 @@ def monitor(prop_itvs, formula, end_time):
 		except:
 			a = time_interval[0]
 			b = time_interval[1]
-		print(prop_itvs)
 		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)
 		
 	

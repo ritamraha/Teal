@@ -11,11 +11,11 @@ from monitoring import *
 from smtencoding_incremental_c import *
 #from pysmt.shortcuts import is_sat, get_model, Solver
 #from six.moves import cStringIO
-#from pysmt.smtlib.parser import SmtLibParser
+from pysmt.smtlib.parser import SmtLibParser
 
 class learnMTL:
 
-	def __init__(self, signalfile, monitoring):
+	def __init__(self, signalfile, monitoring, fr_bound):
 
 
 		self.signalfile = signalfile
@@ -27,10 +27,12 @@ class learnMTL:
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
 		self.end_time = self.signal_sample.end_time
 		self.monitoring = monitoring
+		self.fr_bound = fr_bound
 		#print(self.signal_sample.positive[0])
 		self.compute_prop_intervals()
+		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound}
+
 		#print(self.prop_itvs)
-		
 		#self.fr_bound = 4
 		#self.search_order = [(i,j) for i in range(1, self.fr_bound+1,5) for j in range(1, self.size_bound+1)] #can try out other search orders
 		
@@ -64,8 +66,6 @@ class learnMTL:
 					itvs.append(itv)
 				self.prop_itvs[signal_id][p] = itvs
 				self.max_prop_intervals = max(self.max_prop_intervals, len(itvs))
-
-
 
 
 	def interesting_pred(self):
@@ -114,14 +114,17 @@ class learnMTL:
 	def search_incremental(self):
 		
 		#fr_bound = self.end_time
-		fr_bound = 2
+		
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time, self.monitoring)
+		total_solving_time = 0
+		total_running_time = 0
 		for formula_size in range(1,6):
 			
+
 			t0 = time.time()
 			print('---------------Searching for formula size %d---------------'%formula_size)
-			encoding.encodeFormula(formula_size, fr_bound)
+			encoding.encodeFormula(formula_size, self.fr_bound)
 			#checking = encoding.solver.unsat_core()
 			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
 
@@ -137,6 +140,7 @@ class learnMTL:
 			solverRes = encoding.solver.check()
 			print('The solver found', solverRes)
 			solving_time = time.time() - solving_time
+			total_solving_time += solving_time
 			#p0=time.time()
 			#parser = SmtLibParser()
 			#script = parser.get_script(cStringIO(smt_file))
@@ -151,8 +155,7 @@ class learnMTL:
 
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
-				#print(solverModel)
-				
+				'''
 				for i in range(formula_size):
 					print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
 					for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
@@ -160,6 +163,7 @@ class learnMTL:
 						for t in range(encoding.max_intervals):
 							print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
 						print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				'''
 				#for i in range(encoding.max_intervals):
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
@@ -176,19 +180,24 @@ class learnMTL:
 				print('Found formula %s'%(formula_str))
 				#break
 				if self.monitoring==1:
-					self.check_consistency_G(formula)
+					ver = self.check_consistency_G(formula)
 				else:
-					self.check_consistency(formula)
+					ver = self.check_consistency(formula)
 
 				t1 = time.time()-t0
+				total_running_time += t1
 				print('Total time', t1, ';Solving Time', solving_time)
-
+				self.info_dict.update({'Formula': formula_str, 'Correct?': ver, \
+							'Total Time': total_running_time, 'Solving Time': total_solving_time,})
 				break
 			
 			else:
 				encoding.solver.pop()
 				t1 = time.time()-t0
+				total_running_time += t1
 				print('Total time', t1, ';Solving Time', solving_time)
+
+		return self.info_dict
 
 
 	def check_consistency(self, formula):
@@ -196,6 +205,7 @@ class learnMTL:
 		for signal_id in range(len(self.signal_sample.positive)):
 			
 			if not sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+				
 				print('Formula is wrong!!!')
 				return False
 
@@ -211,6 +221,7 @@ class learnMTL:
 
 		for signal_id in range(len(self.signal_sample.positive)):
 			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
+				print('ekahne', self.prop_itvs[signal_id])
 				print('Formula is wrong!!!')
 				return False
 
@@ -237,13 +248,30 @@ def main():
 	input_file = args.input_file
 	timeout = float(args.timeout)
 	monitoring = int(args.monitoring)
-	print(monitoring)
+	#print(monitoring)
 	learner = learnMTL(signalfile=input_file, monitoring = monitoring)
 	learner.search_incremental()
 
 
-main()
 
+
+def run_test(file_name, timeout=5400, fr_bound=3):
+
+	learner = learnMTL(signalfile=file_name, monitoring=True, fr_bound=fr_bound)
+	info_dict = learner.search_incremental()
+	info_dict.update({'Timeout': timeout})
+
+	header = list(info_dict.keys())
+	csvname = file_name.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
+	
+
+	with open(csvname, 'w') as f:
+		writer = csv.DictWriter(f, fieldnames = header)
+		writer.writeheader()
+		writer.writerow(info_dict)
+
+
+run_test('small_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal', 200, 3)
 
 '''
 #return #the predicates
