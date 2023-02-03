@@ -9,9 +9,9 @@ from formula import STLFormula
 from z3 import *
 from monitoring import *
 from smtencoding_incremental_c import *
-from pysmt.shortcuts import is_sat, get_model, Solver
-from six.moves import cStringIO
-from pysmt.smtlib.parser import SmtLibParser
+#from pysmt.shortcuts import is_sat, get_model, Solver
+#from six.moves import cStringIO
+#from pysmt.smtlib.parser import SmtLibParser
 
 class learnMTL:
 
