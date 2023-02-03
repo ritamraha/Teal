@@ -43,6 +43,8 @@ def check_consistency_G(formula, signal_sample):
 		for signal in signal_sample.negative:
 			prop_itvs = compute_prop_intervals(signal, props, prop2num, end_time)
 			if sat_check_G(prop_itvs, formula, end_time):
+				print(signal)
+				print(prop_itvs)
 				print('Formula is wrong!!!')
 				return False
 		
@@ -126,7 +128,9 @@ def compute_F_itvs(itvs, a, b, end_time):
 
 	#print(type(itvs[0][0]),type(a))
 	minus_itvs_og = [(max(itvs[i][0]-b,0),max(itvs[i][1]-a,0)) for i in range(len(itvs))]
-	minus_itvs_og.append([max(end_time-a,0), end_time])
+	
+	if a !=0:
+		minus_itvs_og.append([max(end_time-a,0), end_time])
 
 	#removing (0,0) itvs
 	minus_itvs = [(i,j) for (i,j) in minus_itvs_og if j!=0]
@@ -210,4 +214,4 @@ def compute_not_itvs(itvs, end_time):
 
 
 #print(compute_G_itvs([(1,5)],1, 2, 10))
-#print(compute_F_itvs([],2,3,10))
+#print(compute_F_itvs([(0,1), (2,6)],0,1,7))
