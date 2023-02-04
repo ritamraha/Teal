@@ -63,7 +63,9 @@ class Signal:
 		return str(self)==str(other)
 
 
+	def __len__(self):
 
+		return len(self.sequence)
 
 class binarySignal:
 	'''

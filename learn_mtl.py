@@ -30,7 +30,9 @@ class learnMTL:
 		self.fr_bound = fr_bound
 		#print(self.signal_sample.positive[0])
 		self.compute_prop_intervals()
-		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound}
+		self.sample_size = (len(self.signal_sample.positive)+len(self.signal_sample.negative))\
+																*len(self.signal_sample.positive[0])
+		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound, 'Sample size': self.sample_size}
 
 		#print(self.prop_itvs)
 		#self.fr_bound = 4
@@ -42,7 +44,8 @@ class learnMTL:
 		timepoints = [sp.time for sp in self.signal_sample.positive[0].sequence]
 		self.prop_itvs = {}
 		self.max_prop_intervals=0
-		
+		itv = ()
+
 		for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
 			self.prop_itvs[signal_id] = {}
 			for p in self.props:	
@@ -187,7 +190,7 @@ class learnMTL:
 				t1 = time.time()-t0
 				total_running_time += t1
 				print('Total time', t1, ';Solving Time', solving_time)
-				self.info_dict.update({'Formula': formula_str, 'Correct?': ver, \
+				self.info_dict.update({'Formula': formula_str, 'Formula Size': formula_size, 'Correct?': ver, \
 							'Total Time': total_running_time, 'Solving Time': total_solving_time,})
 				break
 			
@@ -202,15 +205,17 @@ class learnMTL:
 
 	def check_consistency(self, formula):
 
+		self.info_dict.update({'Wrong': ''})
 		for signal_id in range(len(self.signal_sample.positive)):
 			
 			if not sat_check(self.prop_itvs[signal_id], formula, self.end_time):
-				
+				self.info_dict.update({'Wrong': signal_id})
 				print('Formula is wrong!!!')
 				return False
 
 		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
 			if sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+				self.info_dict.update({'Wrong': signal_id})
 				print('Formula is wrong!!!')
 				return False
 		
@@ -271,7 +276,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-run_test('small_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal', 200, 3)
+run_test('First_benchmarks/signalsFiles/f:09-nw:005-ml:04-0.signal', 200, 2)
 
 '''
 #return #the predicates

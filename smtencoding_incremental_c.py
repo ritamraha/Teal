@@ -24,7 +24,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = max_prop_intervals
+		self.max_intervals = max_prop_intervals+2
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
 		self.monitoring= monitoring
