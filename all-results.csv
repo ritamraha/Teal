@@ -1,0 +1,129 @@
+file_name,Fr bound,Formula,Correct?,Total Time,Solving Time,Timeout
+First_benchmarks/signalsFiles/f:08-nw:005-ml:06-0.signal,4,"G(F[0.0,2.875]p)",True,0.6911945343017578,0.08481860160827637,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal,2,Gp,True,0.055708885192871094,0.0008342266082763672,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:06-0.signal,3,"G(F[0.0,2.875]p)",True,0.6685764789581299,0.07429003715515137,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:06-0.signal,1,,,,,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:04-0.signal,1,G((!p) | q),True,9.622220039367676,4.2824671268463135,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:04-0.signal,3,"G(F[0.0,2.125]p)",True,1.3452317714691162,0.17393088340759277,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:06-0.signal,1,"G(F[0.0,1.0]p)",True,2.7902801036834717,0.8064906597137451,5400
+First_benchmarks/signalsFiles/f:03-nw:005-ml:06-0.signal,3,"G(q | (F[3.0,3.0](G[0.0,0.0]q)))",False,38.75584626197815,28.794387340545654,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:04-0.signal,2,"G(F[0.0,1.875](G[0.0,0.125]q))",False,3.6494646072387695,1.5744569301605225,5400
+First_benchmarks/signalsFiles/f:03-nw:005-ml:06-0.signal,4,"G(F[0.0,2.075](G[0.95,0.975](q & q)))",False,81.89017534255981,72.01904821395874,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:04-0.signal,4,"G(F[0.0,2.125]p)",True,1.4428441524505615,0.21166658401489258,5400
+First_benchmarks/signalsFiles/f:06-nw:010-ml:06-0.signal,4,"G(F[0.13333333333333333,3.525]((G[0.08333333333333333,0.475]q) & (G[0.08333333333333333,0.475]q)))",False,250.0713608264923,230.6659197807312,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:04-0.signal,1,Gp,True,0.09270262718200684,0.0009305477142333984,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:06-0.signal,2,"G(F[0.0,0.08333333333333333](q | (!(G[0.08333333333333333,0.08333333333333333]q))))",False,681.6095345020294,662.5803399085999,5400
+First_benchmarks/signalsFiles/f:06-nw:010-ml:06-0.signal,3,"G((!p) | (F[0.0,2.0416666666666665]q))",True,865.9568934440613,827.1131746768951,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:04-0.signal,2,"G((G[0.9166666666666666,0.9166666666666666]q) | (!p))",True,86.50365424156189,63.18676471710205,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:06-0.signal,2,"G(F[0.0,1.8333333333333333]p)",True,1.1957275867462158,0.1922774314880371,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:04-0.signal,1,"G(F[0.0,1.0](q & q))",False,7.201690912246704,3.1443567276000977,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:06-0.signal,1,G(q | (!p)),True,17.894152879714966,8.561050653457642,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:06-0.signal,2,G(q | (!p)),True,18.01376748085022,8.54858684539795,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:04-0.signal,2,"G(F[0.0,1.1666666666666667]p)",True,1.3315410614013672,0.22591733932495117,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:06-0.signal,1,Gp,True,0.05613589286804199,0.0007910728454589844,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:04-0.signal,2,"G(F[0.0,2.0](G[0.0,0.0](!p)))",False,50.864970684051514,40.39252257347107,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:06-0.signal,2,G(q | (!p)),True,81.48735785484314,60.82559418678284,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:06-0.signal,4,"G(F[0.0,3.9375]p)",True,1.2239372730255127,0.22558236122131348,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:06-0.signal,1,G((!p) | q),True,73.00139546394348,53.03774547576904,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:06-0.signal,3,"G(F[0.0,2.0]p)",True,1.2279987335205078,0.2511789798736572,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:04-0.signal,1,"G(F[0.0,1.0]p)",True,0.6773416996002197,0.05531454086303711,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:06-0.signal,2,Gp,True,0.12437939643859863,0.0012364387512207031,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:04-0.signal,3,"G(F[0.0,3.0]p)",True,1.2931478023529053,0.17835450172424316,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:04-0.signal,1,"G((!p) | (G[0.08333333333333333,0.08333333333333333](!p)))",False,14.863682746887207,9.59416127204895,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:04-0.signal,4,"G(F[0.0,3.1666666666666665]p)",True,1.4099369049072266,0.22155141830444336,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:06-0.signal,4,"G(F[0.0,1.8333333333333333]p)",True,1.295119047164917,0.2274770736694336,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:04-0.signal,4,"G(F[0.041666666666666664,3.0694444444444446]((G[0.9305555555555556,0.9305555555555556]q) & (G[0.9305555555555556,0.9305555555555556]q)))",False,43.475839376449585,32.68164873123169,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:04-0.signal,3,"G((!p) | (G[0.0625,0.125]q))",True,94.59549117088318,72.62945938110352,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:04-0.signal,1,"G((G[0.0,0.0](p & p)) | (G[0.0,0.0](p & p)))",False,17.310043811798096,11.879501104354858,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:06-0.signal,3,"G(F[0.0,1.1666666666666667]p)",True,1.2659964561462402,0.21979880332946777,5400
+First_benchmarks/signalsFiles/f:03-nw:010-ml:06-0.signal,1,"G((!p) | (F[0.0,1.0]q))",True,584.8173055648804,547.382328748703,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:06-0.signal,1,"G((G[0.875,0.96875]p) | (G[0.09375,0.9375]p))",False,36.39880561828613,25.752697229385376,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:06-0.signal,3,"G(q | (G[0.125,0.125](F[0.08333333333333333,2.875]q)))",False,143.358811378479,133.51359462738037,5400
+First_benchmarks/signalsFiles/f:06-nw:010-ml:06-0.signal,2,"G((!p) | (F[0.0,1.0]q))",True,397.95676827430725,358.11681389808655,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:06-0.signal,4,"G((F[0.39285714285714285,2.9285714285714284]q) | (G[0.5357142857142857,0.5357142857142857](F[0.39285714285714285,2.9285714285714284]q)))",False,144.890362739563,135.35459446907043,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:04-0.signal,3,"G(F[0.125,1.125](G[0.0625,0.0625]q))",False,4.221025705337524,2.135697603225708,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:04-0.signal,2,"G(F[0.0,2.0]p)",True,1.355926513671875,0.19177865982055664,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:04-0.signal,4,"G(F[0.0,1.0833333333333333](G[0.0,0.0]q))",False,3.808661699295044,1.6296520233154297,5400
+First_benchmarks/signalsFiles/f:03-nw:005-ml:06-0.signal,2,"G(F[0.041666666666666664,1.1111111111111112](G[0.027777777777777776,0.027777777777777776](G[0.027777777777777776,0.027777777777777776]q)))",False,118.41242623329163,108.39828777313232,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:06-0.signal,2,"G(F[0.0,2.0]p)",True,0.682086706161499,0.07842636108398438,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal,3,Gp,True,0.05533766746520996,0.0006270408630371094,5400
+First_benchmarks/signalsFiles/f:06-nw:005-ml:06-0.signal,1,"G((F[0.0,1.0]q) | (!p))",True,145.47983479499817,125.9935233592987,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal,4,Gp,True,0.05646252632141113,0.0008807182312011719,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:06-0.signal,4,Gp,True,0.12384033203125,0.0020902156829833984,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:04-0.signal,2,"G(F[0.0,1.9375](G[0.0625,0.0625](!q)))",False,44.84811806678772,34.235790967941284,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:06-0.signal,3,Gp,True,0.12122559547424316,0.0015716552734375,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:06-0.signal,2,"G(F[0.0,2.0]p)",True,1.2226016521453857,0.215501070022583,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:06-0.signal,4,G((!p) | q),True,77.54577660560608,57.18754315376282,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:06-0.signal,3,G(q | (!p)),True,110.74137258529663,90.46895408630371,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:04-0.signal,4,"G(q | (F[1.0,3.125]q))",True,8.569133520126343,4.007809638977051,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:04-0.signal,1,"G(F[0.0,1.0](G[0.0,0.0](!q)))",False,15.502797603607178,10.50493049621582,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:04-0.signal,3,"G(q | (F[1.0,3.0]q))",True,8.558411836624146,4.27932071685791,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:06-0.signal,3,G(q | (!p)),True,26.33085346221924,16.15664577484131,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:06-0.signal,1,,,,,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:04-0.signal,3,"G(F[0.0,1.1666666666666667]p)",True,1.4833738803863525,0.2616250514984131,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:04-0.signal,4,"G(F[0.0,1.1666666666666667]p)",True,1.5527219772338867,0.28023624420166016,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:06-0.signal,4,G((!p) | q),True,17.91139578819275,8.51710319519043,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:04-0.signal,1,"G(F[0.0,1.0](G[0.0,0.0](p & p)))",False,35.649232625961304,25.05033016204834,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:04-0.signal,3,"G(q | (F[1.0,3.0]q))",True,3.14884090423584,0.9724431037902832,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:04-0.signal,4,"G(q | (F[1.0,3.125]q))",True,2.978835344314575,0.822453498840332,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:04-0.signal,4,"G(F[0.0,1.8333333333333333]p)",True,0.6787586212158203,0.09613633155822754,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:06-0.signal,4,G((!p) | q),True,57.134740591049194,36.88614797592163,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:06-0.signal,3,G(q | (!p)),True,72.06347060203552,52.153706789016724,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:06-0.signal,1,,,,,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:04-0.signal,3,"G(F[0.0,1.0]p)",True,0.6744976043701172,0.07795190811157227,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:04-0.signal,2,"G(F[0.0,2.0]p)",True,0.652280330657959,0.050108909606933594,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:06-0.signal,3,Gp,True,0.054105281829833984,0.0006322860717773438,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:06-0.signal,4,Gp,True,0.06051301956176758,0.0006783008575439453,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:06-0.signal,3,G(q | (!p)),True,16.00492787361145,6.745908260345459,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:06-0.signal,2,"G(F[0.0,2.0]p)",True,2.9070136547088623,0.6477470397949219,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:06-0.signal,4,G(q | (!p)),True,47.568960428237915,37.56393504142761,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:04-0.signal,2,"G(F[0.0,2.0]p)",True,0.644533634185791,0.07092523574829102,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:04-0.signal,4,"G(F[0.9285714285714286,1.9642857142857142](q & q))",False,10.162632465362549,5.7631165981292725,5400
+First_benchmarks/signalsFiles/f:03-nw:010-ml:06-0.signal,2,"G((!p) | (F[0.0,1.8333333333333333]q))",True,529.1820225715637,490.099406003952,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:04-0.signal,3,"G(F[0.09375,1.15625](q & q))",False,8.287983655929565,4.168890953063965,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:04-0.signal,4,Gp,True,0.0920720100402832,0.0008680820465087891,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:06-0.signal,2,"G((G[0.0,0.9]p) | (G[0.95,0.95]p))",False,40.05638098716736,29.1379451751709,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:04-0.signal,3,Gp,True,0.09443449974060059,0.0011169910430908203,5400
+First_benchmarks/signalsFiles/f:06-nw:010-ml:06-0.signal,1,"G((F[0.0,1.0]q) | (!p))",True,456.83847069740295,416.3104815483093,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:04-0.signal,3,G((!p) | q),True,9.08721113204956,4.117092132568359,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:04-0.signal,1,"G(F[0.0,1.0](G[0.0,0.0](p & p)))",False,61.851516246795654,50.68880009651184,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:06-0.signal,3,"G(F[0.0,1.0]p)",True,2.8175301551818848,0.7972555160522461,5400
+First_benchmarks/signalsFiles/f:03-nw:005-ml:06-0.signal,1,"G((!p) | (F[0.0,1.0]q))",True,269.1531894207001,249.97089838981628,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:06-0.signal,4,"G(F[0.0,1.0]p)",True,2.8895161151885986,0.8564507961273193,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:04-0.signal,4,G((!p) | q),True,8.420904159545898,3.434528350830078,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:06-0.signal,4,"G((F[0.0625,3.0625]q) | (!p))",False,736.2439267635345,696.4812145233154,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:06-0.signal,1,"G(p | (G[1.0,1.0]p))",False,3.1018505096435547,0.9381251335144043,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:06-0.signal,3,"G((F[0.0,3.0]q) | (!p))",True,679.8349332809448,641.241818189621,5400
+First_benchmarks/signalsFiles/f:06-nw:005-ml:06-0.signal,2,"G((!p) | (F[0.0,1.0416666666666667]q))",True,191.3169276714325,171.71194529533386,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:06-0.signal,1,G(q | (!p)),True,15.918102741241455,6.340098857879639,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:06-0.signal,3,"G(F[0.0,2.9375]p)",True,2.557326316833496,0.5198245048522949,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:04-0.signal,1,"G(F[0.0,1.0]p)",True,1.7927041053771973,0.24732446670532227,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:06-0.signal,2,G(q | (!p)),True,23.339854955673218,13.686402320861816,5400
+First_benchmarks/signalsFiles/f:05-nw:010-ml:06-0.signal,4,"G(F[0.0,3.125]p)",True,2.9306082725524902,0.8696088790893555,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:04-0.signal,4,"G(F[0.0,3.0625]p)",True,0.6807436943054199,0.047861337661743164,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:06-0.signal,2,Gp,True,0.059485673904418945,0.0006582736968994141,5400
+First_benchmarks/signalsFiles/f:08-nw:005-ml:04-0.signal,3,"G(F[0.0,3.0]p)",True,0.6395263671875,0.0677177906036377,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:04-0.signal,1,"G((G[0.0,0.0](q & q)) | (F[1.0,1.0]q))",False,183.86647868156433,162.2922899723053,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:06-0.signal,2,G((!p) | q),True,54.5753915309906,35.2351496219635,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:04-0.signal,2,"G(F[0.0,1.0]p)",True,0.6302497386932373,0.06740713119506836,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:06-0.signal,1,G(q | (!p)),True,63.38180756568909,44.00432991981506,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:06-0.signal,1,Gp,True,0.12615299224853516,0.0013358592987060547,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:04-0.signal,2,"G(F[1.075,2.0](p & p))",False,3.172178268432617,1.0579795837402344,5400
+First_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal,1,Gp,True,0.0554652214050293,0.0007410049438476562,5400
+First_benchmarks/signalsFiles/f:09-nw:010-ml:06-0.signal,2,,,,,5400
+First_benchmarks/signalsFiles/f:06-nw:005-ml:06-0.signal,3,"G(q | (F[1.55,2.475](G[0.525,0.525]q)))",False,96.54329752922058,86.81833863258362,5400
+First_benchmarks/signalsFiles/f:06-nw:005-ml:06-0.signal,4,"G((G[0.8653846153846154,0.9038461538461539]q) | (F[2.0576923076923075,3.0961538461538463](G[0.8653846153846154,0.9038461538461539]q)))",False,97.30350589752197,87.69822907447815,5400
+First_benchmarks/signalsFiles/f:10-nw:005-ml:04-0.signal,1,"G(F[0.125,1.0](G[0.0,0.0]q))",False,3.6618568897247314,1.495565414428711,5400
+First_benchmarks/signalsFiles/f:04-nw:005-ml:04-0.signal,2,G(q | (!p)),True,8.3983314037323,3.0184214115142822,5400
+First_benchmarks/signalsFiles/f:02-nw:010-ml:06-0.signal,2,"G(F[0.0,1.0833333333333333]p)",True,3.1576719284057617,1.055750846862793,5400
+First_benchmarks/signalsFiles/f:01-nw:010-ml:04-0.signal,2,Gp,True,0.09348368644714355,0.0009496212005615234,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:06-0.signal,3,"G(F[0.0,3.0]p)",True,1.4178059101104736,0.2520730495452881,5400
+First_benchmarks/signalsFiles/f:09-nw:005-ml:06-0.signal,1,"G(F[0.0,0.875](q | (!(F[0.125,0.125]q))))",False,237.03290462493896,217.9200155735016,5400
+First_benchmarks/signalsFiles/f:08-nw:010-ml:06-0.signal,4,"G(F[0.0,3.125]p)",True,1.4082310199737549,0.2498631477355957,5400
+First_benchmarks/signalsFiles/f:10-nw:010-ml:04-0.signal,2,"G(F[1.8571428571428572,2.0](q & q))",False,7.257331609725952,3.0606601238250732,5400
+First_benchmarks/signalsFiles/f:03-nw:010-ml:06-0.signal,4,"G(F[0.10416666666666667,3.9375]((G[0.041666666666666664,0.0625]q) & (G[0.041666666666666664,0.0625]q)))",False,307.13595700263977,286.2620482444763,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:04-0.signal,4,"G(F[0.0,2.25]p)",True,0.7103657722473145,0.09699368476867676,5400
+First_benchmarks/signalsFiles/f:04-nw:010-ml:04-0.signal,1,"G((G[0.0625,0.9375]q) | (!p))",True,128.79840326309204,107.14276671409607,5400
+First_benchmarks/signalsFiles/f:05-nw:005-ml:04-0.signal,3,"G(F[0.0,2.75]p)",True,0.6745815277099609,0.09616494178771973,5400
+First_benchmarks/signalsFiles/f:02-nw:005-ml:06-0.signal,1,"G(F[0.0,1.0]p)",True,1.2266509532928467,0.1967020034790039,5400
+First_benchmarks/signalsFiles/f:03-nw:010-ml:06-0.signal,3,"G((F[0.0,1.0833333333333333]q) | (!p))",True,899.8783864974976,855.6377825737,5400
