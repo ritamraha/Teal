@@ -31,7 +31,7 @@ class multiprocess:
 		q.empty()
 
 		for file in self.signal_list:
-			for fr_bound in [1,2,3,4]:
+			for fr_bound in [2]:
 				q.enqueue(run_test, args=(file,self.timeout, fr_bound),\
 									job_timeout=self.timeout)
 				

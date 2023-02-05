@@ -30,9 +30,10 @@ class learnMTL:
 		self.fr_bound = fr_bound
 		#print(self.signal_sample.positive[0])
 		self.compute_prop_intervals()
-		self.sample_size = (len(self.signal_sample.positive)+len(self.signal_sample.negative))\
-																*len(self.signal_sample.positive[0])
-		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound, 'Sample size': self.sample_size}
+		self.sample_number = (len(self.signal_sample.positive)+len(self.signal_sample.negative))
+		self.sample_lengths =  len(self.signal_sample.positive[0])
+		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound,\
+							 'Number of examples': self.sample_number, 'Example length': self.sample_lengths}
 
 		#print(self.prop_itvs)
 		#self.fr_bound = 4
@@ -191,7 +192,7 @@ class learnMTL:
 				total_running_time += t1
 				print('Total time', t1, ';Solving Time', solving_time)
 				self.info_dict.update({'Formula': formula_str, 'Formula Size': formula_size, 'Correct?': ver, \
-							'Total Time': total_running_time, 'Solving Time': total_solving_time,})
+							'Total Time': total_running_time, 'Solving Time': total_solving_time})
 				break
 			
 			else:
@@ -226,7 +227,6 @@ class learnMTL:
 
 		for signal_id in range(len(self.signal_sample.positive)):
 			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
-				print('ekahne', self.prop_itvs[signal_id])
 				print('Formula is wrong!!!')
 				return False
 
@@ -263,6 +263,8 @@ def main():
 def run_test(file_name, timeout=5400, fr_bound=3):
 
 	learner = learnMTL(signalfile=file_name, monitoring=True, fr_bound=fr_bound)
+	
+
 	info_dict = learner.search_incremental()
 	info_dict.update({'Timeout': timeout})
 
@@ -276,7 +278,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-run_test('First_benchmarks/signalsFiles/f:09-nw:005-ml:04-0.signal', 200, 2)
+run_test('dummy.signal', 200, 0)
 
 '''
 #return #the predicates

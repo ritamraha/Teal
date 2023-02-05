@@ -1,8 +1,8 @@
 #!/bin/bash
 
-folder="small_benchmarks" #specify the folder on which to run on
-num_workers=2 #specify the number of cores to be used
-time_out=200 #specify the timeout for the tools
+folder="Third_benchmarks" #specify the folder on which to run on
+num_workers=48 #specify the number of cores to be used
+time_out=3600 #specify the timeout for the tools
 
 wait_time=2 #wait time for letting compilation happen without interruption
 
@@ -32,7 +32,7 @@ do
 	read -a strarr1 <<< $worker_status
 	remaining_workers=${strarr1[0]}
 	
-	queue_status=$(rq info -Q -r compareMethods &)
+	queue_status=$(rq info -Q -r runMTL &)
 	read -a strarr2 <<< $queue_status
 	remaining_in_queue=${strarr2[2]}
 
