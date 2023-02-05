@@ -11,7 +11,7 @@ from monitoring import *
 from smtencoding_incremental_c import *
 #from pysmt.shortcuts import is_sat, get_model, Solver
 #from six.moves import cStringIO
-from pysmt.smtlib.parser import SmtLibParser
+#from pysmt.smtlib.parser import SmtLibParser
 
 class learnMTL:
 
@@ -278,7 +278,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-run_test('dummy.signal', 200, 0)
+#run_test('dummy.signal', 200, 0)
 
 '''
 #return #the predicates
