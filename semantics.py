@@ -263,6 +263,9 @@ def U_itv(itvs1, itvs2, U_itvs, a, b, i, signal_id, num_itv1, num_itv2, new_num_
 	and_itvs = {t:(Real('and_itv_%d_%d_%d_0'%(i, signal_id, t)), Real('and_itv_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs1))}
 	and_num_itvs = Int('and_num_itv_%d_%d'%(i, signal_id))
 
+	d = Bool('end_check')
+	last_t = Real('last_t')
+
 	minus_U_itvs = {t:(Real('minus_U_itv_%d_%d_%d_0'%(i, signal_id, t)), Real('minus_U_itv_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs1))}
 	minus_U_num_itvs = Int('minus_U_num_itv_%d_%d'%(i, signal_id))
 
@@ -270,28 +273,38 @@ def U_itv(itvs1, itvs2, U_itvs, a, b, i, signal_id, num_itv1, num_itv2, new_num_
 
 	cons2 = ensureProperIntervals(and_itvs, and_num_itvs,  end_time)
 
-	cons3 = minus_U_num_itvs==and_num_itvs
+	cons3 = minus_U_num_itvs==(and_num_itvs+1)
 
-	consn = And([And(minus_U_itvs[t][0]==U_itvs[t][0],minus_U_itvs[t][1]==U_itvs[t][1]) for t in range(max_int)])
+	#consn = And([And(minus_U_itvs[t][0]==U_itvs[t][0],minus_U_itvs[t][1]==U_itvs[t][1]) for t in range(max_int)])
+	#consnt = new_num_itv==minus_U_num_itvs
 
-	cons = And([cons1, cons2, cons3, consn])
+	cons = And([cons1, cons2, cons3])
 	
 	
 	for t in range(max_int):
 
-		cons4 = And([Implies(And(itvs1[t1][0]<=and_itvs[t][0], and_itvs[t][1]<=itvs1[t1][1]), \
+		cons4 = Implies(t<and_num_itvs, And([And(Implies(And(itvs1[t1][0]<=and_itvs[t][0], and_itvs[t][1]<=itvs1[t1][1]), \
 							If(and_itvs[t][1]-a > itvs1[t][0], 
 								And(minus_U_itvs[t][0]==If(and_itvs[t][0]-b > itvs1[t1][0], and_itvs[t][0]-b, itvs1[t1][0]),minus_U_itvs[t][1]==and_itvs[t][1]-a),\
-								And(minus_U_itvs[t][0]==end_time,minus_U_itvs[t][1]==end_time)) \
-							  ) for t1 in range(max_int)])
-		
-		
-		cons = And([cons, cons4])
+								And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time)) \
+							  ),\
+							Implies(t1==num_itv1-1, And(last_t==itvs1[t1][0],And(itvs1[t1][0]<end_time, itvs1[t1][1]==end_time)==d)))\
+							   for t1 in range(max_int)]))
+
+		cons5 = Implies(t==and_num_itvs, \
+							If(d, And(minus_U_itvs[t][0]==If(end_time-b>last_t,end_time-b,last_t), minus_U_itvs[t][1]==end_time),\
+									And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time)))
+
+		cons6 = Implies(t>and_num_itvs,And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time))
+
+
+		cons = And([cons, cons4, cons5, cons6])
 	
-	cons5 = union_itv(minus_U_itvs, U_itvs, minus_U_num_itvs, new_num_itv, end_time)
 
-	cons = And(cons, cons5)
+	cons7 = union_itv(minus_U_itvs, U_itvs, minus_U_num_itvs, new_num_itv, end_time)
 
+	cons = And(cons, cons7)
+	
 	return cons
 
 
@@ -310,10 +323,10 @@ def checking():
 		prop_itvs = compute_prop_intervals(signal, ['p','q'], {'p':0,'q':1}, 10.0)
 		#print(prop_itvs)
 		#actual_itv1 = prop_itvs['q'] + [(10.0,10.0)]*(6-len(prop_itvs['q']))
-		actual_itv1 = [(1,2),(5,7),(10,10),(10,10)]
+		actual_itv1 = [(1,2),(5,7),(9,10),(10,10),(10,10)]
 		#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
 		#nitv = compute_not_itvs(prop_itvs['p'], 10.0)
-		actual_itv2 = [(0,4),(6,10),(10,10),(10,10)]
+		actual_itv2 = [(0,4),(6,10),(10,10),(10,10),(10,10)]
 
 
 		#[(13,14), (15.1,15.6), (7,15), (16,20)]
@@ -332,10 +345,11 @@ def checking():
 
 		s = Solver()
 		#s.add(itv_new[0][1] == 5)
-		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==2, a==0.0, b==2.0]))#0.0625,1.9375
+		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==3, a==1, b==1]))#0.0625,1.9375
 		s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==2]))
 
-		#s.add(ensureProperIntervals(itv_new, new_num_itv, 10))
+		
+		s.add(ensureProperIntervals(itv_new, new_num_itv, 10))
 		#s.add(minus_G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		s.add(U_itv(itv1, itv2, itv_new, a, b, 0, 0, num_itv1, num_itv2, new_num_itv, 10))
 		#s.add(G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
