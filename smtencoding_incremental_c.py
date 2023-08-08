@@ -8,8 +8,8 @@ class SMTEncoding_incr:
 
 	def __init__(self, sample, prop, max_prop_intervals, prop_itvs, end_time, monitoring): 
 		
-		unary = ['!', 'G', 'F']
-		binary = ['&', '|']
+		unary = ['!', 'F', 'G']
+		binary = ['&', '|', 'U']
 		defaultOperators = unary + binary
 		
 		self.unaryOperators = unary
@@ -145,7 +145,19 @@ class SMTEncoding_incr:
 													   for onlyArg in range(i)\
 													   ])\
 												   ))
-			
+		
+		if 'U' in self.listOfOperators:
+			#conjunction
+			self.solver.add(Implies(self.x[(i, 'U')],\
+												And([ Implies(\
+															   And(\
+																   [self.l[i, leftArg], self.r[i, rightArg]]\
+																   ),\
+															   		self.fr[i] == \
+															   		If(self.fr[leftArg]>self.fr[rightArg], self.fr[leftArg]+self.b[i], self.fr[rightArg]+self.b[i])\
+															   )\
+															  for leftArg in range(i) for rightArg in range(i) ])))
+
 		if '&' in self.listOfOperators:
 			#conjunction
 			self.solver.add(Implies(self.x[(i, '&')],\
@@ -222,7 +234,13 @@ class SMTEncoding_incr:
 		if 'F' in self.listOfOperators:				  
 			#finally				
 			self.solver.add(Implies(self.x[(i, 'F')], And(And(self.a[i]>=0,self.a[i] <= self.b[i]))))
+
+		if 'U' in self.listOfOperators:				  
+			#until				
+			self.solver.add(Implies(self.x[(i, 'U')], And(And(self.a[i]>=0,self.a[i] <= self.b[i]))))
 			
+			#self.solver.add(Implies(self.x[(i, 'F')], And(And(self.a[i]==0,3 == self.b[i]))))
+
 
 	def firstOperatorProposition(self, formula_size):
 		
@@ -416,6 +434,22 @@ class SMTEncoding_incr:
 																		   [self.l[i, leftArg], self.r[i, rightArg]]\
 																		   ),\
 																	   	and_itv(self.itvs[(leftArg,signal_id)], self.itvs[(rightArg,signal_id)],\
+																	   			 self.itvs[(i,signal_id)], i, signal_id,\
+																	   			 self.num_itvs[(leftArg,signal_id)],self.num_itvs[(rightArg,signal_id)],\
+																	   			  self.num_itvs[(i,signal_id)],self.end_time)\
+																	   )\
+																	  for leftArg in range(i) for rightArg in range(i) ])))
+				
+
+			if 'U' in self.listOfOperators:
+				#conjunction
+				#print(i,signal_id)
+				self.solver.add(Implies(self.x[(i, 'U')],\
+														And([ Implies(\
+																	   And(\
+																		   [self.l[i, leftArg], self.r[i, rightArg]]\
+																		   ),\
+																	   	U_itv(self.itvs[(leftArg,signal_id)], self.itvs[(rightArg,signal_id)],\
 																	   			 self.itvs[(i,signal_id)], i, signal_id,\
 																	   			 self.num_itvs[(leftArg,signal_id)],self.num_itvs[(rightArg,signal_id)],\
 																	   			  self.num_itvs[(i,signal_id)],self.end_time)\

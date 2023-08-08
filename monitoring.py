@@ -128,8 +128,8 @@ def compute_F_itvs(itvs, a, b, end_time):
 	#print(type(itvs[0][0]),type(a))
 	minus_itvs_og = [(max(itvs[i][0]-b,0),max(itvs[i][1]-a,0)) for i in range(len(itvs))]
 	
-	if a !=0:
-		minus_itvs_og.append([max(end_time-a,0), end_time])
+	if b !=0:
+		minus_itvs_og.append([max(end_time-b,0), end_time])
 
 	#removing (0,0) itvs
 	minus_itvs = [(i,j) for (i,j) in minus_itvs_og if j!=0]

@@ -237,7 +237,7 @@ class Sample:
 		prop2num = {propositions[i]:i for i in range(len(propositions))}
 
 		num_iterations = 0
-		iteration_bound = 10**5
+		iteration_bound = 10**6
 		#false_count = 0
 		total_false_count = 0
 		signal_list = []

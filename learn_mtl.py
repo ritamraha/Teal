@@ -263,22 +263,27 @@ def main():
 def run_test(file_name, timeout=5400, fr_bound=3):
 
 	learner = learnMTL(signalfile=file_name, monitoring=True, fr_bound=fr_bound)
-	
+	csvname = file_name.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
+
+	'''	
+	with open(csvname, 'w') as f:
+		writer = csv.DictWriter(f, fieldnames = header)
+		writer.writeheader()
+		writer.writerow(info_dict)
+	'''
 
 	info_dict = learner.search_incremental()
 	info_dict.update({'Timeout': timeout})
 
 	header = list(info_dict.keys())
-	csvname = file_name.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
 	
-
 	with open(csvname, 'w') as f:
 		writer = csv.DictWriter(f, fieldnames = header)
 		writer.writeheader()
 		writer.writerow(info_dict)
 
 
-#run_test('dummy.signal', 200, 0)
+run_test('dummy.signal', 200, 1)
 
 '''
 #return #the predicates
