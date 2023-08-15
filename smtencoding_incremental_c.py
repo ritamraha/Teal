@@ -24,7 +24,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
-		self.max_intervals = max_prop_intervals+2
+		self.max_intervals = 6
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time
 		self.monitoring= monitoring
@@ -88,10 +88,14 @@ class SMTEncoding_incr:
 		# Future Reach constraints
 		self.future_reach_encoding(formula_size)
 		
+		#if formula_size==3:
+		#	self.solver.add(And([self.x[(2,'U')],self.x[(0,'p')],self.x[(1,'q')],self.l[(2,0)],self.r[(2,1)],self.a[2]==0,self.b[2]==1]))
+
 
 		self.solver.push()
 		#for formulas with G
 		#root_G = True
+		
 		if self.monitoring==1:
 
 			for signal_id in range(len(self.sample.positive)):
@@ -109,6 +113,7 @@ class SMTEncoding_incr:
 			for signal_id in range(len(self.sample.positive), len(self.sample.positive+self.sample.negative)):
 				self.solver.add(self.itvs[(formula_size - 1, signal_id)][0][0]>0)
 
+		
 		
 		self.noDanglingPropositions(formula_size)
 		self.solver.add(self.fr[formula_size-1]<=fr_bound)
@@ -204,8 +209,10 @@ class SMTEncoding_incr:
 		i = formula_size - 1
 		for signal_id, signal in enumerate(self.sample.positive+self.sample.negative):
 			
+
 			self.solver.add(And([0<=self.num_itvs[(i,signal_id)], self.num_itvs[(i,signal_id)]<=self.max_intervals,\
 										self.itvs[(i,signal_id)][0][0]>=0]))
+			
 			for t in range(self.max_intervals):
 				
 				self.solver.add(Implies(t<self.num_itvs[(i,signal_id)],self.itvs[(i, signal_id)][t][0]<self.itvs[(i, signal_id)][t][1]))
@@ -357,8 +364,8 @@ class SMTEncoding_incr:
 										Not(Or([self.r[k] for k in self.r if k[0] == i]))))
 
 		
-			self.solver.add(Implies(Or([self.x[(i, op)] for op in self.listOfPropositions]),\
-					Not(Or(Or([self.r[k] for k in self.r if k[0] == i]), Or([self.l[k] for k in self.l if k[0] == i])))))
+			#self.solver.add(Implies(Or([self.x[(i, op)] for op in self.listOfPropositions]),\
+			#		Not(Or(Or([self.r[k] for k in self.r if k[0] == i]), Or([self.l[k] for k in self.l if k[0] == i])))))
 	
 
 	def operatorsSemantics(self, formula_size):
@@ -443,16 +450,17 @@ class SMTEncoding_incr:
 
 			if 'U' in self.listOfOperators:
 				#conjunction
-				#print(i,signal_id)
+				#print('For U', i, signal_id)
+
 				self.solver.add(Implies(self.x[(i, 'U')],\
 														And([ Implies(\
 																	   And(\
 																		   [self.l[i, leftArg], self.r[i, rightArg]]\
 																		   ),\
 																	   	U_itv(self.itvs[(leftArg,signal_id)], self.itvs[(rightArg,signal_id)],\
-																	   			 self.itvs[(i,signal_id)], i, signal_id,\
-																	   			 self.num_itvs[(leftArg,signal_id)],self.num_itvs[(rightArg,signal_id)],\
-																	   			  self.num_itvs[(i,signal_id)],self.end_time)\
+																	   			 self.itvs[(i,signal_id)], self.a[i], self.b[i], i, signal_id,\
+																	   			 self.num_itvs[(leftArg,signal_id)], self.num_itvs[(rightArg,signal_id)],\
+																	   			  self.num_itvs[(i,signal_id)], self.end_time)\
 																	   )\
 																	  for leftArg in range(i) for rightArg in range(i) ])))
 				'''	 

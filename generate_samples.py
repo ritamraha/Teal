@@ -21,7 +21,7 @@ class SampleGenerator:
 		self.signal_lengths = signal_lengths
 		self.output_folder = output_folder
 		self.total_num = total_num
-		self.operators = ['F', 'G', 'X', '!', '&', '|']
+		self.operators = ['U', 'F', 'G', 'X', '!', '&', '|']
 
 		if os.path.exists(self.output_folder):
 			shutil.rmtree(self.output_folder)
@@ -57,6 +57,7 @@ class SampleGenerator:
 
 		generated_files = []
 		with open(self.formula_file, 'r') as file:
+
 			formula_num=0
 			for line in file:
 				
@@ -138,9 +139,9 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-rq2.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
-	parser.add_argument('--size', dest='sample_sizes', default=[(4,4),(6,6),(8,8),(10,10),(12,12),(14,14),(16,16),(18,18),(20,20)], nargs='+', type=tupleList)
+	parser.add_argument('--size', dest='sample_sizes', default=[(10,10)], nargs='+', type=tupleList)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
-	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(8,8),(12,12),(16,16),(20,20)], nargs='+', type=tupleList)
+	parser.add_argument('--lengths', dest='signal_lengths', default=[(8,8)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
 	parser.add_argument('--output_folder', dest='output_folder', default = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
@@ -152,7 +153,7 @@ def main():
 	output_folder = args.output_folder
 	total_num = int(args.total_num)
 	#end_time = float(args.end_time)
-	operators = ['F', 'G', '!', '&', '|']
+	operators = ['U', 'F', 'G', '!', '&', '|']
 
 	generator = SampleGenerator(formula_file=formula_file,
 				sample_sizes=sample_sizes,

@@ -21,7 +21,7 @@ class learnMTL:
 		self.signalfile = signalfile
 		self.signal_sample = Sample()
 		self.signal_sample.readSample(self.signalfile)
-		self.size_bound = 5
+		self.size_bound = 3
 		self.props = self.signal_sample.propositions
 		#print('props', self.props)
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
@@ -121,53 +121,44 @@ class learnMTL:
 		
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time, self.monitoring)
+		
+		#print('Prop itvs', self.prop_itvs, self.max_prop_intervals)
 		total_solving_time = 0
 		total_running_time = 0
-		for formula_size in range(1,6):
+		
+		for formula_size in range(1,4):
 			
 
 			t0 = time.time()
-			print('---------------Searching for formula size %d---------------'%formula_size)
-			encoding.encodeFormula(formula_size, self.fr_bound)
-			#checking = encoding.solver.unsat_core()
-			#with open('enc-dump-%d.smt2'%formula_size, 'w') as f:
 
-			#	smt_file = encoding.solver.sexpr().replace('and and', 'and').replace('and)', 'false)')+'\n(check-sat)'
-				#smt_file= encoding.solver.smtlib2_log
+			print('---------------Searching for formula size %d---------------'%formula_size)
 			
-			#	f.write(smt_file)
+			ct0 = time.time()
+			encoding.encodeFormula(formula_size, self.fr_bound)
+			ct1 = time.time() - ct0
 			
-			
-			print('Constraint creation done, now solving')
+			print('Constraint Creation Done, took %.3f secs'%ct1)
 			#print(encoding.solver)
+			
 			solving_time = time.time()
 			solverRes = encoding.solver.check()
 			print('The solver found', solverRes)
 			solving_time = time.time() - solving_time
 			total_solving_time += solving_time
-			#p0=time.time()
-			#parser = SmtLibParser()
-			#script = parser.get_script(cStringIO(smt_file))
-			#f= script.get_last_formula()
-			
-
-			#name = "msat"
-			#with Solver(name=name) as s:
-  			#	print(s.is_sat(f)) # True
-			#p1=time.time()
-			#print('pysmt time'+ str(p1-p0))
 
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
-				'''
-				for i in range(formula_size):
-					print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
-					for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-						print('Signal', signal_id)
-						for t in range(encoding.max_intervals):
-							print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
-						print(solverModel[encoding.num_itvs[(i,signal_id)]])
-				'''
+				
+				
+				# for i in range(formula_size):
+				# 	print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
+					
+				# 	for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+				# 		print('Signal', signal_id)
+				# 		for t in range(encoding.max_intervals):
+				# 			print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
+				# 		print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				
 				#for i in range(encoding.max_intervals):
 				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
 
@@ -190,7 +181,7 @@ class learnMTL:
 
 				t1 = time.time()-t0
 				total_running_time += t1
-				print('Total time', t1, ';Solving Time', solving_time)
+				print('Total time', round(t1,3), '; Solving Time', round(solving_time,3))
 				self.info_dict.update({'Formula': formula_str, 'Formula Size': formula_size, 'Correct?': ver, \
 							'Total Time': total_running_time, 'Solving Time': total_solving_time})
 				break
@@ -199,7 +190,12 @@ class learnMTL:
 				encoding.solver.pop()
 				t1 = time.time()-t0
 				total_running_time += t1
-				print('Total time', t1, ';Solving Time', solving_time)
+				print('Total time', round(t1,3), '; Solving Time', round(solving_time,3))
+			
+			
+			#t1 = time.time()-t0
+			#total_running_time += t1
+			#print('Total time', round(t1,3))
 
 		return self.info_dict
 

@@ -260,44 +260,57 @@ def U_itv(itvs1, itvs2, U_itvs, a, b, i, signal_id, num_itv1, num_itv2, new_num_
 
 	max_int = len(itvs1)
 
-	and_itvs = {t:(Real('and_itv_%d_%d_%d_0'%(i, signal_id, t)), Real('and_itv_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs1))}
-	and_num_itvs = Int('and_num_itv_%d_%d'%(i, signal_id))
+	and_itvs = {t:(Real('and_U_itv_%d_%d_%d_0'%(i, signal_id, t)), Real('and_U_itv_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs1))}
+	and_num_itvs = Int('and_U_num_itv_%d_%d'%(i, signal_id))
 
-	d = Bool('end_check')
-	last_t = Real('last_t')
+	d = Bool('end_check_%d_%d'%(i, signal_id))
+	last_t = Real('last_t_%d_%d'%(i, signal_id))
 
 	minus_U_itvs = {t:(Real('minus_U_itv_%d_%d_%d_0'%(i, signal_id, t)), Real('minus_U_itv_%d_%d_%d_1'%(i, signal_id, t))) for t in range(len(itvs1))}
 	minus_U_num_itvs = Int('minus_U_num_itv_%d_%d'%(i, signal_id))
 
 	cons1 = and_itv(itvs1, itvs2, and_itvs, i, signal_id, num_itv1, num_itv2, and_num_itvs, end_time)
 
-	cons2 = ensureProperIntervals(and_itvs, and_num_itvs,  end_time)
+	cons2 = ensureProperIntervals(and_itvs, and_num_itvs, end_time)
 
 	cons3 = minus_U_num_itvs==(and_num_itvs+1)
 
-	#consn = And([And(minus_U_itvs[t][0]==U_itvs[t][0],minus_U_itvs[t][1]==U_itvs[t][1]) for t in range(max_int)])
-	#consnt = new_num_itv==minus_U_num_itvs
-
 	cons = And([cons1, cons2, cons3])
+
+	#if signal_id==4 and i==2:
+
+		#consn = And([And(minus_U_itvs[t][0]==U_itvs[t][0],minus_U_itvs[t][1]==U_itvs[t][1]) for t in range(max_int)])
+		#consnt = new_num_itv==minus_U_num_itvs
+	#	print('this')
+	#	consn = And([And(and_itvs[t][0]==U_itvs[t][0],and_itvs[t][1]==U_itvs[t][1]) for t in range(max_int)])
+	#	consnt = new_num_itv==and_num_itvs
+
+	#	cons = And([cons, consn, consnt])
+
+		#return cons
 	
+	
+	#print('baire', signal_id)
+
+
 	
 	for t in range(max_int):
-
+		
 		cons4 = Implies(t<and_num_itvs, And([And(Implies(And(itvs1[t1][0]<=and_itvs[t][0], and_itvs[t][1]<=itvs1[t1][1]), \
-							If(and_itvs[t][1]-a > itvs1[t][0], 
-								And(minus_U_itvs[t][0]==If(and_itvs[t][0]-b > itvs1[t1][0], and_itvs[t][0]-b, itvs1[t1][0]),minus_U_itvs[t][1]==and_itvs[t][1]-a),\
-								And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time)) \
-							  ),\
-							Implies(t1==num_itv1-1, And(last_t==itvs1[t1][0],And(itvs1[t1][0]<end_time, itvs1[t1][1]==end_time)==d)))\
-							   for t1 in range(max_int)]))
-
+								If(and_itvs[t][1]-a > itvs1[t1][0],
+									And(minus_U_itvs[t][0]==If(and_itvs[t][0]-b > itvs1[t1][0], and_itvs[t][0]-b, itvs1[t1][0]),minus_U_itvs[t][1]==and_itvs[t][1]-a),\
+									And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time)) \
+								  ),\
+								Implies(t1==num_itv1-1, And(last_t==itvs1[t1][0],And(itvs1[t1][0]<end_time, itvs1[t1][1]==end_time)==d)))\
+								   for t1 in range(max_int)]))
+		
 		cons5 = Implies(t==and_num_itvs, \
-							If(d, And(minus_U_itvs[t][0]==If(end_time-b>last_t,end_time-b,last_t), minus_U_itvs[t][1]==end_time),\
+							If(And(d,not(and_num_itvs==0)), And(minus_U_itvs[t][0]==If(end_time-b>last_t,end_time-b,last_t), minus_U_itvs[t][1]==end_time),\
 									And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time)))
 
 		cons6 = Implies(t>and_num_itvs,And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time))
-
-
+		
+		
 		cons = And([cons, cons4, cons5, cons6])
 	
 
@@ -316,19 +329,22 @@ def checking():
 	#actual_itv1 = [(0,6),(8,12),(16,17),(20,20)]
 	#actual_itv1 = [(0, 1),(3, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5)]
 	#actual_itv1 = [(2, 7),(8, 19),(20, 20),(20, 20)]
-	
+	end_time = 8
 	s = Sample()
 	s.readSample('./dummy.signal')
-	for signal in s.positive:	
-		prop_itvs = compute_prop_intervals(signal, ['p','q'], {'p':0,'q':1}, 10.0)
+	for signal_id, signal in enumerate(s.positive+s.negative):
+
+		prop_itvs = compute_prop_intervals(signal, ['p','q'], {'p':0,'q':1}, end_time)
 		#print(prop_itvs)
 		#actual_itv1 = prop_itvs['q'] + [(10.0,10.0)]*(6-len(prop_itvs['q']))
-		actual_itv1 = [(1,2),(5,7),(9,10),(10,10),(10,10)]
+		actual_itv1 = prop_itvs['p'] + [(end_time,end_time)]*(6-len(prop_itvs['p']))
 		#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
 		#nitv = compute_not_itvs(prop_itvs['p'], 10.0)
-		actual_itv2 = [(0,4),(6,10),(10,10),(10,10),(10,10)]
+		actual_itv2 = prop_itvs['q'] + [(end_time,end_time)]*(6-len(prop_itvs['q']))
 
-
+		print('#######Signal', signal_id)
+		print(actual_itv1)
+		print(actual_itv2)
 		#[(13,14), (15.1,15.6), (7,15), (16,20)]
 		#[(0,17), (20,20)]
 
@@ -345,13 +361,13 @@ def checking():
 
 		s = Solver()
 		#s.add(itv_new[0][1] == 5)
-		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==3, a==1, b==1]))#0.0625,1.9375
-		s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==2]))
+		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==len(prop_itvs['p']), a==0.0, b==1.0]))#0.0625,1.9375
+		s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==len(prop_itvs['q'])]))
 
 		
-		s.add(ensureProperIntervals(itv_new, new_num_itv, 10))
+		s.add(ensureProperIntervals(itv_new, new_num_itv, end_time))
 		#s.add(minus_G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
-		s.add(U_itv(itv1, itv2, itv_new, a, b, 0, 0, num_itv1, num_itv2, new_num_itv, 10))
+		s.add(U_itv(itv1, itv2, itv_new, a, b, 0, 0, num_itv1, num_itv2, new_num_itv, end_time))
 		#s.add(G_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 10.0))
 		#s.add(union_itv(itv1, itv_new, num_itv1, new_num_itv, 5))
 		#s.add(minus_itv(itv1, itv_new, a, b, 0, 0, num_itv1, new_num_itv, 5))
@@ -370,8 +386,8 @@ def checking():
 				print(i, (solverModel[itv_new[i][0]],solverModel[itv_new[i][1]]))
 			#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 			print(solverModel[new_num_itv], solverModel[num_itv1])
-
-checking()
+		
+#checking()
 
 '''
 

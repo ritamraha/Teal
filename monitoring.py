@@ -87,7 +87,7 @@ def monitor(prop_itvs, formula, end_time):
 		
 	if label=='&':
 		return compute_and_itvs(monitor(prop_itvs, left, end_time), \
-								monitor(prop_itvs,right, end_time), end_time)
+								monitor(prop_itvs, right, end_time), end_time)
 
 	if label=='!':
 		return compute_not_itvs(monitor(prop_itvs, left, end_time), end_time)
@@ -116,6 +116,19 @@ def monitor(prop_itvs, formula, end_time):
 			b = time_interval[1]
 		return compute_G_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
 	
+
+	if label=='U':
+		try:
+			lb_frac = time_interval[0].as_fraction()
+			ub_frac = time_interval[1].as_fraction()
+			a = float(lb_frac.numerator)/float(lb_frac.denominator)
+			b = float(ub_frac.numerator)/float(ub_frac.denominator)
+		except: 
+			a = time_interval[0]
+			b = time_interval[1]
+		return compute_U_itvs(monitor(prop_itvs, left, end_time), \
+								monitor(prop_itvs, right, end_time), a, b, end_time)
+
 	if label in props:
 		return prop_itvs[label]
 
@@ -156,6 +169,55 @@ def compute_F_itvs(itvs, a, b, end_time):
 			current_itv = minus_itvs[head]
 
 	return union_itvs
+
+
+def compute_U_itvs(itvs1, itvs2, a, b, end_time):
+	
+	if itvs1 == [] or itvs2 == []:
+		return []
+
+	and_itvs = compute_and_itvs(itvs1, itvs2, end_time)
+	minus_itvs = []
+	head = 0
+	for itv in and_itvs:
+
+		while not((itvs1[head][0] <= itv[0]) and (itv[1] <= itvs1[head][1])):
+			head+=1
+
+		if itv[1]-a > itvs1[head][0]:
+			last_t = max(itv[0]-b,itvs1[head][0])
+			minus_itvs.append((max(itv[0]-b,itvs1[head][0]), itv[1]-a))
+
+
+	if itvs1[-1][1] == end_time:
+		last_t = max(end_time-b,itvs1[-1][0])
+		minus_itvs.append((last_t, end_time))
+
+	if minus_itvs == []:
+		return []
+
+	minus_itvs.sort()
+	union_itvs = []
+	current_itv = minus_itvs[0]
+	len_minus_itv = len(minus_itvs) 
+	head = 0
+	while True:
+
+		head+=1
+		if head==len_minus_itv:
+			union_itvs.append(current_itv)
+			break
+
+		if minus_itvs[head][0] <= current_itv[1] and current_itv[1] <= minus_itvs[head][1]:
+			current_itv = (current_itv[0],minus_itvs[head][1])
+		elif minus_itvs[head][1] < current_itv[1]:
+			continue
+		else:
+			union_itvs.append(current_itv)
+			current_itv = minus_itvs[head]
+
+	return union_itvs
+
 
 def compute_G_itvs(itvs, a, b, end_time):
 
@@ -212,5 +274,5 @@ def compute_not_itvs(itvs, end_time):
 	return not_itvs
 
 
-#print(compute_G_itvs([(1,5)],1, 2, 10))
+#print(compute_U_itvs([(1,2),(5,7),(9,10)], [(0,4),(6,10)], 0.5, 2, 10))
 #print(compute_F_itvs([(0,1), (2,6)],0,1,7))
