@@ -126,9 +126,8 @@ class learnMTL:
 		total_solving_time = 0
 		total_running_time = 0
 		
-		for formula_size in range(1,4):
+		for formula_size in range(1,6):
 			
-
 			t0 = time.time()
 
 			print('---------------Searching for formula size %d---------------'%formula_size)
@@ -149,27 +148,30 @@ class learnMTL:
 			if solverRes == sat:
 				solverModel = encoding.solver.model()
 				
-				
-				# for i in range(formula_size):
-				# 	print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
-					
-				# 	for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
-				# 		print('Signal', signal_id)
-				# 		for t in range(encoding.max_intervals):
-				# 			print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
-				# 		print(solverModel[encoding.num_itvs[(i,signal_id)]])
-				
-				#for i in range(encoding.max_intervals):
-				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
-
 				formula = encoding.reconstructWholeFormula(solverModel, formula_size)
-				#fr_bound = solverModel[encoding.fr[formula_size-1]]
-				
 				found_formula_size = formula.treeSize()
 				if self.monitoring:
 					formula_str = 'G'+formula.prettyPrint()
 				else:
 					formula_str = formula.prettyPrint()
+
+
+				#for i in range(formula_size):
+				# 	print('Node', i,':',[k[1] for k in encoding.x if k[0] == i and solverModel[encoding.x[k]] == True][0]) 
+					
+				 	#for signal_id, signal in enumerate(self.signal_sample.positive+self.signal_sample.negative):
+				 	#	print('Signal', signal_id)
+				 	#	for t in range(encoding.max_intervals):
+				 	#		print(t, (solverModel[encoding.itvs[(i,signal_id)][t][0]],solverModel[encoding.itvs[(i,signal_id)][t][1]]))
+				 	#	print(solverModel[encoding.num_itvs[(i,signal_id)]])
+				
+				#for i in range(encoding.max_intervals):
+				#	print(i, (solverModel[encoding.itv_new[i][0]],solverModel[itv_new[i][1]]))
+
+				
+				#fr_bound = solverModel[encoding.fr[formula_size-1]]
+				
+				
 					
 				#print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 				print('Found formula %s'%(formula_str))
@@ -223,11 +225,13 @@ class learnMTL:
 
 		for signal_id in range(len(self.signal_sample.positive)):
 			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
+				print(signal_id)
 				print('Formula is wrong!!!')
 				return False
 
 		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
 			if sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
+				print(signal_id)
 				print('Formula is wrong!!!')
 				return False
 		
@@ -279,7 +283,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-run_test('dummy.signal', 200, 1)
+run_test('dummy.signal', 900, 2)
 
 '''
 #return #the predicates

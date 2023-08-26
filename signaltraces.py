@@ -11,7 +11,7 @@ def convertTextToSignal(text):
 	for value in split1:
 		time, vector = value.split(':')
 		vector = [bool(int(i)) for i in vector.split(',')]
-		sp = samplePoint(int(time), vector)
+		sp = samplePoint(float(time), vector)
 		sequence.append(sp)
 
 	return Signal(sequence)
@@ -211,7 +211,7 @@ class Sample:
 			
 			#file.write(';'.join(pred_list))
 
-	def random_signal(self,
+	def random_signal_uniform(self,
 		propositions = ['p','q','r'], 
 		length = 5,
 		is_words = True):
@@ -219,7 +219,26 @@ class Sample:
 		signal_sequence = [ samplePoint(t,[random.randint(0,1) for _ in range(len(propositions))]) for t in range(length)]
 		return Signal(signal_sequence)
 
-	def generator(self, 
+	def random_signal_nonuniform(self,
+		propositions = ['p','q','r'], 
+		length = 5,
+		is_words = True):
+		
+		random_times = [0]
+		round_upto = 1
+		
+		for i in range(length-1):
+			random_times.append(round(random.uniform(0,length),round_upto))
+
+		random_times.sort()
+
+		signal_sequence = [ samplePoint(t,[random.randint(0,1) for _ in range(len(propositions))]) for t in random_times]
+		
+		return Signal(signal_sequence)
+
+
+
+	def generator(self,
 		formula = None, 
 		filename = 'generated.signal',
 		end_time=10, 
@@ -237,7 +256,7 @@ class Sample:
 		prop2num = {propositions[i]:i for i in range(len(propositions))}
 
 		num_iterations = 0
-		iteration_bound = 10**6
+		iteration_bound = (10**6)
 		#false_count = 0
 		total_false_count = 0
 		signal_list = []
@@ -246,7 +265,7 @@ class Sample:
 
 			num_iterations += 1
 			length = random.randint(length_range[0], length_range[1])
-			final_signal = self.random_signal(propositions, length)
+			final_signal = self.random_signal_nonuniform(propositions, length)
 
 			#check
 			if num_iterations % 10000 == 0:

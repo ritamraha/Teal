@@ -137,11 +137,11 @@ def tupleList(s):
 def main():
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-rq2.txt')
+	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-AV.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
-	parser.add_argument('--size', dest='sample_sizes', default=[(10,10)], nargs='+', type=tupleList)
+	parser.add_argument('--size', dest='sample_sizes', default=[(4,4),(8,8),(12,12),(16,16),(32,32)], nargs='+', type=tupleList)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
-	parser.add_argument('--lengths', dest='signal_lengths', default=[(8,8)], nargs='+', type=tupleList)
+	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(6,6),(8,8),(10,10),(12,12),(14,14),(16,16)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
 	parser.add_argument('--output_folder', dest='output_folder', default = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 

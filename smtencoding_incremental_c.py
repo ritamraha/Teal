@@ -231,7 +231,7 @@ class SMTEncoding_incr:
 	def temporalBoundsRelation(self, formula_size):
 
 		i = formula_size-1
-		#self.solver.add(And(self.a[i]==1, self.b[i]==2))
+		#self.solver.add(And(self.a[i]==0, self.b[i]==1))
 
 		if 'G' in self.listOfOperators:
 			#globally				
@@ -249,7 +249,7 @@ class SMTEncoding_incr:
 			#self.solver.add(Implies(self.x[(i, 'F')], And(And(self.a[i]==0,3 == self.b[i]))))
 
 
-	def firstOperatorProposition(self, formula_size):
+	def firstOperatorProposition(self, formula_size):	
 		
 		if formula_size==1:
 			self.solver.add(Or([self.x[k] for k in self.x if k[0] == 0 and k[1] in self.listOfPropositions]))

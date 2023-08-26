@@ -292,7 +292,10 @@ def U_itv(itvs1, itvs2, U_itvs, a, b, i, signal_id, num_itv1, num_itv2, new_num_
 	
 	#print('baire', signal_id)
 
+	#consn = And([And(minus_U_itvs[t][0]==U_itvs[t][0],minus_U_itvs[t][1]==U_itvs[t][1]) for t in range(max_int)])
+	#consnt = new_num_itv==and_num_itvs
 
+	#cons = And([cons, consn, consnt])
 	
 	for t in range(max_int):
 		
@@ -305,8 +308,12 @@ def U_itv(itvs1, itvs2, U_itvs, a, b, i, signal_id, num_itv1, num_itv2, new_num_
 								   for t1 in range(max_int)]))
 		
 		cons5 = Implies(t==and_num_itvs, \
-							If(And(d,not(and_num_itvs==0)), And(minus_U_itvs[t][0]==If(end_time-b>last_t,end_time-b,last_t), minus_U_itvs[t][1]==end_time),\
+							If(And(and_num_itvs!=0,d), And(minus_U_itvs[t][0]==If(end_time-b>last_t,end_time-b,last_t), minus_U_itvs[t][1]==end_time),\
 									And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time)))
+
+		#cons5 = Implies(t==and_num_itvs, And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time))
+
+		
 
 		cons6 = Implies(t>and_num_itvs,And(minus_U_itvs[t][0]==end_time, minus_U_itvs[t][1]==end_time))
 		
@@ -336,11 +343,12 @@ def checking():
 
 		prop_itvs = compute_prop_intervals(signal, ['p','q'], {'p':0,'q':1}, end_time)
 		#print(prop_itvs)
-		#actual_itv1 = prop_itvs['q'] + [(10.0,10.0)]*(6-len(prop_itvs['q']))
-		actual_itv1 = prop_itvs['p'] + [(end_time,end_time)]*(6-len(prop_itvs['p']))
-		#actual_itv1 = [(3,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5),(5,5)]
+		actual_itv1 = prop_itvs['q'] + [(end_time,end_time)]*(7-len(prop_itvs['q']))
+		#actual_itv1 = prop_itvs['p'] + [(end_time,end_time)]*(6-len(prop_itvs['p']))
+		#actual_itv1 = [(0,3),(4,5),(8,8),(8,8),(8,8),(8,8),(8,8),(8,8)]
 		#nitv = compute_not_itvs(prop_itvs['p'], 10.0)
-		actual_itv2 = prop_itvs['q'] + [(end_time,end_time)]*(6-len(prop_itvs['q']))
+		actual_itv2 = prop_itvs['p'] + [(end_time,end_time)]*(7-len(prop_itvs['p']))
+		#actual_itv2 = [(3,4),(5,8),(8,8),(8,8),(8,8),(8,8),(8,8),(8,8)]
 
 		print('#######Signal', signal_id)
 		print(actual_itv1)
@@ -361,8 +369,8 @@ def checking():
 
 		s = Solver()
 		#s.add(itv_new[0][1] == 5)
-		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==len(prop_itvs['p']), a==0.0, b==1.0]))#0.0625,1.9375
-		s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==len(prop_itvs['q'])]))
+		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==len(prop_itvs['q']), a==0.0, b==1.0]))#0.0625,1.9375
+		s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==len(prop_itvs['p'])]))
 
 		
 		s.add(ensureProperIntervals(itv_new, new_num_itv, end_time))
@@ -386,6 +394,9 @@ def checking():
 				print(i, (solverModel[itv_new[i][0]],solverModel[itv_new[i][1]]))
 			#	print(i, solverModel[self.neg_itvs1[i][0]],solverModel[self.neg_itvs1[i][1]])
 			print(solverModel[new_num_itv], solverModel[num_itv1])
+			print(solverModel[a],solverModel[b])
+
+		#print(solverModel)
 		
 #checking()
 
