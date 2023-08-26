@@ -1,0 +1,2 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+first-run/signalsFiles/f:01-nw:008-ml:10-0.signal,2,16,10,"G(F[0.0,2.0]p)",2,True,13.446858882904053,4.6659345626831055,3600
