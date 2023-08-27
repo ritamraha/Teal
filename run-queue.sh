@@ -42,6 +42,7 @@ do
 	if [[ $remaining_workers -eq 0 ]]
 	then
 		sleep $wait_time
+		python queue_maker.py --benchmark_folder $folder --timeout $time_out --compile
 		break
 	fi
 	sleep $wait_time

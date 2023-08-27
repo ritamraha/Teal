@@ -1,3 +1,9 @@
+def precision_minus(a,b,p):
+	
+	return round(a-b,p)
+
+
+
 def compute_prop_intervals(signal, props, prop2num, end_time):
 
 	timepoints = [sp.time for sp in signal.sequence]
@@ -52,18 +58,18 @@ def check_consistency_G(formula, signal_sample):
 		return True
 
 
-def sat_check(prop_itvs, formula, end_time):
+def sat_check(prop_itvs, formula, end_time, precision):
 
-	pos_itvs = monitor(prop_itvs, formula, end_time)
+	pos_itvs = monitor(prop_itvs, formula, end_time, precision)
 	#print(pos_itvs)
 	if pos_itvs!=[] and pos_itvs[0][0]==0:
 		return True
 	else:
 		return False
 
-def sat_check_G(prop_itvs, formula, end_time):
+def sat_check_G(prop_itvs, formula, end_time, precision):
 
-	pos_itvs = monitor(prop_itvs, formula, end_time)
+	pos_itvs = monitor(prop_itvs, formula, end_time, precision)
 	#print(pos_itvs)
 	if pos_itvs!=[] and pos_itvs[0][0]==0 and pos_itvs[0][1]==end_time:
 		return True
@@ -71,7 +77,7 @@ def sat_check_G(prop_itvs, formula, end_time):
 		return False
 
 
-def monitor(prop_itvs, formula, end_time):
+def monitor(prop_itvs, formula, end_time, precision):
 
 	props = list(prop_itvs.keys())
 	label = formula.label
@@ -82,12 +88,12 @@ def monitor(prop_itvs, formula, end_time):
 
 	if label=='|':
 		
-		return compute_or_itvs(monitor(prop_itvs, left, end_time), \
-								monitor(prop_itvs,right, end_time), end_time)
+		return compute_or_itvs(monitor(prop_itvs, left, end_time, precision), \
+								monitor(prop_itvs,right, end_time, precision), end_time)
 		
 	if label=='&':
-		return compute_and_itvs(monitor(prop_itvs, left, end_time), \
-								monitor(prop_itvs, right, end_time), end_time)
+		return compute_and_itvs(monitor(prop_itvs, left, end_time, precision), \
+								monitor(prop_itvs, right, end_time, precision), end_time)
 
 	if label=='!':
 		return compute_not_itvs(monitor(prop_itvs, left, end_time), end_time)
@@ -102,7 +108,7 @@ def monitor(prop_itvs, formula, end_time):
 		except:
 			a = time_interval[0]
 			b = time_interval[1]
-		return compute_F_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)
+		return compute_F_itvs(monitor(prop_itvs, left, end_time, precision),a, b, end_time)
 		
 	
 	if label=='G':
@@ -114,7 +120,7 @@ def monitor(prop_itvs, formula, end_time):
 		except: 
 			a = time_interval[0]
 			b = time_interval[1]
-		return compute_G_itvs(monitor(prop_itvs, left, end_time),a, b, end_time)	
+		return compute_G_itvs(monitor(prop_itvs, left, end_time, precision),a, b, end_time)	
 	
 
 	if label=='U':
@@ -126,8 +132,8 @@ def monitor(prop_itvs, formula, end_time):
 		except: 
 			a = time_interval[0]
 			b = time_interval[1]
-		return compute_U_itvs(monitor(prop_itvs, left, end_time), \
-								monitor(prop_itvs, right, end_time), a, b, end_time)
+		return compute_U_itvs(monitor(prop_itvs, left, end_time, precision), \
+								monitor(prop_itvs, right, end_time, precision), a, b, end_time)
 
 	if label in props:
 		return prop_itvs[label]
@@ -139,15 +145,23 @@ def compute_F_itvs(itvs, a, b, end_time):
 		return []
 
 	#print(type(itvs[0][0]),type(a))
-	minus_itvs_og = [(max(itvs[i][0]-b,0),max(itvs[i][1]-a,0)) for i in range(len(itvs))]
+	#dummy_itvs_og = [(itvs[i][0]-b,itvs[i][1]-a) for i in range(len(itvs))]
+	#print(dummy_itvs_og)
+
+
+	minus_itvs_og = [(max(precision_minus(itvs[i][0],b,1),0),max(precision_minus(itvs[i][1],a,1),0)) for i in range(len(itvs))]
 	
+
+
 	if b !=0:
-		minus_itvs_og.append([max(end_time-b,0), end_time])
+		minus_itvs_og.append([max(precision_minus(end_time,b,1),0), end_time])
 
 	#removing (0,0) itvs
 	minus_itvs = [(i,j) for (i,j) in minus_itvs_og if j!=0]
 	if minus_itvs == []:
 		return []
+
+	
 
 	union_itvs = []
 	current_itv = minus_itvs[0]
@@ -184,13 +198,13 @@ def compute_U_itvs(itvs1, itvs2, a, b, end_time):
 		while not((itvs1[head][0] <= itv[0]) and (itv[1] <= itvs1[head][1])):
 			head+=1
 
-		if itv[1]-a > itvs1[head][0]:
-			last_t = max(itv[0]-b,itvs1[head][0])
-			minus_itvs.append((max(itv[0]-b,itvs1[head][0]), itv[1]-a))
+		if precision_minus(itv[1],a,1) > itvs1[head][0]:
+			last_t = max(precision_minus(itv[0],b,1),itvs1[head][0])
+			minus_itvs.append((max(precision_minus(itv[0],b,1),itvs1[head][0]), precision_minus(itv[1],a,1)))
 
 
 	if itvs1[-1][1] == end_time:
-		last_t = max(end_time-b,itvs1[-1][0])
+		last_t = max(precision_minus(end_time,b,1),itvs1[-1][0])
 		minus_itvs.append((last_t, end_time))
 
 	if minus_itvs == []:
@@ -226,12 +240,12 @@ def compute_G_itvs(itvs, a, b, end_time):
 	G_itvs = compute_not_itvs(F_itvs, end_time)
 
 	if G_itvs == []:
-		return [(end_time-a, end_time)]
+		return [(precision_minus(end_time,a,1), end_time)]
 
-	if G_itvs[-1][1] >= end_time-a:
+	if G_itvs[-1][1] >= precision_minus(end_time,a,1):
 		G_itvs[-1] = (G_itvs[-1][0],end_time)
 	else:
-		G_itvs.append((end_time-a, end_time))
+		G_itvs.append((precision_minus(end_time,a,1), end_time))
 
 	return G_itvs
 
@@ -275,4 +289,4 @@ def compute_not_itvs(itvs, end_time):
 
 
 #print(compute_U_itvs([(1,2),(5,7),(9,10)], [(0,4),(6,10)], 0.5, 2, 10))
-#print(compute_F_itvs([(0,1), (2,6)],0,1,7))
+#print(compute_F_itvs([(0,0.2), (2.2,4)], 0.0, 2.0, 4))

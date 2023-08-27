@@ -41,18 +41,19 @@ class multiprocess:
 	
 	def compile_results(self):
 
-		#header = ['file', 'method', 'num_var', 'num_typ', 'lc_var_count', 'or_count', 'sat', 'opt_func', 'time', 'accuracy', 'var2typ']
+		header = ['file_name','Fr bound','Number of examples','Example length','Formula','Formula Size','Correct?','Total Time','Solving Time','Timeout']
 		
 		csvfile = open(self.compiled_filename+'.csv', 'w')
 		
 		result_files = []
 		for f in glob.glob(self.benchmark_folder + '/**/*.csv', recursive=True):
 			result_files.append(f)
-
-		with open(result_files[0], 'r') as f:
-			data = list(csv.DictReader(f))[0]
-			header = list(data.keys())
 		
+		# with open(result_files[0], 'r') as f:
+		# 	data = list(csv.DictReader(f))[0]
+		# 	header = list(data.keys())
+		
+		# print(header)
 		writer = csv.DictWriter(csvfile, fieldnames = header)
 		writer.writeheader()
 
@@ -61,8 +62,9 @@ class multiprocess:
 			with open(file, 'r') as f:
 				data = csv.DictReader(f)
 				for row in data:
+					
 					writer.writerow(row)
-
+					
 		csvfile.close()
 
 

@@ -35,6 +35,9 @@ class learnMTL:
 		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound,\
 							 'Number of examples': self.sample_number, 'Example length': self.sample_lengths}
 
+		formula = STLFormula.convertTextToFormula('F[0,2](p)')
+		check_consistency_G(formula, self.signal_sample)
+
 		#print(self.prop_itvs)
 		#self.fr_bound = 4
 		#self.search_order = [(i,j) for i in range(1, self.fr_bound+1,5) for j in range(1, self.size_bound+1)] #can try out other search orders
@@ -146,10 +149,14 @@ class learnMTL:
 			total_solving_time += solving_time
 
 			if solverRes == sat:
+				
 				solverModel = encoding.solver.model()
 				
 				formula = encoding.reconstructWholeFormula(solverModel, formula_size)
 				found_formula_size = formula.treeSize()
+				formula_precision = formula.calc_precision()
+
+
 				if self.monitoring:
 					formula_str = 'G'+formula.prettyPrint()
 				else:
@@ -176,10 +183,12 @@ class learnMTL:
 				#print('Found formula %s of size %d'%(formula.prettyPrint(), formula.treeSize()))
 				print('Found formula %s'%(formula_str))
 				#break
+
+
 				if self.monitoring==1:
-					ver = self.check_consistency_G(formula)
+					ver = self.check_consistency_G(formula, formula_precision)
 				else:
-					ver = self.check_consistency(formula)
+					ver = self.check_consistency(formula, formula_precision)
 
 				t1 = time.time()-t0
 				total_running_time += t1
@@ -202,18 +211,18 @@ class learnMTL:
 		return self.info_dict
 
 
-	def check_consistency(self, formula):
+	def check_consistency(self, formula, precision):
 
 		self.info_dict.update({'Wrong': ''})
 		for signal_id in range(len(self.signal_sample.positive)):
 			
-			if not sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+			if not sat_check(self.prop_itvs[signal_id], formula, self.end_time, precision):
 				self.info_dict.update({'Wrong': signal_id})
 				print('Formula is wrong!!!')
 				return False
 
 		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
-			if sat_check(self.prop_itvs[signal_id], formula, self.end_time):
+			if sat_check(self.prop_itvs[signal_id], formula, self.end_time, precision):
 				self.info_dict.update({'Wrong': signal_id})
 				print('Formula is wrong!!!')
 				return False
@@ -221,16 +230,16 @@ class learnMTL:
 		print('Formula is correct')
 		return True
 
-	def check_consistency_G(self, formula):
+	def check_consistency_G(self, formula, formula_precision):
 
 		for signal_id in range(len(self.signal_sample.positive)):
-			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
+			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time, precision):
 				print(signal_id)
 				print('Formula is wrong!!!')
 				return False
 
 		for signal_id in range(len(self.signal_sample.positive), len(self.signal_sample.positive+self.signal_sample.negative)):
-			if sat_check_G(self.prop_itvs[signal_id], formula, self.end_time):
+			if sat_check_G(self.prop_itvs[signal_id], formula, self.end_time, precision):
 				print(signal_id)
 				print('Formula is wrong!!!')
 				return False
@@ -255,7 +264,7 @@ def main():
 	monitoring = int(args.monitoring)
 	#print(monitoring)
 	learner = learnMTL(signalfile=input_file, monitoring = monitoring)
-	learner.search_incremental()
+	#learner.search_incremental()
 
 
 
@@ -283,7 +292,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-#run_test('dummy.signal', 900, 2)
+run_test('dummy.signal', 900, 2)
 
 '''
 #return #the predicates

@@ -247,6 +247,15 @@ timed_operators = ['F','G', 'U']
 binary_operators = ['&','|', '->', 'U']
 unary_operators = ['F','G','!']
 
+def calculate_precision(number):
+    str_number = str(number)
+    if '.' in str_number:
+        precision = len(str_number) - str_number.index('.') - 1
+        return precision
+    else:
+        return 0
+
+
 class STLFormula(SimpleTree):
 
 	def __init__(self, label=None, right=None, left=None, time_interval=None):
@@ -292,7 +301,48 @@ class STLFormula(SimpleTree):
 			self.size = 1 + leftSize + rightSize
 
 		return self.size
+	
+
+	def calc_precision(self):
 		
+		left_prec = 0
+		right_prec = 0
+		if self.label in timed_operators:
+
+			try:
+				lb_frac = self.time_interval[0].as_fraction()
+				ub_frac = self.time_interval[1].as_fraction()
+				
+				lower_bound = float(lb_frac.numerator)/float(lb_frac.denominator)
+				upper_bound = float(ub_frac.numerator)/float(ub_frac.denominator)
+
+			except:
+				
+				lower_bound = self.time_interval[0]
+				upper_bound = self.time_interval[1]
+
+			curr_precision = max(calculate_precision(lower_bound), calculate_precision(upper_bound))
+
+		else:
+
+			curr_precision = 0
+
+		if self.left != None:
+		
+			left_prec = self.left.calc_precision()
+		
+		if self.right != None:
+			
+			right_prec = self.left.calc_precision()
+
+
+		self.precision = max(curr_precision, left_prec, right_prec)
+
+		return self.precision
+		
+	
+
+
 	def _isLeaf(self):
 
 		return (self.right == None) and (self.left == None)
@@ -330,6 +380,7 @@ class STLFormula(SimpleTree):
 				lower_bound = float(lb_frac.numerator)/float(lb_frac.denominator)
 				upper_bound = float(ub_frac.numerator)/float(ub_frac.denominator)
 
+				self.precision = max(self.precision, calculate_precision(lower_bound), calculate_precision(upper_bound))
 			except:
 				
 				lower_bound = self.time_interval[0]
