@@ -1,10 +1,10 @@
 #!/bin/bash
 
-folder="Third_benchmarks" #specify the folder on which to run on
+folder="scalability-benchmark" #specify the folder on which to run on
 num_workers=48 #specify the number of cores to be used
-time_out=3600 #specify the timeout for the tools
+time_out=7200 #specify the timeout for the tools
 
-wait_time=2 #wait time for letting compilation happen without interruption
+wait_time=20 #wait time for letting compilation happen without interruption
 
 while getopts f:w:t: flag
 do
@@ -42,7 +42,6 @@ do
 	if [[ $remaining_workers -eq 0 ]]
 	then
 		sleep $wait_time
-		python queue_maker.py --benchmark_folder $folder --timeout $time_out --compile
 		break
 	fi
 	sleep $wait_time

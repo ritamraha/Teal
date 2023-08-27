@@ -283,7 +283,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-run_test('dummy.signal', 900, 2)
+#run_test('dummy.signal', 900, 2)
 
 '''
 #return #the predicates

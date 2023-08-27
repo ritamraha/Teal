@@ -137,7 +137,7 @@ def tupleList(s):
 def main():
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-AV.txt')
+	parser.add_argument('--formula_file', dest='formula_file', default = './formulas.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
 	parser.add_argument('--size', dest='sample_sizes', default=[(4,4),(8,8),(12,12),(16,16),(32,32)], nargs='+', type=tupleList)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
