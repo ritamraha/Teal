@@ -1,2 +1,2 @@
 file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-first-run/signalsFiles/f:03-nw:012-ml:06-0.signal,2,24,6,"G(p | (G[0.0020833333333333333,0.004166666666666667]q))",4,False,2274.5489315986633,2116.4271450042725,3600
+first-run/signalsFiles/f:03-nw:012-ml:06-0.signal,2,24,6,"G(p | (G[0.0020833333333333333,0.004166666666666667]q))",4,False,2294.960793018341,2116.4800572395325,7200

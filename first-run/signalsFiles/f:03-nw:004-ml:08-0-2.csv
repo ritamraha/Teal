@@ -1,2 +1,2 @@
 file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-first-run/signalsFiles/f:03-nw:004-ml:08-0.signal,2,8,8,"G(p | (G[2.0,2.0]p))",3,True,78.87756109237671,60.512070178985596,3600
+first-run/signalsFiles/f:03-nw:004-ml:08-0.signal,2,8,8,"G(p | (G[2.0,2.0]p))",3,True,80.14246869087219,58.935200452804565,7200
