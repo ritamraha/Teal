@@ -222,10 +222,11 @@ class Sample:
 	def random_signal_nonuniform(self,
 		propositions = ['p','q','r'], 
 		length = 5,
+		precision=1,
 		is_words = True):
 		
 		random_times = [0]
-		round_upto = 1
+		round_upto = precision
 		
 		for i in range(length-1):
 			random_times.append(round(random.uniform(0,length),round_upto))
@@ -246,7 +247,8 @@ class Sample:
 		length_signals = None,
 		propositions = ['p','q','r'], 
 		length_range = (5,15), 
-		operators=['G', 'F', '!', 'U', '&','|', 'X']):
+		operators=['G', 'F', '!', 'U', '&','|', 'X'],
+		precision=1):
 
 		num_positives = 0
 		total_num_positives = num_signals[0]
@@ -265,7 +267,7 @@ class Sample:
 
 			num_iterations += 1
 			length = random.randint(length_range[0], length_range[1])
-			final_signal = self.random_signal_nonuniform(propositions, length)
+			final_signal = self.random_signal_nonuniform(propositions, length, precision)
 
 			#check
 			if num_iterations % 10000 == 0:
@@ -274,7 +276,7 @@ class Sample:
 			if formula != None:
 
 				prop_itvs = compute_prop_intervals(signal=final_signal, props=propositions, prop2num=prop2num, end_time=end_time)
-				ver = sat_check_G(prop_itvs=prop_itvs, formula=formula, end_time=end_time)
+				ver = sat_check_G(prop_itvs=prop_itvs, formula=formula, end_time=end_time, precision=precision)
 
 			if num_positives < total_num_positives:
 				if ver == True or formula == None:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-folder="scalability-benchmark" #specify the folder on which to run on
+folder="AV-benchmarks" #specify the folder on which to run on
 num_workers=48 #specify the number of cores to be used
 time_out=7200 #specify the timeout for the tools
 

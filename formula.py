@@ -333,7 +333,7 @@ class STLFormula(SimpleTree):
 		
 		if self.right != None:
 			
-			right_prec = self.left.calc_precision()
+			right_prec = self.right.calc_precision()
 
 
 		self.precision = max(curr_precision, left_prec, right_prec)
@@ -485,4 +485,5 @@ class STLTreeToFormula(Transformer):
 		return str(args[0])
 
 
-#s = STLFormula.convertTextToFormula('F[0.1,10.3](G[2.5,8.2](!(q)))')
+#s = STLFormula.convertTextToFormula('F[0.123,10.3](|(G[2.51,8.2](!(q)),F[1.1,2.3124](q)))')
+#print(s.calc_precision())

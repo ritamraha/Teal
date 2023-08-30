@@ -14,7 +14,8 @@ class SampleGenerator:
 				sample_sizes = [(10,10),(50,50)],
 				signal_lengths = [(6,6)],
 				output_folder = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),
-				total_num = 1):
+				total_num = 1,
+				precision=1):
 
 		self.formula_file = formula_file
 		self.sample_sizes = sample_sizes
@@ -22,6 +23,7 @@ class SampleGenerator:
 		self.output_folder = output_folder
 		self.total_num = total_num
 		self.operators = ['U', 'F', 'G', 'X', '!', '&', '|']
+		self.precision = precision
 
 		if os.path.exists(self.output_folder):
 			shutil.rmtree(self.output_folder)
@@ -34,15 +36,15 @@ class SampleGenerator:
 		self.max_size = sample_sizes[-1]
 		
 
-	def generateFromLargeSample(self):
+	def generateFromLargeSample(self, precision=1):
 		
-		generated_files = self.generate(gen_from_large_sample=True)
+		generated_files = self.generate(gen_from_large_sample=True, precision=precision)
 		#generating small benchmarks from large ones
 		self.generateSmallBenchmarks(generated_files, self.sample_sizes[:-1])
 
 
 
-	def generate(self, gen_from_large_sample=False):
+	def generate(self, gen_from_large_sample=False, precision=1):
 		if gen_from_large_sample:
 			sample_sizes = [self.max_size]
 		else:	
@@ -86,7 +88,7 @@ class SampleGenerator:
 							generated_files.append(signal_file)
 							
 							sample.generator(formula=formula, length_range=length_range, end_time=end_time, num_signals=size, propositions=propositions, 
-													filename=signal_file, operators=self.operators)
+													filename=signal_file, operators=self.operators, precision=precision)
 							
 
 							#convertFileType(wordfile=word_file, signalfile=signal_file, operators=operators)
@@ -103,7 +105,7 @@ class SampleGenerator:
 						# sample.generator(formula=formula, length_range=length_range, num_signals=size, filename=signal_file, is_words=(signal_type=='words'), operators=operators)
 
 
-							if check_consistency_G(formula, sample):
+							if check_consistency_G(formula, sample, precision):
 								print("Formula is consistent with sample")
 
 		return generated_files
@@ -137,9 +139,10 @@ def tupleList(s):
 def main():
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--formula_file', dest='formula_file', default = './formulas.txt')
+	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-AV.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
 	parser.add_argument('--size', dest='sample_sizes', default=[(4,4),(8,8),(12,12),(16,16),(32,32)], nargs='+', type=tupleList)
+	parser.add_argument('--precision', dest='precision', default=1, type=int)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
 	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(6,6),(8,8),(10,10),(12,12),(14,14),(16,16)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
@@ -150,6 +153,7 @@ def main():
 	signal_type = args.signal_type
 	sample_sizes = list(args.sample_sizes)
 	signal_lengths = list(args.signal_lengths)
+	precision = int(args.precision)
 	output_folder = args.output_folder
 	total_num = int(args.total_num)
 	#end_time = float(args.end_time)
@@ -159,7 +163,8 @@ def main():
 				sample_sizes=sample_sizes,
 				signal_lengths=signal_lengths,
 				output_folder=output_folder,
-				total_num=total_num)
+				total_num=total_num,
+				precision=precision)
 
 	generator.generateFromLargeSample()
 

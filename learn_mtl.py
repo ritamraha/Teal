@@ -35,8 +35,8 @@ class learnMTL:
 		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound,\
 							 'Number of examples': self.sample_number, 'Example length': self.sample_lengths}
 
-		formula = STLFormula.convertTextToFormula('F[0,2](p)')
-		check_consistency_G(formula, self.signal_sample)
+		#formula = STLFormula.convertTextToFormula('F[0,2](p)')
+		#check_consistency_G(formula, self.signal_sample, )
 
 		#print(self.prop_itvs)
 		#self.fr_bound = 4
@@ -154,7 +154,7 @@ class learnMTL:
 				
 				formula = encoding.reconstructWholeFormula(solverModel, formula_size)
 				found_formula_size = formula.treeSize()
-				formula_precision = formula.calc_precision()
+				precision = max(1,formula.calc_precision())
 
 
 				if self.monitoring:
@@ -186,9 +186,9 @@ class learnMTL:
 
 
 				if self.monitoring==1:
-					ver = self.check_consistency_G(formula, formula_precision)
+					ver = self.check_consistency_G(formula, precision)
 				else:
-					ver = self.check_consistency(formula, formula_precision)
+					ver = self.check_consistency(formula, precision)
 
 				t1 = time.time()-t0
 				total_running_time += t1
