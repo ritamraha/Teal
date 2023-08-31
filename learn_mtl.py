@@ -230,7 +230,7 @@ class learnMTL:
 		print('Formula is correct')
 		return True
 
-	def check_consistency_G(self, formula, formula_precision):
+	def check_consistency_G(self, formula, precision):
 
 		for signal_id in range(len(self.signal_sample.positive)):
 			if not sat_check_G(self.prop_itvs[signal_id], formula, self.end_time, precision):
