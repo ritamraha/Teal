@@ -1,0 +1,2 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:16-0.signal,3,8,16,"G(F[0.0,2.8041666666666667]p)",2,True,6.114931583404541,1.7325146198272705,7200
