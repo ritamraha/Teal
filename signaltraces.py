@@ -229,7 +229,10 @@ class Sample:
 		round_upto = precision
 		
 		for i in range(length-1):
-			random_times.append(round(random.uniform(0,length),round_upto))
+			new_time = round(random.uniform(0,length),round_upto)
+			while new_time in random_times:
+				new_time = round(random.uniform(0,length),round_upto)
+			random_times.append(new_time)
 
 		random_times.sort()
 

@@ -35,8 +35,8 @@ class learnMTL:
 		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound,\
 							 'Number of examples': self.sample_number, 'Example length': self.sample_lengths}
 
-		#formula = STLFormula.convertTextToFormula('F[0,2](p)')
-		#check_consistency_G(formula, self.signal_sample, )
+		#formula = STLFormula.convertTextToFormula('|(p,F[0,2](q))')
+		#print(check_consistency_G(formula, self.signal_sample, 1))
 
 		#print(self.prop_itvs)
 		#self.fr_bound = 4
@@ -292,7 +292,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-#run_test('dummy.signal', 900, 2)
+run_test('dummy.signal', 900, 2)
 
 '''
 #return #the predicates
