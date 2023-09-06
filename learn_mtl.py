@@ -9,13 +9,14 @@ from formula import STLFormula
 from z3 import *
 from monitoring import *
 from smtencoding_incremental_c import *
+import multiprocessing
 #from pysmt.shortcuts import is_sat, get_model, Solver
 #from six.moves import cStringIO
 #from pysmt.smtlib.parser import SmtLibParser
 
 class learnMTL:
 
-	def __init__(self, signalfile, monitoring, fr_bound):
+	def __init__(self, signalfile, monitoring, fr_bound, outputcsv='./results.csv', timeout=900):
 
 
 		self.signalfile = signalfile
@@ -32,8 +33,16 @@ class learnMTL:
 		self.compute_prop_intervals()
 		self.sample_number = (len(self.signal_sample.positive)+len(self.signal_sample.negative))
 		self.sample_lengths =  len(self.signal_sample.positive[0])
+		self.timeout = timeout
 		self.info_dict = {'file_name': self.signalfile, 'Fr bound': self.fr_bound,\
-							 'Number of examples': self.sample_number, 'Example length': self.sample_lengths}
+							 'Number of examples': self.sample_number, \
+							 'Example length': self.sample_lengths,
+							 'Formula': None, 'Formula Size': None, 'Correct?': None, \
+							'Total Time': None, 'Solving Time': None, 'Timeout':self.timeout}
+		
+		self.outputcsv = outputcsv
+
+		self.header = list(self.info_dict.keys())
 
 		#formula = STLFormula.convertTextToFormula('|(p,F[0,2](q))')
 		#print(check_consistency_G(formula, self.signal_sample, 1))
@@ -204,6 +213,11 @@ class learnMTL:
 				print('Total time', round(t1,3), '; Solving Time', round(solving_time,3))
 			
 			
+	
+		with open(self.outputcsv, 'w') as f:
+			writer = csv.DictWriter(f, fieldnames = self.header)
+			writer.writeheader()
+			writer.writerow(self.info_dict)
 			#t1 = time.time()-t0
 			#total_running_time += t1
 			#print('Total time', round(t1,3))
@@ -254,26 +268,54 @@ def main():
 
 	parser.add_argument('--input_file', '-i', dest='input_file', default = './dummy.signal')
 	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=True, action='store_true')
-	parser.add_argument('--timeout', '-t', dest='timeout', default=900, type=int)
-	parser.add_argument('--outputcsv', '-o', dest='csvname', default= './result.csv')
+	parser.add_argument('--timeout', '-t', dest='timeout', default=, type=int)
+	parser.add_argument('--outputcsv', '-o', dest='csvname', default= '')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
+	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=2, type=int)
+
 	args,unknown = parser.parse_known_args()
 	
 	input_file = args.input_file
+	outputcsv = args.csvname
 	timeout = float(args.timeout)
 	monitoring = int(args.monitoring)
+	fr_bound = int(args.fr_bound)
 	#print(monitoring)
-	learner = learnMTL(signalfile=input_file, monitoring = monitoring)
+
+	if outputcsv=='':
+		outputcsv = input_file.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
+
+
+	learner = learnMTL(signalfile=input_file, monitoring = monitoring, 
+						fr_bound=fr_bound, outputcsv=outputcsv, timeout=timeout)
 	#learner.search_incremental()
 
+	manager = multiprocessing.Manager()
+	return_dict = manager.dict()
+	jobs = []
+		
+	p = multiprocessing.Process(target=learner.search_incremental, args=())
+		
+	jobs.append(p)
+	p.start()
 
+	p.join(timeout)
+	if p.is_alive():
+		print("Timeout reached, check your output in result file")
+		p.terminate()
+		p.join()
+
+	for proc in jobs:
+		proc.join()
+		
+	return (return_dict.values())
 
 
 def run_test(file_name, timeout=5400, fr_bound=3):
 
 	learner = learnMTL(signalfile=file_name, monitoring=True, fr_bound=fr_bound)
 	csvname = file_name.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
-
+	print('Running file %s'%file_name)
 	'''	
 	with open(csvname, 'w') as f:
 		writer = csv.DictWriter(f, fieldnames = header)
@@ -292,7 +334,8 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-run_test('dummy.signal', 900, 2)
+main()
+#run_test('dummy.signal', 900, 3)
 
 '''
 #return #the predicates
