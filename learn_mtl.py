@@ -293,8 +293,14 @@ def main():
 
 	learner = learnMTL(signalfile=input_file, monitoring = monitoring, 
 						fr_bound=fr_bound, outputcsv=outputcsv, timeout=timeout)
-	#learner.search_incremental()
+	
 
+	print('Running file %s'%file_name)
+	learner.search_incremental()
+	
+
+
+	'''
 	manager = multiprocessing.Manager()
 	return_dict = manager.dict()
 	jobs = []
@@ -314,7 +320,7 @@ def main():
 		proc.join()
 		
 	return (return_dict.values())
-
+	'''
 
 def run_test(file_name, timeout=5400, fr_bound=3):
 
