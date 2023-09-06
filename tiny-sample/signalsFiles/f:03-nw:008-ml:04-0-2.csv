@@ -1,0 +1,2 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+tiny-sample/signalsFiles/f:03-nw:008-ml:04-0.signal,2,16,4,"G((G[0.103125,0.103125]q) | p)",4,True,331.09998178482056,251.70615673065186,3600.0
