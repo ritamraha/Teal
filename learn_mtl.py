@@ -44,6 +44,11 @@ class learnMTL:
 
 		self.header = list(self.info_dict.keys())
 
+		with open(self.outputcsv, 'w') as f:
+			writer = csv.DictWriter(f, fieldnames = self.header)
+			writer.writeheader()
+			writer.writerow(self.info_dict)
+
 		#formula = STLFormula.convertTextToFormula('|(p,F[0,2](q))')
 		#print(check_consistency_G(formula, self.signal_sample, 1))
 
