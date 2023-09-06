@@ -295,7 +295,7 @@ def main():
 						fr_bound=fr_bound, outputcsv=outputcsv, timeout=timeout)
 	
 
-	print('Running file %s'%file_name)
+	print('Running file %s'%input_file)
 	learner.search_incremental()
 	
 
