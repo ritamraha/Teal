@@ -276,7 +276,7 @@ def main():
 	parser.add_argument('--timeout', '-t', dest='timeout', default=3600, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= '')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
-	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=1, type=int)
+	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=2, type=int)
 
 	args,unknown = parser.parse_known_args()
 	

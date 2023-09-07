@@ -398,7 +398,7 @@ def checking():
 
 		#print(solverModel)
 		
-checking()
+#checking()
 
 '''
 
