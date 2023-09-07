@@ -14,6 +14,7 @@ scalability-benchmark/signalsFiles/f:06-nw:016-ml:10-0.signal,2,32,10,,,,,,3600.
 scalability-benchmark/signalsFiles/f:08-nw:032-ml:04-0.signal,2,64,4,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:08-nw:008-ml:12-0.signal,2,16,12,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:08-nw:012-ml:10-0.signal,2,24,10,,,,,,3600.0
+scalability-benchmark/signalsFiles/f:06-nw:016-ml:14-0.signal,2,32,14,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:08-nw:032-ml:08-0.signal,2,64,8,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:07-nw:016-ml:08-0.signal,2,32,8,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:09-nw:012-ml:08-0.signal,2,24,8,"G(p | (G[0.6015625,0.6015625]q))",4,True,3214.0417890548706,3106.7687237262726,3600.0
@@ -42,6 +43,7 @@ scalability-benchmark/signalsFiles/f:06-nw:032-ml:06-0.signal,2,64,6,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:08-nw:016-ml:12-0.signal,2,32,12,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:06-nw:012-ml:16-0.signal,2,24,16,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:03-nw:004-ml:08-0.signal,2,8,8,G(q | p),3,True,31.61090326309204,19.28084945678711,3600.0
+scalability-benchmark/signalsFiles/f:06-nw:008-ml:14-0.signal,2,16,14,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:03-nw:016-ml:12-0.signal,2,32,12,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:03-nw:016-ml:16-0.signal,2,32,16,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:01-nw:016-ml:04-0.signal,2,32,4,"G(F[0.096875,1.096875]p)",2,True,25.50141191482544,12.766968727111816,3600.0
@@ -54,7 +56,7 @@ scalability-benchmark/signalsFiles/f:07-nw:012-ml:06-0.signal,2,24,6,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:05-nw:012-ml:14-0.signal,2,24,14,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:07-nw:008-ml:04-0.signal,2,16,4,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:05-nw:008-ml:12-0.signal,2,16,12,,,,,,3600.0
-scalability-benchmark/signalsFiles/f:09-nw:016-ml:06-0.signal,2,32,6,,,,,,3600.0
+scalability-benchmark/signalsFiles/f:09-nw:016-ml:06-0.signal,2,32,6,"G(q | (G[0.0,1.103125]p))",4,True,2575.429214954376,2430.8777964115143,3600.0
 scalability-benchmark/signalsFiles/f:05-nw:012-ml:10-0.signal,2,24,10,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:07-nw:032-ml:12-0.signal,2,64,12,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:07-nw:008-ml:08-0.signal,2,16,8,,,,,,3600.0
@@ -217,10 +219,11 @@ scalability-benchmark/signalsFiles/f:03-nw:016-ml:14-0.signal,2,32,14,,,,,,3600.
 scalability-benchmark/signalsFiles/f:08-nw:004-ml:06-0.signal,2,8,6,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:01-nw:004-ml:10-0.signal,2,8,10,"G(F[0.303125,1.803125]p)",2,True,4.3882975578308105,1.440107822418213,3600.0
 scalability-benchmark/signalsFiles/f:04-nw:008-ml:08-0.signal,2,16,8,"G(F[0.003125,1.903125]p)",2,True,16.170756816864014,10.218395233154297,3600.0
-scalability-benchmark/signalsFiles/f:06-nw:032-ml:08-0.signal,2,64,8,,,,,,3600.0
+scalability-benchmark/signalsFiles/f:06-nw:032-ml:08-0.signal,2,64,8,G(q | p),3,True,838.9946084022522,704.8197906017303,3600.0
 scalability-benchmark/signalsFiles/f:06-nw:008-ml:12-0.signal,2,16,12,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:08-nw:016-ml:14-0.signal,2,32,14,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:06-nw:012-ml:10-0.signal,2,24,10,,,,,,3600.0
+scalability-benchmark/signalsFiles/f:04-nw:032-ml:12-0.signal,2,64,12,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:06-nw:032-ml:04-0.signal,2,64,4,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:04-nw:032-ml:16-0.signal,2,64,16,,,,,,3600.0
 scalability-benchmark/signalsFiles/f:04-nw:012-ml:06-0.signal,2,24,6,,,,,,3600.0
