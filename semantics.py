@@ -336,7 +336,7 @@ def checking():
 	#actual_itv1 = [(0,6),(8,12),(16,17),(20,20)]
 	#actual_itv1 = [(0, 1),(3, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5),(5, 5)]
 	#actual_itv1 = [(2, 7),(8, 19),(20, 20),(20, 20)]
-	end_time = 4
+	end_time = 5
 	s = Sample()
 	s.readSample('./dummy.signal')
 	for signal_id, signal in enumerate(s.positive+s.negative):
@@ -369,7 +369,7 @@ def checking():
 
 		s = Solver()
 		#s.add(itv_new[0][1] == 5)
-		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==len(prop_itvs['p']), a==0.0, b==2.0]))#0.0625,1.9375
+		s.add(And([And(itv1[i][0]==actual_itv1[i][0], itv1[i][1]==actual_itv1[i][1]) for i in range(len(actual_itv1))]+[num_itv1==len(prop_itvs['p']), a==0.0, b==1.0]))#0.0625,1.9375
 		#s.add(And([And(itv2[i][0]==actual_itv2[i][0], itv2[i][1]==actual_itv2[i][1]) for i in range(len(actual_itv2))]+[num_itv2==len(prop_itvs['p'])]))
 
 		
@@ -398,7 +398,7 @@ def checking():
 
 		#print(solverModel)
 		
-#checking()
+checking()
 
 '''
 

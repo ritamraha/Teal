@@ -49,8 +49,8 @@ class learnMTL:
 			writer.writeheader()
 			writer.writerow(self.info_dict)
 
-		#formula = STLFormula.convertTextToFormula('|(p,F[0,2](q))')
-		#print(check_consistency_G(formula, self.signal_sample, 1))
+		formula = STLFormula.convertTextToFormula('F[0,1](p)')
+		print(check_consistency_G(formula, self.signal_sample, 1))
 
 		#print(self.prop_itvs)
 		#self.fr_bound = 4
@@ -276,7 +276,7 @@ def main():
 	parser.add_argument('--timeout', '-t', dest='timeout', default=3600, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= '')
 	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
-	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=2, type=int)
+	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=1, type=int)
 
 	args,unknown = parser.parse_known_args()
 	
@@ -345,7 +345,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 		writer.writerow(info_dict)
 
 
-#main()
+main()
 #run_test('dummy.signal', 900, 3)
 
 '''
