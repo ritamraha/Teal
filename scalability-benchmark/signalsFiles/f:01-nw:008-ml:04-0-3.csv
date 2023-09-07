@@ -1,2 +1,0 @@
-file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-scalability-benchmark/signalsFiles/f:01-nw:008-ml:04-0.signal,3,16,4,"G(F[0.003125,1.203125]p)",2,True,16.522464990615845,6.824640274047852,7200
