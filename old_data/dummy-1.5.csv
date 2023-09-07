@@ -1,0 +1,2 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+dummy.signal,1.5,4,8,"G(p U[0.5,1.5] q)",3,True,11.491326093673706,5.279454469680786,200

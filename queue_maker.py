@@ -81,9 +81,9 @@ class multiprocess:
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--benchmark_folder', dest='benchmark_folder', default="small_benchmarks")
-	parser.add_argument('--compile', dest='compile_results', action='store_true', default=False)
-	parser.add_argument('--timeout', dest='timeout', default=5400)
+	parser.add_argument('--benchmark_folder', '-b', dest='benchmark_folder', default="small_benchmarks")
+	parser.add_argument('--compile', '-c', dest='compile_results', action='store_true', default=True)
+	parser.add_argument('--timeout', dest='timeout', default=7200)
 
 	args,unknown = parser.parse_known_args()
 

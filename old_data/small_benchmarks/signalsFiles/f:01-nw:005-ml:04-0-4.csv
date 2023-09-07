@@ -1,0 +1,2 @@
+file_name,Fr bound,Formula,Correct?,Total Time,Solving Time,Timeout
+small_benchmarks/signalsFiles/f:01-nw:005-ml:04-0.signal,4,Gp,True,0.12765026092529297,0.0025708675384521484,200

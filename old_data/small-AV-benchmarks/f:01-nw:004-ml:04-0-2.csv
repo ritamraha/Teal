@@ -1,0 +1,2 @@
+Fr bound,Solving Time,Example length,Timeout,Formula Size,Formula,file_name,Total Time,Number of examples,Correct?
+2,0.6526267528533936,4,3600.0,2,"G(F[0.0,2.0]p)",small-AV-benchmarks/f:01-nw:004-ml:04-0.signal,6.357187032699585,8,True

@@ -1,0 +1,2 @@
+Fr bound,Solving Time,Total Time,file_name,Formula Size,Example length,Timeout,Correct?,Formula,Number of examples
+2,0.5766599178314209,5.830708265304565,example.signal,2,4,900.0,True,"G(F[0.0,2.0]p)",8

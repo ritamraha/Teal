@@ -1,0 +1,237 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:12-0.signal,1,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:12-0.signal,2,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:14-0.signal,2,16,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:06-0.signal,3,24,6,"G((F[0.0,1.903125]q) | p)",4,True,5157.300728321075,4976.43217253685,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:12-0.signal,3,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:04-0.signal,1,8,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:06-0.signal,1,8,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:14-0.signal,1,8,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:08-0.signal,3,24,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:10-0.signal,1,8,10,"G(F[0.0,1.0]p)",2,True,5.219842195510864,0.9025521278381348,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:10-0.signal,3,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:12-0.signal,3,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:10-0.signal,3,16,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:16-0.signal,3,24,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:06-0.signal,3,16,6,"G(F[0.003125,2.096875]p)",2,True,14.564299821853638,4.837267160415649,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:14-0.signal,3,16,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:04-0.signal,3,24,4,"G(F[0.109375,2.203125]p)",2,True,22.92141819000244,7.809050798416138,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:14-0.signal,3,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:06-0.signal,3,64,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:16-0.signal,2,64,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:04-0.signal,2,64,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:14-0.signal,1,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:04-0.signal,2,16,4,G(q | p),3,True,121.68732738494873,81.62563157081604,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:14-0.signal,2,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:06-0.signal,1,32,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:06-0.signal,2,24,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:16-0.signal,2,16,16,"G(F[0.0,2.0]p)",2,True,14.591774702072144,5.136277675628662,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:10-0.signal,2,24,10,"G(F[0.0,2.0]p)",2,True,21.446393251419067,7.624483108520508,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:12-0.signal,2,16,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:12-0.signal,2,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:08-0.signal,2,16,8,"G(F[0.0,0.70625](p | (G[1.09375,1.29375]p)))",4,True,4405.834944963455,4297.115812778473,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:08-0.signal,2,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:06-0.signal,2,8,6,"G(q | (F[0.0,1.796875]p))",4,True,876.0644781589508,823.0994346141815,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:04-0.signal,3,32,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:10-0.signal,2,32,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:10-0.signal,1,24,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:12-0.signal,1,16,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:04-0.signal,1,64,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:14-0.signal,2,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:14-0.signal,1,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:12-0.signal,3,8,12,"G(p | (F[0.20625,2.70625]q))",4,True,1820.1304428577423,1768.79940700531,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:08-0.signal,1,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:10-0.signal,3,8,10,"G(F[0.003125,1.703125]p)",2,True,8.01003360748291,3.5797483921051025,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:14-0.signal,3,8,14,"G(F[0.003125,1.996875]p)",2,True,6.117583990097046,1.9129135608673096,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:06-0.signal,3,8,6,"G((!(G[0.103125,1.903125]q)) | (F[2.0,2.29375]q))",5,True,2171.469888448715,2064.218635082245,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:06-0.signal,1,64,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:14-0.signal,1,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:04-0.signal,1,24,4,"G((F[0.103125,0.196875]q) | p)",4,True,1623.5816004276276,1453.5625338554382,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:16-0.signal,2,32,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:12-0.signal,2,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:12-0.signal,1,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:10-0.signal,1,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:08-0.signal,2,8,8,"G(F[0.0,2.0]p)",2,True,6.232125520706177,1.6053526401519775,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:10-0.signal,3,32,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:06-0.signal,3,32,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:14-0.signal,3,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:16-0.signal,2,8,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:04-0.signal,2,8,4,"G(F[0.0,2.0]p)",2,True,6.350792169570923,1.7716021537780762,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:12-0.signal,2,8,12,G(q | p),3,True,76.05515742301941,56.10417699813843,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:12-0.signal,1,8,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:08-0.signal,3,16,8,"G(p | (F[0.396875,2.096875]p))",3,True,310.0115671157837,266.25902342796326,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:08-0.signal,3,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:04-0.signal,1,8,4,G(q | p),3,True,27.900315046310425,4.552962303161621,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:16-0.signal,3,64,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:04-0.signal,3,64,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:14-0.signal,3,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:04-0.signal,3,16,4,G(p | q),3,True,75.34492373466492,34.98432540893555,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:16-0.signal,3,16,16,"G(F[0.0,2.2041666666666666]p)",2,True,16.14317274093628,6.742060661315918,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:06-0.signal,3,24,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:10-0.signal,3,24,10,"G(F[0.009375,2.103125]p)",2,True,25.007768869400024,11.261159420013428,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:12-0.signal,3,16,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:08-0.signal,1,8,8,"G(p | (G[0.40625,0.40625]q))",4,True,249.32659888267517,196.44043564796448,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:12-0.signal,3,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:10-0.signal,2,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:12-0.signal,1,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:12-0.signal,2,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:10-0.signal,2,16,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:16-0.signal,1,32,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:06-0.signal,2,16,6,"G(F[0.00625,1.89375]p)",2,True,14.62726902961731,4.821420431137085,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:16-0.signal,2,24,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:04-0.signal,2,24,4,"G(F[0.0,2.0]p)",2,True,22.114320039749146,6.92601752281189,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:14-0.signal,2,16,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:14-0.signal,2,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:06-0.signal,2,64,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:08-0.signal,2,24,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:08-0.signal,1,32,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:06-0.signal,2,24,6,"G(p | (F[0.0,1.996875]q))",4,True,2718.7761974334717,2540.250526189804,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:04-0.signal,2,16,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:12-0.signal,2,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:12-0.signal,3,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:14-0.signal,3,16,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:14-0.signal,1,8,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:16-0.signal,3,8,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:04-0.signal,3,8,4,"G(F[0.01875,2.60625]p)",2,True,6.294737339019775,1.7116045951843262,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:08-0.signal,1,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:08-0.signal,1,16,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:12-0.signal,3,8,12,G(q | p),3,True,59.42766332626343,40.583892822265625,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:12-0.signal,1,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:08-0.signal,3,8,8,"G(F[0.60625,2.79375]p)",2,True,6.16298508644104,1.5065407752990723,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:12-0.signal,1,16,12,G(q | p),3,True,115.81350708007812,75.76089763641357,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:10-0.signal,2,32,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:10-0.signal,1,24,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:06-0.signal,2,32,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:06-0.signal,1,24,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:16-0.signal,1,16,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:14-0.signal,2,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:14-0.signal,1,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:16-0.signal,1,64,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:16-0.signal,3,32,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:12-0.signal,3,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:10-0.signal,2,8,10,"G(F[0.60625,2.0]p)",2,True,6.08494758605957,1.646310806274414,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:14-0.signal,2,8,14,"G(F[0.003125,1.996875]p)",2,True,6.041961908340454,1.564251184463501,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:06-0.signal,2,8,6,"G((F[1.99375,2.0]q) | (!(G[0.00625,1.9]q)))",5,True,2034.387639284134,1924.413664340973,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:12-0.signal,2,8,12,"G((F[0.0,2.0]q) | p)",4,True,4153.6482791900635,4099.124541044235,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:10-0.signal,3,32,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:14-0.signal,3,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:04-0.signal,2,32,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:04-0.signal,1,24,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:14-0.signal,1,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:10-0.signal,1,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:06-0.signal,3,8,6,"G((F[0.30625,2.80625]q) | p)",4,True,1653.8593981266022,1599.2952535152435,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:12-0.signal,2,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:12-0.signal,2,16,12,G(p | q),3,True,120.39449882507324,79.2313756942749,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:10-0.signal,2,24,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:10-0.signal,1,32,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:16-0.signal,2,16,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:06-0.signal,2,24,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:06-0.signal,1,32,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:14-0.signal,2,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:04-0.signal,2,16,4,"G(F[0.0,2.0]p)",2,True,12.238915205001831,2.107919692993164,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:14-0.signal,1,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:16-0.signal,2,64,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:08-0.signal,2,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:08-0.signal,2,16,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:06-0.signal,1,8,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:06-0.signal,3,64,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:14-0.signal,3,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:04-0.signal,3,24,4,"G((G[0.196875,0.896875]q) | p)",4,False,2515.4301266670227,2346.5067625045776,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:14-0.signal,3,16,14,"G(F[0.096875,2.296875]p)",2,True,15.03712511062622,6.323513507843018,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:10-0.signal,3,16,10,"G(F[0.009375,2.103125]p)",2,True,15.739271640777588,6.729242324829102,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:12-0.signal,3,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:10-0.signal,3,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:10-0.signal,3,24,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:12-0.signal,3,16,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:04-0.signal,3,64,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:14-0.signal,3,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:08-0.signal,3,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:06-0.signal,2,16,6,"G((F[0.0,1.7]q) | p)",4,True,1678.16539311409,1570.405255317688,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:04-0.signal,2,24,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:04-0.signal,1,32,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:14-0.signal,2,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:10-0.signal,2,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:14-0.signal,3,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:06-0.signal,3,32,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:10-0.signal,3,32,10,"G(F[0.109375,2.203125]p)",2,True,52.74031925201416,30.700406551361084,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:08-0.signal,2,8,8,"G(p | (F[0.20625,1.90625]p))",3,True,123.4902913570404,102.9731764793396,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:04-0.signal,2,8,4,"G(G[2.0,2.0]p)",2,True,5.53808069229126,0.8915517330169678,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:16-0.signal,2,8,16,"G(F[0.0,2.0]p)",2,True,5.846693754196167,1.4747767448425293,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:06-0.signal,3,8,6,"G(F[0.4875,2.19375]p)",2,True,6.994289875030518,2.6169652938842773,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:14-0.signal,3,8,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:08-0.signal,2,32,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:08-0.signal,1,24,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:10-0.signal,3,8,10,"G(F[0.896875,1.990625]p)",2,True,6.34583592414856,2.108187437057495,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:10-0.signal,1,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:12-0.signal,1,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:12-0.signal,2,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:10-0.signal,1,16,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:16-0.signal,1,24,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:16-0.signal,2,32,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:14-0.signal,1,16,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:04-0.signal,2,32,4,"G(F[0.0,2.0]p)",2,True,32.44598317146301,11.813756704330444,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:14-0.signal,1,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:06-0.signal,1,64,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:04-0.signal,1,16,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:12-0.signal,1,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:14-0.signal,2,8,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:12-0.signal,3,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:06-0.signal,3,16,6,"G(p | (F[0.0,2.003125]q))",4,True,1535.5192773342133,1430.6281955242157,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:04-0.signal,3,24,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:14-0.signal,3,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:10-0.signal,3,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:08-0.signal,2,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:10-0.signal,2,24,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:10-0.signal,1,32,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:12-0.signal,2,16,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:032-ml:04-0.signal,2,64,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:14-0.signal,2,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:14-0.signal,1,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:06-0.signal,2,64,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:14-0.signal,2,64,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:14-0.signal,2,16,14,"G(F[0.0,2.0]p)",2,True,12.293238401412964,3.644598960876465,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:04-0.signal,2,24,4,"G((p | q) U[0.303125,1.796875] p)",4,True,3814.3894715309143,3655.7160091400146,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:16-0.signal,1,32,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:10-0.signal,2,16,10,"G(F[0.19375,2.0]p)",2,True,16.631876707077026,7.648021697998047,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:12-0.signal,2,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:12-0.signal,1,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:10-0.signal,2,64,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:16-0.signal,1,8,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:04-0.signal,1,8,4,"G(p | (!(G[0.00625,0.59375]q)))",5,True,1546.0903124809265,1438.2447221279144,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:08-0.signal,3,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:12-0.signal,1,8,12,G(p | q),3,True,35.90993022918701,16.24400281906128,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:08-0.signal,3,16,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:12-0.signal,3,64,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:12-0.signal,3,16,12,G(p | q),3,True,140.2832305431366,91.82401442527771,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:10-0.signal,3,24,10,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:06-0.signal,3,24,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:16-0.signal,3,16,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:04-0.signal,3,16,4,"G(F[0.509375,2.703125]p)",2,True,11.633992195129395,2.265322685241699,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:14-0.signal,3,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:16-0.signal,3,64,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:012-ml:12-0.signal,1,24,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:016-ml:12-0.signal,2,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:008-ml:14-0.signal,1,16,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:14-0.signal,3,8,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:02-nw:004-ml:04-0.signal,2,8,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:12-0.signal,3,32,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:16-0.signal,3,32,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:04-0.signal,3,32,4,"G(F[0.096875,2.190625]p)",2,True,31.382086753845215,11.664175033569336,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:06-0.signal,2,8,6,"G(F[0.0125,2.0]p)",2,True,6.0201051235198975,1.593094825744629,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:14-0.signal,2,8,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:08-0.signal,3,32,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:10-0.signal,2,8,10,"G(F[0.096875,1.096875]p)",2,True,7.124301433563232,1.7157258987426758,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:08-0.signal,1,64,8,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:04-0.signal,3,8,4,"G(G[2.1875,2.9]p)",2,False,5.483404874801636,0.8234403133392334,7200
+AV-benchmarks/signalsFiles/f:01-nw:004-ml:16-0.signal,3,8,16,"G(F[0.0,2.8041666666666667]p)",2,True,6.114931583404541,1.7325146198272705,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:16-0.signal,1,64,16,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:032-ml:04-0.signal,1,64,4,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:012-ml:14-0.signal,1,24,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:008-ml:04-0.signal,1,16,4,G(p | q),3,True,59.2776939868927,17.346282482147217,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:14-0.signal,2,32,14,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:012-ml:06-0.signal,1,24,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:016-ml:06-0.signal,2,32,6,,,,,,7200
+AV-benchmarks/signalsFiles/f:01-nw:016-ml:10-0.signal,2,32,10,"G(F[0.0,2.0]p)",2,True,42.25774335861206,21.501518726348877,7200
+AV-benchmarks/signalsFiles/f:03-nw:004-ml:08-0.signal,3,8,8,"G(p | (F[0.296875,2.003125]p))",3,True,149.76160740852356,130.80960083007812,7200
+AV-benchmarks/signalsFiles/f:01-nw:008-ml:12-0.signal,1,16,12,,,,,,7200
+AV-benchmarks/signalsFiles/f:03-nw:032-ml:12-0.signal,1,64,12,,,,,,7200
