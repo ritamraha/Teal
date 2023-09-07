@@ -1,0 +1,21 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+buggy-files/signalsFiles/f:03-nw:010-ml:06-0.signal,1,20,6,G(q | p),3,True,66.13350582122803,33.41106915473938,5400.0
+buggy-files/signalsFiles/f:04-nw:020-ml:04-0.signal,1,40,4,Gp,1,True,0.25701165199279785,0.007630109786987305,5400.0
+buggy-files/signalsFiles/f:03-nw:015-ml:06-0.signal,1,30,6,G(p | q),3,True,144.53000903129578,95.0844476222992,5400.0
+buggy-files/signalsFiles/f:01-nw:015-ml:05-0.signal,1,30,5,"G(F[0.0,1.0]p)",2,True,19.904497146606445,8.098338842391968,5400.0
+buggy-files/signalsFiles/f:01-nw:020-ml:06-0.signal,1,40,6,"G(F[0.0,1.0]p)",2,True,39.10131764411926,21.354006052017212,5400.0
+buggy-files/signalsFiles/f:01-nw:010-ml:05-0.signal,1,20,5,"G(F[0.0,1.0]p)",2,True,9.772776365280151,2.315453290939331,5400.0
+buggy-files/signalsFiles/f:02-nw:020-ml:04-0.signal,1,40,4,"G((F[0.0,0.9]q) | p)",4,True,3235.180222272873,3054.459097146988,5400.0
+buggy-files/signalsFiles/f:01-nw:015-ml:04-0.signal,1,30,4,"G(F[0.003125,0.903125]p)",2,True,20.46880078315735,8.708590507507324,5400.0
+buggy-files/signalsFiles/f:01-nw:010-ml:04-0.signal,1,20,4,"G(F[0.00625,1.0]p)",2,True,10.882330417633057,3.039402484893799,5400.0
+buggy-files/signalsFiles/f:02-nw:020-ml:05-0.signal,1,40,5,,,,,,5400.0
+buggy-files/signalsFiles/f:01-nw:005-ml:06-0.signal,1,10,6,"G(F[0.003125,1.0]p)",2,True,5.536503553390503,1.978187084197998,5400.0
+buggy-files/signalsFiles/f:04-nw:020-ml:05-0.signal,1,40,5,Gp,1,True,0.24614596366882324,0.0075855255126953125,5400.0
+buggy-files/signalsFiles/f:01-nw:020-ml:05-0.signal,1,40,5,"G(F[0.0,1.0]p)",2,True,28.3513286113739,12.168914794921875,5400.0
+buggy-files/signalsFiles/f:01-nw:015-ml:06-0.signal,1,30,6,"G(F[0.19583333333333333,1.0]p)",2,True,21.848158836364746,9.915967226028442,5400.0
+buggy-files/signalsFiles/f:01-nw:010-ml:06-0.signal,1,20,6,"G(F[0.008333333333333333,1.0]p)",2,True,12.829233646392822,5.1650073528289795,5400.0
+buggy-files/signalsFiles/f:01-nw:005-ml:04-0.signal,1,10,4,"G(F[0.00625,0.90625]p)",2,True,5.710597276687622,2.2033936977386475,5400.0
+buggy-files/signalsFiles/f:01-nw:005-ml:05-0.signal,1,10,5,"G(F[0.0,1.0]p)",2,True,4.293089389801025,0.767230749130249,5400.0
+buggy-files/signalsFiles/f:04-nw:020-ml:06-0.signal,1,40,6,Gp,1,True,0.24488472938537598,0.006479501724243164,5400.0
+buggy-files/signalsFiles/f:01-nw:020-ml:04-0.signal,1,40,4,"G(F[0.096875,1.0]p)",2,True,31.607487678527832,15.111119508743286,5400.0
+buggy-files/signalsFiles/f:03-nw:005-ml:06-0.signal,1,10,6,G(q | p),3,True,20.3217031955719,4.824143648147583,5400.0
