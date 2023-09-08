@@ -287,6 +287,7 @@ def main():
 	fr_bound = int(args.fr_bound)
 	#print(monitoring)
 
+	print('check', fr_bound)
 	if outputcsv=='':
 		outputcsv = input_file.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
 
