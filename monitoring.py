@@ -234,8 +234,37 @@ def compute_U_itvs(itvs1, itvs2, a, b, end_time, precision):
 def compute_G_itvs(itvs, a, b, end_time, precision):
 
 	not_itvs = compute_not_itvs(itvs, end_time, precision)
-	F_itvs = compute_F_itvs(not_itvs, a, b, end_time, precision)
-	G_itvs = compute_not_itvs(F_itvs, end_time, precision)
+	
+	minus_itvs_og = [(max(precision_minus(not_itvs[i][0],b,precision),0),max(precision_minus(not_itvs[i][1],a,precision),0))\
+							 for i in range(len(not_itvs))]
+		
+	minus_itvs = [(i,j) for (i,j) in minus_itvs_og if j!=0]
+	if minus_itvs == []:
+		return []
+
+	union_itvs = []
+	current_itv = minus_itvs[0]
+	len_minus_itv = len(minus_itvs) 
+	head = 0
+	while True:
+
+		head+=1
+		if head==len_minus_itv:
+			union_itvs.append(current_itv)
+			break
+
+		if minus_itvs[head][0] <= current_itv[1] and current_itv[1] <= minus_itvs[head][1]:
+			current_itv = (current_itv[0],minus_itvs[head][1])
+		elif minus_itvs[head][1] < current_itv[1]:
+			continue
+		else:
+			union_itvs.append(current_itv)
+			current_itv = minus_itvs[head]
+
+	#print(minus_itvs)
+	G_itvs = compute_not_itvs(union_itvs, end_time, precision)
+
+
 
 	if G_itvs == []:
 		return [(precision_minus(end_time,a,precision), end_time)]
@@ -286,5 +315,5 @@ def compute_not_itvs(itvs, end_time, precision):
 	return not_itvs
 
 
-#print(compute_U_itvs([(1,2),(5,7),(9,10)], [(0,4),(6,10)], 0.5, 2, 10))
+#print(compute_G_itvs([(1.6,4)], 0, 3, 4, 1))
 #print(compute_F_itvs([(0,0.2), (2.2,4)], 0.0, 2.0, 4))

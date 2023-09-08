@@ -1,49 +1,49 @@
 file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-RQ1-bound-3/signalsFiles/f:01-nw:015-ml:04-0.signal,3,30,4,"G(F[0.00625,2.60625]p)",2,True,21.503923416137695,9.778197288513184,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:010-ml:06-0.signal,3,20,6,"G((F[0.0,2.9]q) | p)",4,True,3387.4907858371735,3300.7974762916565,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:005-ml:04-0.signal,3,10,4,Gp,1,True,0.0765528678894043,0.00102996826171875,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:010-ml:04-0.signal,3,20,4,"G(F[0.00625,2.30625]p)",2,True,12.118514776229858,4.637776613235474,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:020-ml:05-0.signal,3,40,5,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:005-ml:05-0.signal,3,10,5,"G(F[0.00625,0.59375]q)",2,True,5.474609375,1.8609545230865479,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:015-ml:06-0.signal,3,30,6,"G((F[0.0,2.9]q) | p)",4,True,2297.56437087059,2161.0384209156036,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:015-ml:06-0.signal,3,30,6,Gp,1,True,0.18510770797729492,0.0039479732513427734,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:020-ml:05-0.signal,3,40,5,Gp,1,True,0.24555325508117676,0.007418632507324219,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:005-ml:06-0.signal,3,10,6,"G(F[0.00625,3.0]p)",2,True,5.1409080028533936,1.4667396545410156,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:005-ml:04-0.signal,3,10,4,"G(F[0.10625,2.60625]q)",2,True,4.5967442989349365,0.9640135765075684,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:010-ml:06-0.signal,3,20,6,Gp,1,True,0.13091731071472168,0.0025348663330078125,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:020-ml:04-0.signal,3,40,4,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:010-ml:06-0.signal,3,20,6,"G(p | (F[0.903125,0.996875]q))",4,True,1828.1713547706604,1739.8348891735077,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:020-ml:04-0.signal,3,40,4,Gp,1,True,0.24454450607299805,0.0065844058990478516,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:015-ml:06-0.signal,3,30,6,"G(q | (G[0.0020833333333333333,0.004166666666666667]p))",4,False,2792.8512296676636,2657.2835416793823,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:005-ml:05-0.signal,3,10,5,"G(F[0.49375,3.0]q)",2,True,4.858599662780762,1.2669506072998047,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:020-ml:05-0.signal,3,40,5,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:015-ml:05-0.signal,3,30,5,"G(F[0.103125,2.7]p)",2,True,25.25610089302063,13.59020709991455,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:020-ml:06-0.signal,3,40,6,"G(F[0.096875,3.0]p)",2,True,29.409672021865845,12.991093397140503,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:005-ml:05-0.signal,3,10,5,Gp,1,True,0.07275176048278809,0.0010726451873779297,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:010-ml:05-0.signal,3,20,5,"G(F[0.803125,2.996875]p)",2,True,10.309169292449951,2.870965003967285,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:020-ml:04-0.signal,3,40,4,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:005-ml:04-0.signal,3,10,4,"G(p | (G[1.2,3.0]q))",4,True,386.23744797706604,343.9307646751404,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:020-ml:06-0.signal,3,40,6,Gp,1,True,0.24093389511108398,0.006315708160400391,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:005-ml:05-0.signal,3,10,5,"G(F[0.8,2.99375]p)",2,True,4.656840562820435,1.1107416152954102,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:010-ml:04-0.signal,3,20,4,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:015-ml:05-0.signal,3,30,5,Gp,1,True,0.18574190139770508,0.004057407379150391,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:015-ml:04-0.signal,3,30,4,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:010-ml:05-0.signal,3,20,5,Gp,1,True,0.1311643123626709,0.0024297237396240234,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:020-ml:04-0.signal,3,40,4,"G(F[0.50625,3.0]p)",2,True,27.6174578666687,11.15477180480957,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:010-ml:05-0.signal,3,20,5,"G((F[0.096875,2.896875]q) | p)",4,True,2866.5052309036255,2778.9375,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:005-ml:06-0.signal,3,10,6,G(q | p),3,True,27.79016613960266,12.193053960800171,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:015-ml:05-0.signal,3,30,5,"G(p | (F[0.0,3.0]q))",4,True,1119.4778490066528,984.1996912956238,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:020-ml:06-0.signal,3,40,6,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:020-ml:05-0.signal,3,40,5,"G(F[0.103125,2.996875]p)",2,True,33.98056125640869,17.68104338645935,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:010-ml:04-0.signal,3,20,4,"G(p | (F[0.0,0.903125]q))",4,True,1018.5833902359009,932.6688587665558,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:005-ml:06-0.signal,3,10,6,Gp,1,True,0.07581734657287598,0.0009648799896240234,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:015-ml:06-0.signal,3,30,6,"G(F[0.00625,3.0]p)",2,True,19.66636371612549,7.729170560836792,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:015-ml:04-0.signal,3,30,4,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:010-ml:06-0.signal,3,20,6,"G(F[0.00625,2.9125]p)",2,True,13.459537506103516,5.894612073898315,5400.0
-RQ1-bound-3/signalsFiles/f:01-nw:005-ml:04-0.signal,3,10,4,"G(F[0.003125,2.6]p)",2,True,4.488345384597778,0.9194822311401367,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:010-ml:05-0.signal,3,20,5,"G(q | (F[0.0020833333333333333,0.004166666666666667]p))",4,True,1041.0274021625519,953.7985224723816,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:015-ml:04-0.signal,3,30,4,Gp,1,True,0.18761420249938965,0.004795551300048828,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:020-ml:06-0.signal,3,40,6,,,,,,5400.0
-RQ1-bound-3/signalsFiles/f:03-nw:015-ml:05-0.signal,3,30,5,"G(p | (G[0.09166666666666666,0.09583333333333334]q))",4,True,4864.203402519226,4727.3410902023315,5400.0
-RQ1-bound-3/signalsFiles/f:02-nw:005-ml:06-0.signal,3,10,6,"G(p | (F[0.0,2.9]q))",4,True,1413.5850069522858,1371.6197481155396,5400.0
-RQ1-bound-3/signalsFiles/f:04-nw:010-ml:04-0.signal,3,20,4,Gp,1,True,0.1270439624786377,0.0024156570434570312,5400.0
+RQ1-bound-3/signalsFiles/f:01-nw:005-ml:04-0.signal,3,10,4,"G(F[0.003125,2.6]p)",2,TRUE,4.49,0.92,5400
+RQ1-bound-3/signalsFiles/f:01-nw:005-ml:05-0.signal,3,10,5,"G(F[0.8,2.99375]p)",2,TRUE,4.66,1.11,5400
+RQ1-bound-3/signalsFiles/f:01-nw:005-ml:06-0.signal,3,10,6,"G(F[0.00625,3.0]p)",2,TRUE,5.14,1.47,5400
+RQ1-bound-3/signalsFiles/f:01-nw:010-ml:04-0.signal,3,20,4,"G(F[0.00625,2.30625]p)",2,TRUE,12.12,4.64,5400
+RQ1-bound-3/signalsFiles/f:01-nw:010-ml:05-0.signal,3,20,5,"G(F[0.803125,2.996875]p)",2,TRUE,10.31,2.87,5400
+RQ1-bound-3/signalsFiles/f:01-nw:010-ml:06-0.signal,3,20,6,"G(F[0.00625,2.9125]p)",2,TRUE,13.46,5.89,5400
+RQ1-bound-3/signalsFiles/f:01-nw:015-ml:04-0.signal,3,30,4,"G(F[0.00625,2.60625]p)",2,TRUE,21.50,9.78,5400
+RQ1-bound-3/signalsFiles/f:01-nw:015-ml:05-0.signal,3,30,5,"G(F[0.103125,2.7]p)",2,TRUE,25.26,13.59,5400
+RQ1-bound-3/signalsFiles/f:01-nw:015-ml:06-0.signal,3,30,6,"G(F[0.00625,3.0]p)",2,TRUE,19.67,7.73,5400
+RQ1-bound-3/signalsFiles/f:01-nw:020-ml:04-0.signal,3,40,4,"G(F[0.50625,3.0]p)",2,TRUE,27.62,11.15,5400
+RQ1-bound-3/signalsFiles/f:01-nw:020-ml:05-0.signal,3,40,5,"G(F[0.103125,2.996875]p)",2,TRUE,33.98,17.68,5400
+RQ1-bound-3/signalsFiles/f:01-nw:020-ml:06-0.signal,3,40,6,"G(F[0.096875,3.0]p)",2,TRUE,29.41,12.99,5400
+RQ1-bound-3/signalsFiles/f:02-nw:005-ml:04-0.signal,3,10,4,"G(F[0.10625,2.60625]q)",2,TRUE,4.60,0.96,5400
+RQ1-bound-3/signalsFiles/f:02-nw:005-ml:05-0.signal,3,10,5,"G(F[0.49375,3.0]q)",2,TRUE,4.86,1.27,5400
+RQ1-bound-3/signalsFiles/f:02-nw:005-ml:06-0.signal,3,10,6,"G(p | (F[0.0,2.9]q))",4,TRUE,"1,413.59","1,371.62",5400
+RQ1-bound-3/signalsFiles/f:02-nw:010-ml:04-0.signal,3,20,4,"G(p | (F[0.0,0.903125]q))",4,TRUE,"1,018.58",932.67,5400
+RQ1-bound-3/signalsFiles/f:02-nw:010-ml:05-0.signal,3,20,5,"G((F[0.096875,2.896875]q) | p)",4,TRUE,"2,866.51","2,778.94",5400
+RQ1-bound-3/signalsFiles/f:02-nw:010-ml:06-0.signal,3,20,6,"G((F[0.0,2.9]q) | p)",4,TRUE,"3,387.49","3,300.80",5400
+RQ1-bound-3/signalsFiles/f:02-nw:015-ml:04-0.signal,3,30,4,,,,,,5400
+RQ1-bound-3/signalsFiles/f:02-nw:015-ml:05-0.signal,3,30,5,"G(p | (F[0.0,3.0]q))",4,TRUE,"1,119.48",984.20,5400
+RQ1-bound-3/signalsFiles/f:02-nw:015-ml:06-0.signal,3,30,6,"G((F[0.0,2.9]q) | p)",4,TRUE,"2,297.56","2,161.04",5400
+RQ1-bound-3/signalsFiles/f:02-nw:020-ml:04-0.signal,3,40,4,,,,,,5400
+RQ1-bound-3/signalsFiles/f:02-nw:020-ml:05-0.signal,3,40,5,,,,,,5400
+RQ1-bound-3/signalsFiles/f:02-nw:020-ml:06-0.signal,3,40,6,,,,,,5400
+RQ1-bound-3/signalsFiles/f:03-nw:005-ml:04-0.signal,3,10,4,"G(p | (G[1.2,3.0]q))",4,TRUE,386.24,343.93,5400
+RQ1-bound-3/signalsFiles/f:03-nw:005-ml:05-0.signal,3,10,5,"G(F[0.00625,0.59375]q)",2,TRUE,5.47,1.86,5400
+RQ1-bound-3/signalsFiles/f:03-nw:005-ml:06-0.signal,3,10,6,G(q | p),3,TRUE,27.79,12.19,5400
+RQ1-bound-3/signalsFiles/f:03-nw:010-ml:04-0.signal,3,20,4,,,,,,5400
+RQ1-bound-3/signalsFiles/f:03-nw:010-ml:05-0.signal,3,20,5,"G(q | (F[0.0020833333333333333,0.004166666666666667]p))",4,TRUE,"1,041.03",953.80,5400
+RQ1-bound-3/signalsFiles/f:03-nw:010-ml:06-0.signal,3,20,6,"G(p | (F[0.903125,0.996875]q))",4,TRUE,"1,828.17","1,739.83",5400
+RQ1-bound-3/signalsFiles/f:03-nw:015-ml:04-0.signal,3,30,4,,,,,,5400
+RQ1-bound-3/signalsFiles/f:03-nw:015-ml:05-0.signal,3,30,5,"G(p | (G[0.09166666666666666,0.09583333333333334]q))",4,TRUE,"4,864.20","4,727.34",5400
+RQ1-bound-3/signalsFiles/f:03-nw:015-ml:06-0.signal,3,30,6,"G(q | (G[0.0020833333333333333,0.004166666666666667]p))",4,FALSE,"2,792.85","2,657.28",5400
+RQ1-bound-3/signalsFiles/f:03-nw:020-ml:04-0.signal,3,40,4,,,,,,5400
+RQ1-bound-3/signalsFiles/f:03-nw:020-ml:05-0.signal,3,40,5,,,,,,5400
+RQ1-bound-3/signalsFiles/f:03-nw:020-ml:06-0.signal,3,40,6,,,,,,5400
+RQ1-bound-3/signalsFiles/f:04-nw:005-ml:04-0.signal,3,10,4,Gp,1,TRUE,0.08,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:005-ml:05-0.signal,3,10,5,Gp,1,TRUE,0.07,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:005-ml:06-0.signal,3,10,6,Gp,1,TRUE,0.08,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:010-ml:04-0.signal,3,20,4,Gp,1,TRUE,0.13,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:010-ml:05-0.signal,3,20,5,Gp,1,TRUE,0.13,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:010-ml:06-0.signal,3,20,6,Gp,1,TRUE,0.13,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:015-ml:04-0.signal,3,30,4,Gp,1,TRUE,0.19,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:015-ml:05-0.signal,3,30,5,Gp,1,TRUE,0.19,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:015-ml:06-0.signal,3,30,6,Gp,1,TRUE,0.19,0.00,5400
+RQ1-bound-3/signalsFiles/f:04-nw:020-ml:04-0.signal,3,40,4,Gp,1,TRUE,0.24,0.01,5400
+RQ1-bound-3/signalsFiles/f:04-nw:020-ml:05-0.signal,3,40,5,Gp,1,TRUE,0.25,0.01,5400
+RQ1-bound-3/signalsFiles/f:04-nw:020-ml:06-0.signal,3,40,6,Gp,1,TRUE,0.24,0.01,5400
