@@ -1,0 +1,2 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+RQ1-U-bound-1/signalsFiles/f:01-nw:015-ml:04-0.signal,1,30,4,"G(p U[0.0,1.0] q)",3,True,303.71177220344543,253.5571517944336,5400.0
