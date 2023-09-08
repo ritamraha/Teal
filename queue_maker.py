@@ -21,7 +21,7 @@ class multiprocess:
 		for f in glob.glob(self.benchmark_folder + '/**/*.signal', recursive=True):
 			self.signal_list.append(f)
 
-		self.compiled_filename = 'all-results'
+		self.compiled_filename = 'all-results'+self.benchmark_folder
 		
 
 	def populate_queue(self):
