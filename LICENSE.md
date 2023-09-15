@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2022 Ritam Raha (University of Antwerp, Belgium and University of Bordeaux, France)
+Copyright (c) 2023 Ritam Raha (University of Antwerp, Belgium and University of Bordeaux, France)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
