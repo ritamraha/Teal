@@ -70,7 +70,7 @@ if rq_num == 1:
 		print('############ Running %s with fr-bound %d ############'%(file, fr_bound))
 		run_test(file_name=file, timeout=timeout, fr_bound=fr_bound)
 
-
+	compile_results(folder=folder, outputcsv='RQ1-results')
 
 if rq_num == 2:
 	if all_files:
@@ -84,6 +84,8 @@ if rq_num == 2:
 			run_test(file_name=file, timeout=timeout, fr_bound=fr_bound)
 
 
+	compile_results(folder=folder, outputcsv='RQ2-results')
+
 if rq_num == 3:
 	if all_files:
 		folder = 'RQ3'
@@ -95,3 +97,5 @@ if rq_num == 3:
 	for file in find_signalfiles(folder):	
 		print('############ Running %s with fr-bound %d ############'%(file, fr_bound))
 		run_test(file_name=file, timeout=timeout, fr_bound=fr_bound)
+
+	compile_results(folder=folder, outputcsv='RQ3-results')

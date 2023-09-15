@@ -39,7 +39,7 @@ class learnMTL:
 							 'Number of examples': self.sample_number, \
 							 'Example length': self.sample_lengths,
 							 'Formula': None, 'Formula Size': None, 'Correct?': None, \
-							'Total Time': None, 'Solving Time': None, 'Timeout':self.timeout}
+							'Total Time': None, 'Timeout':self.timeout}
 		
 		self.outputcsv = outputcsv
 
@@ -202,7 +202,7 @@ class learnMTL:
 				total_running_time += t1
 				print('Total time', round(t1,3), '; Solving Time', round(solving_time,3))
 				self.info_dict.update({'Formula': formula_str, 'Formula Size': formula_size, 'Correct?': ver, \
-							'Total Time': total_running_time, 'Solving Time': total_solving_time})
+							'Total Time': total_running_time})
 				break
 			
 			else:
@@ -262,7 +262,7 @@ def main():
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--input_file', '-i', dest='input_file', default = 'RQ1-subset/RQ1-bound-2/signalsFiles/f:01-nw:005-ml:04-0.signal')
+	parser.add_argument('--input_file', '-i', dest='input_file', default = 'example.signal')
 	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=2, type=int)
 	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=True, action='store_true')
 	parser.add_argument('--timeout', '-t', dest='timeout', default=5400, type=int)

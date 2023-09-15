@@ -1,0 +1,13 @@
+file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
+RQ1-subset/RQ1-bound-2/signalsFiles/f:01-nw:005-ml:04-0.signal,2,10,4,"G(F[0.0125,2.0]p)",2,True,4.5088210105896,1.2622711658477783,300
+RQ1-subset/RQ1-bound-2/signalsFiles/f:04-nw:005-ml:04-0.signal,2,10,4,"G(p U[0.0,2.0] q)",3,True,41.41174030303955,27.463444709777832,300
+RQ1-subset/RQ1-bound-2/signalsFiles/f:02-nw:005-ml:04-0.signal,2,10,4,"G(p | (F[1.3,1.6]q))",4,True,208.16226816177368,168.83556580543518,300
+RQ1-subset/RQ1-bound-2/signalsFiles/f:03-nw:005-ml:04-0.signal,2,10,4,,,,,,300
+RQ1-subset/RQ1-bound-3/signalsFiles/f:02-nw:005-ml:04-0.signal,3,10,4,"G(F[0.10625,2.60625]q)",2,True,4.229889154434204,0.744438886642456,300
+RQ1-subset/RQ1-bound-3/signalsFiles/f:03-nw:005-ml:04-0.signal,3,10,4,"G(F[1.61875,2.00625]q)",2,True,4.419052362442017,0.9483449459075928,300
+RQ1-subset/RQ1-bound-3/signalsFiles/f:01-nw:005-ml:04-0.signal,3,10,4,"G(F[0.003125,2.6]p)",2,True,4.328460454940796,0.9247395992279053,300
+RQ1-subset/RQ1-bound-3/signalsFiles/f:04-nw:005-ml:04-0.signal,3,10,4,"G(p U[0.0,3.0] q)",3,True,73.12485122680664,57.883140087127686,300
+RQ1-subset/RQ1-bound-1/signalsFiles/f:01-nw:005-ml:04-0.signal,1,10,4,"G(F[0.00625,0.90625]p)",2,True,5.53970193862915,2.1231470108032227,300
+RQ1-subset/RQ1-bound-1/signalsFiles/f:03-nw:005-ml:04-0.signal,1,10,4,,,,,,300
+RQ1-subset/RQ1-bound-1/signalsFiles/f:04-nw:005-ml:04-0.signal,1,10,4,"G(p U[0.00625,0.70625] q)",3,True,54.40173864364624,39.08062481880188,300
+RQ1-subset/RQ1-bound-1/signalsFiles/f:02-nw:005-ml:04-0.signal,1,10,4,,,,,,300

@@ -1,2 +1,2 @@
 file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-RQ1-subset/RQ1-bound-3/signalsFiles/f:01-nw:005-ml:04-0.signal,3,10,4,"G(F[0.003125,2.6]p)",2,True,6.329089641571045,1.3325140476226807,300
+RQ1-subset/RQ1-bound-3/signalsFiles/f:01-nw:005-ml:04-0.signal,3,10,4,"G(F[0.003125,2.6]p)",2,True,4.328460454940796,0.9247395992279053,300
