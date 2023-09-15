@@ -86,14 +86,14 @@ To expedite the benchmarking process, we recommend running the tool on the provi
 
 ### How to interpret the results
 If the convenience script `rq-scripts.py` is used, then the results will be compiled in a `csv` file named according to the research question. The `csv` file will contain the following columns:
--file_name: Name of the input sample file, which contains the formula number with the sample was generated
--Fr bound: The future-reach bound used for the run
--Number of examples: Number of total signals in the input sample, adding up both positive and negative signals
--Example length: Number of observation timepoints in a signal
--Formula: The synthesizes formula
--Formula Size: The size of the synthesized formula
--Correct?: Whether the verification check of the soundness of the formula passes
--Total Time: Total Running time of the run
--Timeout: The timeout chosen for the run
+- file_name: Name of the input sample file, which contains the formula number with the sample was generated
+- Fr bound: The future-reach bound used for the run
+- Number of examples: Number of total signals in the input sample, adding up both positive and negative signals
+- Example length: Number of observation timepoints in a signal
+- Formula: The synthesizes formula
+- Formula Size: The size of the synthesized formula
+- Correct?: Whether the verification check of the soundness of the formula passes
+- Total Time: Total Running time of the run
+- Timeout: The timeout chosen for the run
 
 Note that, from a chosen ground-truth formula, the samples are generated synthetically using a random generation method. As a result, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula. However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarentee of *TEAL*.
