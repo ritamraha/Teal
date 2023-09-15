@@ -96,4 +96,4 @@ If the convenience script `rq-scripts.py` is used, then the results will be comp
 - `Total Time`: Total Running time of the run
 - `Timeout`: The timeout chosen for the run
 
-Note that, from a chosen ground-truth formula, the samples are generated synthetically using a random generation method. As a result, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula. However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarentee of *TEAL*.
+Note that, from a chosen ground-truth formula, the samples are generated synthetically using a random generation method. As a result, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula. However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarantee of *TEAL*.
