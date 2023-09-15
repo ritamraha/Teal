@@ -45,7 +45,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--rq', '-r', dest='rq_num', default=1, type=int)
 parser.add_argument('--all', '-a', dest='all_files', default=False, action='store_true')
-parser.add_argument('--timeout', '-t', dest='timeout', default=300, type=int)
+parser.add_argument('--timeout', '-t', dest='timeout', default=600, type=int)
 
 args,unknown = parser.parse_known_args()
 	

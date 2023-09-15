@@ -1,6 +1,12 @@
 # TEAL: synThesizing Efficiently monitorAble mtL
-*TEAL* is a Python-based tool for synthesizing formulas in Metric Temporal Logic for efficient Runtime monitoring.
-It relies on solving constraint satisfaction problem using the SMT solver Z3.
+*TEAL* is a Python-based tool for synthesizing formulas in Metric Temporal Logic (MTL) for efficient Runtime monitoring.
+To synthesize MTL formulas, it relies on solving constraint satisfaction problems using the SMT solver Z3.
+
+### Docker Image for testing
+
+For conveniently testing the tool, we provide a docker image which can be accessed using the following link:
+
+Use the 
 
 
 ### Installation
@@ -11,7 +17,7 @@ git clone https://github.com/ritamraha/Teal.git
 cd TEAL/
 ```
 
-Now, set up a python virtual environment for running *TEAL*: 
+Now, set up a python virtual environment for running *TEAL*:
 ```
 virutalenv -p python3 venv
 source venv/bin/activate
@@ -96,4 +102,9 @@ If the convenience script `rq-scripts.py` is used, then the results will be comp
 - `Total Time`: Total Running time of the run
 - `Timeout`: The timeout chosen for the run
 
-Note that, from a chosen ground-truth formula, the samples are generated synthetically using a random generation method. As a result, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula. However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarantee of *TEAL*.
+Note that the samples are generated synthetically using a random generation method from certain ground-truth formulas. As a result, for a run, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula.
+However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarantee of *TEAL*.
+
+Also, if the future-reach bound used in a run is less than the future-reach of the ground-truth formula, then *TEAL* might not return any prospective formula (as is seen often in RQ2). This is because, the prospective formula with a small future-reach might be quite large in size, resulting in timeout, or such a prospective formula might not even exist.
+
+
