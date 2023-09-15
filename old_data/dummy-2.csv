@@ -1,2 +1,0 @@
-Fr bound,Solving Time,Total Time,file_name,Formula Size,Example length,Timeout,Correct?,Formula,Number of examples
-2,206.7192120552063,255.36595225334167,dummy.signal,4,6,900,True,"G((F[0.0,1.85]p) | q)",8

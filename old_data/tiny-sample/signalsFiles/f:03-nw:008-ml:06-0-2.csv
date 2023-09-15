@@ -1,2 +1,0 @@
-file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-tiny-sample/signalsFiles/f:03-nw:008-ml:06-0.signal,2,16,6,G(p | q),3,True,48.91447925567627,23.021900415420532,3600.0

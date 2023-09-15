@@ -240,7 +240,26 @@ class Sample:
 		
 		return Signal(signal_sequence)
 
+	def random_signal_Gp(self,
+		propositions = ['p','q','r'], 
+		length = 5,
+		precision=1,
+		is_words = True):
+		
+		random_times = [0]
+		round_upto = precision
+		
+		for i in range(length-1):
+			new_time = round(random.uniform(0,length-10**(-round_upto)),round_upto)
+			while new_time in random_times:
+				new_time = round(random.uniform(0,length-10**(-round_upto)),round_upto)
+			random_times.append(new_time)
 
+		random_times.sort()
+
+		signal_sequence = [ samplePoint(t,[1,0]) for t in random_times]
+		
+		return Signal(signal_sequence)
 
 	def generator(self,
 		formula = None, 
@@ -294,8 +313,19 @@ class Sample:
 						self.negative.append(final_signal) 
 						num_negatives += 1
 					continue
+
+
 			# sys.stdout.write("\rGenerating sample: created %d positives, %d negatives "%(num_positives, num_negatives))
 			# sys.stdout.flush()
+
+		######## JUST FOR UNTIL ########
+		if formula.label == 'U':
+			Gp_signal = self.random_signal_Gp(propositions, length, precision)
+			self.negative.pop()
+			self.negative.append(Gp_signal)
+			print(Gp_signal)
+		################################
+
 		self.operators = operators
 		self.propositions = propositions
 		self.end_time = end_time

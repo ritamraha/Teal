@@ -1,2 +1,0 @@
-file_name,Fr bound,Number of examples,Example length,Formula,Formula Size,Correct?,Total Time,Solving Time,Timeout
-first-run/signalsFiles/f:03-nw:004-ml:04-0.signal,2,8,4,"G(p | (F[1.10625,1.10625]q))",4,True,332.72142720222473,276.32325434684753,7200

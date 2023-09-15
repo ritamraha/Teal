@@ -20,9 +20,10 @@ class learnMTL:
 
 
 		self.signalfile = signalfile
-		self.signal_sample = Sample()
+		self.signal_sample = Sample(positive=[], negative=[], \
+									propositions=[], operators=[],end_time=None)
 		self.signal_sample.readSample(self.signalfile)
-		self.size_bound = 3
+		self.size_bound = 6
 		self.props = self.signal_sample.propositions
 		#print('props', self.props)
 		self.prop2num = {self.props[i]:i for i in range(len(self.props))}
@@ -89,10 +90,6 @@ class learnMTL:
 				self.max_prop_intervals = max(self.max_prop_intervals, len(itvs))
 
 
-	def interesting_pred(self):
-	
-		pass
-		#current assumption predicates are given
 
 	def search_only_size(self):
 		
@@ -132,18 +129,16 @@ class learnMTL:
 		t1 = time.time()-t0
 		print('Total time', t1)
 
+	
 	def search_incremental(self):
-		
-		#fr_bound = self.end_time
 		
 		encoding = SMTEncoding_incr(self.signal_sample, self.props, self.max_prop_intervals,\
 													 self.prop_itvs, self.end_time, self.monitoring)
 		
-		#print('Prop itvs', self.prop_itvs, self.max_prop_intervals)
 		total_solving_time = 0
 		total_running_time = 0
 		
-		for formula_size in range(1,6):
+		for formula_size in range(1,self.size_bound):
 			
 			t0 = time.time()
 
@@ -154,7 +149,6 @@ class learnMTL:
 			ct1 = time.time() - ct0
 			
 			print('Constraint Creation Done, took %.3f secs'%ct1)
-			#print(encoding.solver)
 			
 			solving_time = time.time()
 			solverRes = encoding.solver.check()
@@ -223,9 +217,6 @@ class learnMTL:
 			writer = csv.DictWriter(f, fieldnames = self.header)
 			writer.writeheader()
 			writer.writerow(self.info_dict)
-			#t1 = time.time()-t0
-			#total_running_time += t1
-			#print('Total time', round(t1,3))
 
 		return self.info_dict
 
@@ -271,12 +262,12 @@ def main():
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--input_file', '-i', dest='input_file', default = './dummy.signal')
+	parser.add_argument('--input_file', '-i', dest='input_file', default = 'RQ1-subset/RQ1-bound-2/signalsFiles/f:01-nw:005-ml:04-0.signal')
+	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=2, type=int)
 	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=True, action='store_true')
 	parser.add_argument('--timeout', '-t', dest='timeout', default=5400, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= '')
-	parser.add_argument('--verbose', '-v', dest='verbose', default=3, action='count')
-	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=3, type=int)
+	
 
 	args,unknown = parser.parse_known_args()
 	
@@ -285,9 +276,7 @@ def main():
 	timeout = float(args.timeout)
 	monitoring = int(args.monitoring)
 	fr_bound = int(args.fr_bound)
-	#print(monitoring)
 
-	print('check', fr_bound)
 	if outputcsv=='':
 		outputcsv = input_file.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
 
@@ -296,12 +285,9 @@ def main():
 						fr_bound=fr_bound, outputcsv=outputcsv, timeout=timeout)
 	
 
-	print('Running file %s'%input_file)
-	learner.search_incremental()
+	#print('Running file %s'%input_file)
+	#learner.search_incremental()
 	
-
-
-	'''
 	manager = multiprocessing.Manager()
 	return_dict = manager.dict()
 	jobs = []
@@ -321,32 +307,45 @@ def main():
 		proc.join()
 		
 	return (return_dict.values())
-	'''
+	
 
 def run_test(file_name, timeout=5400, fr_bound=3):
 
-	learner = learnMTL(signalfile=file_name, monitoring=True, fr_bound=fr_bound)
-	csvname = file_name.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
-	print('Running file %s'%file_name)
-	'''	
-	with open(csvname, 'w') as f:
-		writer = csv.DictWriter(f, fieldnames = header)
-		writer.writeheader()
-		writer.writerow(info_dict)
-	'''
-
-	info_dict = learner.search_incremental()
-	info_dict.update({'Timeout': timeout})
-
-	header = list(info_dict.keys())
 	
-	with open(csvname, 'w') as f:
-		writer = csv.DictWriter(f, fieldnames = header)
-		writer.writeheader()
-		writer.writerow(info_dict)
+	csvname = file_name.split('.signal')[0]+'-'+str(fr_bound)+'.csv'
+	learner = learnMTL(signalfile=file_name, monitoring=True, fr_bound=fr_bound,\
+							 outputcsv = csvname, timeout=timeout)
+
+	manager = multiprocessing.Manager()
+	return_dict = manager.dict()
+	jobs = []
+		
+	p = multiprocessing.Process(target=learner.search_incremental, args=())
+		
+	jobs.append(p)
+	p.start()
+
+	p.join(timeout)
+	if p.is_alive():
+		print("Timeout reached, check your output in result file")
+		p.terminate()
+		p.join()
+
+	for proc in jobs:
+		proc.join()
+
+	# info_dict = learner.info_dict
+	# #info_dict.update({'Timeout': timeout})
+
+	# header = list(info_dict.keys())
+	
+	# with open(csvname, 'w') as f:
+	# 	writer = csv.DictWriter(f, fieldnames = header)
+	# 	writer.writeheader()
+	# 	writer.writerow(info_dict)
 
 
-main()
+#main()
 #run_test('dummy.signal', 900, 3)
 
 '''

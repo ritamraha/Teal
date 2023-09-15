@@ -139,12 +139,12 @@ def tupleList(s):
 def main():
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-G.txt')
+	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-bound-2.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
-	parser.add_argument('--size', dest='sample_sizes', default=[(5,5),(10,10),(15,15),(20,20)], nargs='+', type=tupleList)
+	parser.add_argument('--size', dest='sample_sizes', default=[(5,5),(10,10),(15,15),(20,20),(25,25),(30,30)], nargs='+', type=tupleList)
 	parser.add_argument('--precision', dest='precision', default=1, type=int)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
-	parser.add_argument('--lengths', dest='signal_lengths', default=[(4,4),(5,5),(6,6)], nargs='+', type=tupleList)
+	parser.add_argument('--lengths', dest='signal_lengths', default=[(12,12),(14,14)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
 	parser.add_argument('--output_folder', dest='output_folder', default = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
@@ -166,7 +166,9 @@ def main():
 				total_num=total_num,
 				precision=precision)
 
-	generator.generateFromLargeSample()
+	generator.generate()
+
+	#generator.generateFromLargeSample()
 
 if __name__=='__main__':
 	main() 
