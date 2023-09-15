@@ -77,8 +77,23 @@ For this, run the following command `python3 rq-scripts.py` which allows the fol
 
 The above script produces a csv file with the results of the experiments for the specified reserach question.
 
-While it is possible to run all the benchmarks using the provided script, please be aware that this task demands a substantial amount of resources both in terms of hardware and time. The benchmark suite contains 144 samples for each of the research questions, and it was executed in parallel (20 runs in each iteration) with a timeout set to 5400 seconds. The computations were performed on a Computer Grid (using slurm) consisting of Spyder nodes with a AMD EPYC 7702 64-Core Processor, clock speed of 2.0 GHz. Each run was restricted to use upto 10GB RAM for each run.
+While it is possible to run all the benchmarks using the provided script, please be aware that this task demands a substantial amount of resources both in terms of hardware and time. The benchmark suite contains 144 samples for each of the research questions, and it was executed in parallel (20 runs in each iteration) with a timeout set to 5400 seconds (1.5 hours). The computations were performed on a Computer Grid (using a slurm script `grid-batch.sh`) consisting of 3 Spyder nodes each with a AMD EPYC 7702 64-Core Processor, clock speed of 2.0 GHz using upto 10GB RAM for each run.
 
 Running the complete benchmark suite involves executing the TEAL tool 720 times (once for RQ1 and RQ3, and twice for RQ2 for each sample). When run sequentially, this comprehensive set of benchmarks can potentially consume more than 150 CPU hours.
 
-To expedite the benchmarking process, we recommend running the tool on the provided benchmark subset chosen to keep the runtime within 8 hours. The chosen subset comprises of samples of the smallest size for each formula, configured to run with three different future-reach bounds. These results are representative of the outcomes obtained from the full benchmark suite, making them a more efficient choice for most use cases.
+To expedite the benchmarking process, we recommend running the tool on the provided benchmark subset chosen to keep the runtime within 8 hours. The subset comprises of samples of the smallest size for each formula, configured to run with three different future-reach bounds. These results are representative of the outcomes obtained from the full benchmark suite, making them a more efficient choice for most use cases.
+
+
+### How to interpret the results
+If the convenience script `rq-scripts.py` is used, then the results will be compiled in a `csv` file named according to the research question. The `csv` file will contain the following columns:
+-file_name: Name of the input sample file, which contains the formula number with the sample was generated
+-Fr bound: The future-reach bound used for the run
+-Number of examples: Number of total signals in the input sample, adding up both positive and negative signals
+-Example length: Number of observation timepoints in a signal
+-Formula: The synthesizes formula
+-Formula Size: The size of the synthesized formula
+-Correct?: Whether the verification check of the soundness of the formula passes
+-Total Time: Total Running time of the run
+-Timeout: The timeout chosen for the run
+
+Note that, from a chosen ground-truth formula, the samples are generated synthetically using a random generation method. As a result, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula. However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarentee of *TEAL*.
