@@ -14,10 +14,12 @@ folder="RQ2-subset/RQ1-bound-2/signalsFiles" # specify the folder on which to ru
 
 # Get the list of signal files
 signal_files=($(find "$folder" -type f -name "*.signal"))
-
+echo $signal_files
 
 # Get the current signal_file for this task
 current_signal_file=${signal_files[$((SLURM_ARRAY_TASK_ID - 1))/4]}
 fr_bound=$((SLURM_ARRAY_TASK_ID % 3))
+echo $current_signalfile
+echo $fr_bound
 
 python learn_mtl.py -i "$current_signal_file" -f 1
