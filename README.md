@@ -77,25 +77,8 @@ For this, run the following command `python3 rq-scripts.py` which allows the fol
 
 The above script produces a csv file with the results of the experiments for the specified reserach question.
 
-While it is possible to run all the benchmarks using the provided script, please be aware that this task demands a substantial amount of resources both in terms of hardware and time. The benchmark suite contains 144 samples for each of the research questions, and it was executed in parallel (20 runs in each iteration) with a timeout set to 5400 seconds. The computations were performed on a Computer Grid within cluster machines equipped with the following hardware configuration:
-
-- **CPU:** 2x AMD EPYC 7702 64-Core Processor
-  - **Number of CPU Cores:** 2x 64
-  - **Clock Speed:** 2.0 GHz
-  - **Max Turbo Frequency:** 3.35 GHz
-  - **L3 Cache:** 256 MB
-  - **Lithography:** 7 nm
-  - **Max TDP:** 200 W
-  - **Hyper-Threading Technology:** Yes
-  - **Virtualization Technology (VT-x):** Yes
-
-- **Memory:** 2 Terabytes
-  - **Type:** DDR4
-  - **Speed:** 3200 MHz
-  - **ECC:** Enabled
-
-- **Disk:** 2x 240GB SSD
+While it is possible to run all the benchmarks using the provided script, please be aware that this task demands a substantial amount of resources both in terms of hardware and time. The benchmark suite contains 144 samples for each of the research questions, and it was executed in parallel (20 runs in each iteration) with a timeout set to 5400 seconds. The computations were performed on a Computer Grid (using slurm) consisting of Spyder nodes with a AMD EPYC 7702 64-Core Processor, clock speed of 2.0 GHz. Each run was restricted to use upto 10GB RAM for each run.
 
 Running the complete benchmark suite involves executing the TEAL tool 720 times (once for RQ1 and RQ3, and twice for RQ2 for each sample). When run sequentially, this comprehensive set of benchmarks can potentially consume more than 150 CPU hours.
 
-To expedite the benchmarking process, we recommend running the tool on a provided benchmark subset. This subset comprises samples of the smallest size for each formula, configured to run with three different future-reach bounds. These results are representative of the outcomes obtained from the full benchmark suite, making them a more efficient choice for most use cases.
+To expedite the benchmarking process, we recommend running the tool on the provided benchmark subset chosen to keep the runtime within 8 hours. The chosen subset comprises of samples of the smallest size for each formula, configured to run with three different future-reach bounds. These results are representative of the outcomes obtained from the full benchmark suite, making them a more efficient choice for most use cases.
