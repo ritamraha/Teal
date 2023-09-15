@@ -1,13 +1,7 @@
 # TEAL: synThesizing Efficiently monitorAble mtL
 *TEAL* is a Python-based tool for synthesizing formulas in Metric Temporal Logic (MTL) for efficient Runtime monitoring.
 To synthesize MTL formulas, it relies on solving constraint satisfaction problems using the SMT solver Z3.
-
-### Docker Image for testing
-
-For conveniently testing the tool, we provide a docker image which can be accessed using the following link:
-
-Use the 
-
+*TEAL* is written in Python3.9 and has been tested to work on Linux machines.
 
 ### Installation
 
@@ -24,13 +18,14 @@ source venv/bin/activate
 ```
 Finally, install the required python packages using the following:
 ```
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 *TEAL* is now ready to use.
 
 
 ### Running
-One can run *TEAL* by simply running `python3 main.py`.
+One can run *TEAL* by simply running `python3 learn_mtl.py`.
 By default, this will run *TEAL* on `example.signal` with a future-reach bound of 2.  
 
 

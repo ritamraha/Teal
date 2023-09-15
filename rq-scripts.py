@@ -1,4 +1,4 @@
-from learn_mtl import run_test
+from run_test import run_test
 import glob,csv,shutil
 import argparse
 

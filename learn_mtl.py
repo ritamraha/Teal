@@ -345,7 +345,7 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 	# 	writer.writerow(info_dict)
 
 
-#main()
+main()
 #run_test('dummy.signal', 900, 3)
 
 '''
