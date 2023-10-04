@@ -82,11 +82,11 @@ While it is possible to run all the benchmarks using the provided script, please
 
 Running the complete benchmark suite involves executing the TEAL tool 720 times (once for RQ1 and RQ3, and twice for RQ2 for each sample). When run sequentially, this comprehensive set of benchmarks can potentially consume more than 150 CPU hours.
 
-To expedite the benchmarking process, we recommend running the tool on the provided benchmark subset chosen to keep the runtime within 8 hours. The subset generally comprises of samples of the smallest size generated from the chosen formulas, which are then configured to run with three different future-reach bounds. 
-Specifically, the subset for RQ1 consists of the smallest samples generated from all 12 ground-truth formulas (obtained from four formula patterns) considered in this experiments and are configured to run for a future-reach bound that corresponds to the future-reach of the ground-truth formula.
-The subset for RQ2 consists of the six sample from the smallest formula (i.e., formula from Pattern 1) and are configured to run for future-reach bounds 1, 2 and 3.
-The subset for RQ3 consists of two samples generated from 4 formulas considered in this experiment and are configured to run for the future-reach bound 2.
-These results on these subsets are representative of the outcomes obtained from the full benchmark suite.
+To expedite the benchmarking process, we recommend running the tool on the provided benchmark subsets (provided in folders RQ1-subset and RQ3-subset) chosen to keep the runtime within 8 hours. The subset generally comprises of samples of the smallest size generated from the chosen formulas, which are then configured to run with three different future-reach bounds.
+Specifically, the subset for RQ1 consists of the smallest samples generated from all 12 ground-truth formulas (obtained from four formula patterns) considered in this experiment and is configured to run with future-reach bounds equal to the future-reach of the corresponding ground-truth formulas.
+The subset for RQ2 consists of six of the smallest samples generated from the smallest formula (i.e., a formula from Pattern 1) and is configured to run with future-reach bounds 1, 2 and 3.
+The subset for RQ3 consists of two of the smallest samples generated from each of the four formulas considered in this experiment and is configured to run with the future-reach bound 2.
+The results on these subsets are representative of the outcomes obtained from the full benchmark suite.
 
 
 
@@ -99,8 +99,8 @@ If the convenience script `rq-scripts.py` is used, then the results will be comp
 - `Formula`: The synthesized formula
 - `Formula Size`: The size of the synthesized formula
 - `Correct?`: Whether the verification check of the soundness of the formula passes
-- `Total Time`: Total Running time of the run
-- `Timeout`: The timeout chosen for the run
+- `Total Time`: Total Running time
+- `Timeout`: The timeout chosen
 
 Note that the samples are generated synthetically using a random generation method from certain ground-truth formulas. As a result, for a run, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula.
 However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarantee of *TEAL*.
