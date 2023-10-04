@@ -1,19 +1,19 @@
 # TEAL: synThesizing Efficiently monitorAble mtL
 *TEAL* is a Python-based tool for synthesizing formulas in Metric Temporal Logic (MTL) for efficient Runtime monitoring.
 To synthesize MTL formulas, it relies on solving constraint satisfaction problems using the SMT solver Z3.
-*TEAL* is written in Python3.9 and has been tested to work on Linux machines.
+*TEAL* is written in Python3.9 and has been tested to work on the following OS: Debian 10, Ubuntu 22.04, and MacOS Ventura 13.6.
 
 ### Installation
 
 Clone the repository and switch to the root directory using the following:
 ```
 git clone https://github.com/ritamraha/Teal.git
-cd TEAL/
+cd Teal/
 ```
 
 Now, set up a python virtual environment for running *TEAL*:
 ```
-virutalenv -p python3 venv
+python3 -m venv venv
 source venv/bin/activate
 ```
 Finally, install the required python packages using the following:
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 
 ### Running
 One can run *TEAL* by simply running `python3 learn_mtl.py`.
-By default, this will run *TEAL* on `example.signal` with a future-reach bound of 2.  
+By default, this will run *TEAL* on `example.signal` with a future-reach bound of 2. 
 
 
 #### Parameters
@@ -74,7 +74,7 @@ For this, run the following command `python3 rq-scripts.py` which allows the fol
 |----------------|------------------------------
 |-r <rq_num>| For specifying experiments from which research question should be run; default is 1.
 |-a | For specifying whether all benchmarks from the research question should be run; by default, it only runs on a subset.
-|-t <timeout> | For specifying the timeout for each run of the experiment; default is 600 secs
+|-t <timeout> | For specifying the timeout for each run of the experiment; default is 600 secs.
 
 The above script produces a csv file with the results of the experiments for the specified reserach question.
 
@@ -82,11 +82,16 @@ While it is possible to run all the benchmarks using the provided script, please
 
 Running the complete benchmark suite involves executing the TEAL tool 720 times (once for RQ1 and RQ3, and twice for RQ2 for each sample). When run sequentially, this comprehensive set of benchmarks can potentially consume more than 150 CPU hours.
 
-To expedite the benchmarking process, we recommend running the tool on the provided benchmark subset chosen to keep the runtime within 8 hours. The subset comprises of samples of the smallest size for each formula, configured to run with three different future-reach bounds. These results are representative of the outcomes obtained from the full benchmark suite, making them a more efficient choice for most use cases.
+To expedite the benchmarking process, we recommend running the tool on the provided benchmark subset chosen to keep the runtime within 8 hours. The subset generally comprises of samples of the smallest size generated from the chosen formulas, which are then configured to run with three different future-reach bounds. 
+Specifically, the subset for RQ1 consists of the smallest samples generated from all 12 ground-truth formulas (obtained from four formula patterns) considered in this experiments and are configured to run for a future-reach bound that corresponds to the future-reach of the ground-truth formula.
+The subset for RQ2 consists of the six sample from the smallest formula (i.e., formula from Pattern 1) and are configured to run for future-reach bounds 1, 2 and 3.
+The subset for RQ3 consists of two samples generated from 4 formulas considered in this experiment and are configured to run for the future-reach bound 2.
+These results on these subsets are representative of the outcomes obtained from the full benchmark suite.
+
 
 
 ### How to interpret the results
-If the convenience script `rq-scripts.py` is used, then the results will be compiled in a `csv` file named according to the research question. The `csv` file will contain the following columns:
+If the convenience script `rq-scripts.py` is used, then the results will be compiled in a `csv` file named `RQi-results.csv` where `i` will be 1, 2 or 3 based on which research question was selected. The `csv` file will contain the following columns:
 - `file_name`: Name of the input sample file, which contains the formula number with which the sample was generated
 - `Fr bound`: The future-reach bound used for the run
 - `Number of examples`: Number of total signals in the input sample, adding up both positive and negative signals
@@ -100,6 +105,4 @@ If the convenience script `rq-scripts.py` is used, then the results will be comp
 Note that the samples are generated synthetically using a random generation method from certain ground-truth formulas. As a result, for a run, it is possible that the output formula is simpler (i.e., smaller in size) than the ground-truth formula.
 However, the output formula should never be more complex (i.e., larger in size) than the ground-truth formula due to the minimality guarantee of *TEAL*.
 
-Also, if the future-reach bound used in a run is less than the future-reach of the ground-truth formula, then *TEAL* might not return any prospective formula (as is seen often in RQ2). This is because, the prospective formula with a small future-reach might be quite large in size, resulting in timeout, or such a prospective formula might not even exist.
-
-
+Also, if the future-reach bound used in a run is less than the future-reach of the ground-truth formula, then *TEAL* might not return any prospective formula (as is seen often in RQ2). This is because, the prospective formula with a small future-reach either might be large in size or might not even exist, resulting in timeout.
