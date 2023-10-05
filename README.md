@@ -34,7 +34,7 @@ There are a variety of arguments that one can use to run *TEAL*, as listed below
 |-i <input_sample>| For specifying the input sample; default is `example.signal`.
 |-f <fr_bound>| For specifying the future-reach bound of the prospective formula; default is 2
 |-t <timeout>| For specifying the timeout; default is 600 sec
-|-o <outputcsv>| For specifying the csv file with the output results; default is `$file_name-$fr-bound.csv`
+|-o <outputcsv>| For specifying the csv file with the output results; default is `${file_name}-${fr-bound}.csv`
 
 
 #### Input sample format:
