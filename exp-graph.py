@@ -26,8 +26,10 @@ def main():
 
 		if all_files:
 			df = pd.read_csv('RQ-1-2-all-results.csv')
+			filename_suffix = 'original'
 		else:
 			df = pd.read_csv('RQ1-results.csv')
+			filename_suffix = 'subset'
 		
 		timeout = df['Timeout'].iloc[0]
 		df['Original Formula'] = df['file_name'].apply(extract_formula)
@@ -50,12 +52,16 @@ def main():
 
 		print(merged_series)
 
+		merged_series.to_csv('Table3-'+filename_suffix+'.csv')
+
 	elif graph == 'fig2':
 		
 		if all_files:
 			df = pd.read_csv('RQ3-all-results.csv')
+			filename_suffix = 'original'
 		else:
 			df = pd.read_csv('RQ3-results.csv')
+			filename_suffix = 'subset'
 		
 		timeout = df['Timeout'].iloc[0]
 		timeout_buffer = 1000
@@ -92,8 +98,8 @@ def main():
 
 		plt.legend()
 		plt.tight_layout()
-		plt.show()
-
+		#plt.show()
+		plt.savefig('Figure2-' + filename_suffix)
 
 
 if __name__ == '__main__':
