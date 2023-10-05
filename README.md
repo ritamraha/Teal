@@ -35,7 +35,6 @@ There are a variety of arguments that one can use to run *TEAL*, as listed below
 |-f <fr_bound>| For specifying the future-reach bound of the prospective formula; default is 2
 |-t <timeout>| For specifying the timeout; default is 600 sec
 |-o <outputcsv>| For specifying the csv file with the output results; default is `results.csv`
-|-m | For specifying whether the prospective formula should be *globally* separating or only separating; default is globally separating
 
 
 #### Input sample format:
@@ -54,6 +53,10 @@ The input sample file consists of three parts separated using `---`. The first p
 0.0:1,1;0.1:0,1;2.5:0,0;3.1:1,0
 ---
 4
+---
+U,F,G,X,!,&,|
+---
+p,q
 ```
 The input file must use the extension `.signal`.
 
