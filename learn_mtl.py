@@ -264,7 +264,7 @@ def main():
 	parser.add_argument('--input_file', '-i', dest='input_file', default = 'example.signal')
 	parser.add_argument('--fr_bound', '-f', dest='fr_bound', default=2, type=int)
 	parser.add_argument('--monitoring', '-m', dest= 'monitoring', default=True, action='store_true')
-	parser.add_argument('--timeout', '-t', dest='timeout', default=5400, type=int)
+	parser.add_argument('--timeout', '-t', dest='timeout', default=600, type=int)
 	parser.add_argument('--outputcsv', '-o', dest='csvname', default= '')
 	
 

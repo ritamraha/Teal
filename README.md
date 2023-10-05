@@ -16,7 +16,7 @@ source venv/bin/activate
 ```
 Finally, install the required python packages using the following:
 ```
-python -m pip install --upgrade pip
+python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 *TEAL* is now ready to use.
@@ -34,7 +34,7 @@ There are a variety of arguments that one can use to run *TEAL*, as listed below
 |-i <input_sample>| For specifying the input sample; default is `example.signal`.
 |-f <fr_bound>| For specifying the future-reach bound of the prospective formula; default is 2
 |-t <timeout>| For specifying the timeout; default is 600 sec
-|-o <outputcsv>| For specifying the csv file with the output results; default is `results.csv`
+|-o <outputcsv>| For specifying the csv file with the output results; default is `$file_name-$fr-bound.csv`
 
 
 #### Input sample format:
@@ -80,7 +80,7 @@ To expedite the benchmarking process, we recommend running the tool on the provi
 
 
 ### How to interpret the results
-If the convenience script `rq-scripts.py` is used, then the results will be compiled in a `csv` file named `RQi-results.csv` where `i` will be 1, 2 or 3 based on which research question was selected. The `csv` file will contain the following columns:
+If the convenience script `rq-scripts.py` is used, then the results will be compiled in a `csv` file named `RQ$i-results.csv` where `i` will be 1, 2 or 3 based on which research question was selected. The `csv` file will contain the following columns:
 - `file_name`: Name of the input sample file, which contains the formula number with which the sample was generated
 - `Fr bound`: The future-reach bound used for the run
 - `Number of examples`: Number of total signals in the input sample, adding up both positive and negative signals
@@ -95,7 +95,7 @@ Note that the samples are generated synthetically using a random generation meth
 
 Also, if the future-reach bound used in a run is less than the future-reach of the ground-truth formula, then *TEAL* might not return any prospective formula (as is seen often in RQ2). This is because, the prospective formula with a small future-reach either might be large in size or might not even exist, resulting in timeout.
 
-We also include a convenience script to recreate the experimental results included in the paper, specifically Figure 2 and Table 3. For this, run the following command `python exp-graph.py` which allows the following parameters:
+We also include a convenience script to recreate the experimental results included in the paper, specifically Figure 2 and Table 3. For this, run the following command `python3 exp-graph.py` which allows the following parameters:
 |Argument        |Meaning
 |----------------|------------------------------
 |-g <exp_result>| For specifying which experimental result should be displayed; two choices are available, `tbl3` and `fig2`; default is `tbl3`.
