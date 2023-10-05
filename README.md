@@ -95,5 +95,5 @@ Also, if the future-reach bound used in a run is less than the future-reach of t
 We also include a convenience script to recreate the experimental results included in the paper, specifically Figure 2 and Table 3. For this, run the following command `python exp-graph.py` which allows the following parameters:
 |Argument        |Meaning
 |----------------|------------------------------
-|-g <result>| For specifying which experimental result should be displayed; two choices are available, `tbl3` and `fig2`; default is `tbl3`.
+|-g <exp_result>| For specifying which experimental result should be displayed; two choices are available, `tbl3` and `fig2`; default is `tbl3`.
 |-a | For specifying whether result on all benchmarks should be displayed (using this allows to see the exact results included in the paper); by default, it only runs on a subset.
