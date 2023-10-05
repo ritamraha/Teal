@@ -1,3 +1,7 @@
+'''
+Monitoring algorithm for soundness check of MTL formulas
+'''
+
 def precision_minus(a,b,p=1):
 	
 	return round(a-b,p)

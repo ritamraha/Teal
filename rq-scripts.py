@@ -1,3 +1,6 @@
+'''
+Convinience script for running on benchmarks
+'''
 from learn_mtl import run_test
 import glob,csv,shutil
 import argparse

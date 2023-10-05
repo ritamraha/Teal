@@ -1,18 +1,17 @@
+'''
+Main python file implementing the iterative learning algorithm
+'''
 
 import time
 import logging
 import os,csv, shutil
 import argparse
-from smtencoding import SMTEncoding
 from signaltraces import Sample, Trace, Signal
 from formula import STLFormula
 from z3 import *
 from monitoring import *
 from smtencoding_incremental_c import *
 import multiprocessing
-#from pysmt.shortcuts import is_sat, get_model, Solver
-#from six.moves import cStringIO
-#from pysmt.smtlib.parser import SmtLibParser
 
 class learnMTL:
 
@@ -346,9 +345,8 @@ def run_test(file_name, timeout=5400, fr_bound=3):
 
 
 if __name__ == '__main__':
-    main()
+	main()
 
-#main()
 
 #run_test('dummy.signal', 900, 3)
 

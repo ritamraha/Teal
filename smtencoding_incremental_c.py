@@ -1,3 +1,6 @@
+'''
+Implementation of the SMT encoding of the synthesis problem
+'''
 from z3 import *
 from formula import STLFormula
 from semantics import *
@@ -24,6 +27,7 @@ class SMTEncoding_incr:
 		self.listOfPropositions = prop
 		self.num_sampled_points = len(self.sample.positive[0].sequence)
 		#self.max_prop_intervals=max_prop_intervals
+		
 		self.max_intervals = 6
 		self.prop_itvs = prop_itvs
 		self.end_time = end_time

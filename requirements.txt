@@ -2,3 +2,5 @@ rq
 graphviz
 lark
 z3-solver
+pandas
+matplotlib

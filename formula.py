@@ -1,3 +1,7 @@
+'''
+Implementation of the MTL formula class
+'''
+
 import pdb
 import re 
 from lark import Lark, Transformer

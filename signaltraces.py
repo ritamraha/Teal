@@ -1,3 +1,6 @@
+'''
+Implementation of signals and samples
+'''
 import random
 from monitoring import *
 from formula import *

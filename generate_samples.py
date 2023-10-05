@@ -1,3 +1,6 @@
+'''
+Script for generation of synthetic samples
+'''
 import argparse
 import os, shutil
 import datetime
@@ -141,10 +144,10 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--formula_file', dest='formula_file', default = './formulas-bound-2.txt')
 	parser.add_argument('--signal_type', dest='signal_type', default = 'signal')
-	parser.add_argument('--size', dest='sample_sizes', default=[(5,5),(10,10),(15,15),(20,20),(25,25),(30,30)], nargs='+', type=tupleList)
+	parser.add_argument('--size', dest='sample_sizes', default=[(10,10)], nargs='+', type=tupleList)
 	parser.add_argument('--precision', dest='precision', default=1, type=int)
 	#parser.add_argument('--end_time', dest='end_time', default=10.0, type=float)
-	parser.add_argument('--lengths', dest='signal_lengths', default=[(12,12),(14,14)], nargs='+', type=tupleList)
+	parser.add_argument('--lengths', dest='signal_lengths', default=[(14,14)], nargs='+', type=tupleList)
 	parser.add_argument('--total_num', dest='total_num', default=1, type=int)
 	parser.add_argument('--output_folder', dest='output_folder', default = './' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 

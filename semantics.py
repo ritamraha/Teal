@@ -1,3 +1,6 @@
+'''
+LRA encoding of the semantics of MTL
+'''
 from z3 import *
 from signaltraces import Sample
 from monitoring import *
